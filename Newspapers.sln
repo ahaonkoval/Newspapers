@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newspapers", "Newspapers\Newspapers.csproj", "{493BB538-E658-4CEC-8D11-2D18B03AB275}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PapersDb", "PapersDb\PapersDb\PapersDb.csproj", "{EC25EA3E-CBA4-4FE4-BC35-22EA3F7977BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{493BB538-E658-4CEC-8D11-2D18B03AB275}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{493BB538-E658-4CEC-8D11-2D18B03AB275}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{493BB538-E658-4CEC-8D11-2D18B03AB275}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{493BB538-E658-4CEC-8D11-2D18B03AB275}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC25EA3E-CBA4-4FE4-BC35-22EA3F7977BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC25EA3E-CBA4-4FE4-BC35-22EA3F7977BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC25EA3E-CBA4-4FE4-BC35-22EA3F7977BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC25EA3E-CBA4-4FE4-BC35-22EA3F7977BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
