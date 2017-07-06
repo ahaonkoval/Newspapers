@@ -324,6 +324,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\code\main\winpapers.js" />
     <Content Include="Scripts\ext\classic\theme-aria\config.rb" />
     <Content Include="Scripts\ext\classic\theme-aria\resources\ext\ext-watermark\fonts\ext-watermark.eot" />
     <Content Include="Scripts\ext\classic\theme-aria\resources\ext\ext-watermark\fonts\ext-watermark.ttf" />

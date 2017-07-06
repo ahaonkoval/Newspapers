@@ -60,7 +60,7 @@
                                 text: 'Вхід',
                                 listeners: {
                                     click: function () {
-                                        //login();
+                                        login();
                                     }
                                 }
                             }
@@ -73,6 +73,10 @@
             window.viewport = viewport;
 
         });
+
+        var login = function () {
+            window.location.href = "../pages/main.aspx";
+        }
     </script>
 
     <form id="form1" runat="server">

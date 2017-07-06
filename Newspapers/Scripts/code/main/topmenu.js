@@ -51,12 +51,12 @@ var topmenu = Ext.create('Ext.panel.Panel', {
     ],
     listeners: {
         afterrender: function (crtl, eOpts) {
-            var Access = sessionStorage.getItem("acc").split(',');
-            if (Access.includes('Admin')) {
-                topmenu.items.items[0].setHidden(false);
-            } else {
-                topmenu.items.items[0].setHidden(true);
-            }
+            //var Access = sessionStorage.getItem("acc").split(',');
+            //if (Access.includes('Admin')) {
+            //    topmenu.items.items[0].setHidden(false);
+            //} else {
+            //    topmenu.items.items[0].setHidden(true);
+            //}
         }
     }
 });
