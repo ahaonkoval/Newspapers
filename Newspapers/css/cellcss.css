@@ -1,0 +1,42 @@
+﻿body {
+}
+
+.cell-red-run .x-grid-cell-inner 
+{ 
+    background-color:green;
+}
+
+.news-paper-item {
+  float: left;
+  width: 190px;
+  padding:5px;
+  text-align:center;
+  font-size:11px;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-style:outset
+}
+
+.selection-item-view .x-dataview-item {
+    border-bottom: 1px solid #cccbcb;
+}
+.selection-item-view .x-item-selected {
+    background-color: #0094ff;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #50b7ff), color-stop(2%, #0080da), color-stop(100%, #005692) );
+    background-image: -webkit-linear-gradient(#50b7ff, #0080da 2%, #005692);
+    background-image: linear-gradient(#50b7ff, #0080da 2%, #005692);
+    color: #fff;
+    text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
+    border-color: #103656;
+}
+
+.validinput-text {
+    background-color: #bbb;
+    border-color: #008B00;
+}
+
+.login-form-field-wrapper {
+    border:1px solid #eee;
+    background-color:white;
+    border-radius:6px;
+    -webkit-box-shadow: #000 0px 1px 1px 0px inset;
+}

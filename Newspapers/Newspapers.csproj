@@ -290,6 +290,9 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="css\cellcss.css" />
+    <Content Include="css\gtmpcell.css" />
+    <Content Include="css\img\newspaper.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -298,10 +301,10 @@
     <Content Include="Pages\mastertmp.aspx" />
     <Content Include="Pages\storyboard.aspx" />
     <Content Include="reports\pages\goodlist.aspx" />
-    <Content Include="Scripts\ai.0.22.9-build00167.js" />
-    <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery\ai.0.22.9-build00167.js" />
+    <Content Include="Scripts\jquery\ai.0.22.9-build00167.min.js" />
+    <Content Include="Scripts\jquery\bootstrap.js" />
+    <Content Include="Scripts\jquery\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
@@ -440,7 +443,7 @@
     <Content Include="Scripts\ext\classic\theme-triton\resources\Readme.md" />
     <Content Include="Scripts\ext\classic\theme-triton\theme-triton-all-debug.scss" />
     <Content Include="Scripts\ext\classic\theme-triton\theme-triton-all-rtl-debug.scss" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <None Include="Scripts\jquery\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\code\administration\goodgrid.js" />
     <Content Include="Scripts\code\administration\goods.js" />
     <Content Include="Scripts\code\administration\user.js" />
@@ -6651,16 +6654,16 @@
     <Content Include="Scripts\ext\welcome\img\welcome-bg.gif" />
     <Content Include="Scripts\ext\welcome\img\_bg-blue.gif" />
     <Content Include="Scripts\ext\welcome\release-notes.css" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\jquery\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery\jquery.validate.js" />
+    <Content Include="Scripts\jquery\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery\modernizr-2.6.2.js" />
+    <Content Include="Scripts\jquery\respond.js" />
+    <Content Include="Scripts\jquery\respond.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -6670,7 +6673,7 @@
     </Content>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\_references.js" />
+    <Content Include="Scripts\jquery\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -6686,7 +6689,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\jquery\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="reports\rprt\goodlist.rdlc" />

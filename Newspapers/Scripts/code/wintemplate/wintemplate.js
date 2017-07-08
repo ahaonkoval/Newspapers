@@ -1,48 +1,50 @@
 ﻿
-var clearColumnGridGant = function () {
-    var grid = Ext.getCmp('gridgant');
-    do {
-        var col = grid.headerCt.getComponent(grid.getColumns().length - 1);
-        grid.headerCt.remove(col);
-        grid.getView().refresh();
+var getCreateEditNewspapers = function () {
+
+    var clearColumnGridGant = function () {
+        var grid = Ext.getCmp('gridgant');
+        do {
+            var col = grid.headerCt.getComponent(grid.getColumns().length - 1);
+            grid.headerCt.remove(col);
+            grid.getView().refresh();
+        }
+        while (grid.getColumns().length > 0);
     }
-    while (grid.getColumns().length > 0);
-}
 
-var gant_header_store = Ext.create('Ext.data.Store', {
-    fields: ['id', 'name', 'vlc'],
-    model: function () {
-        return Ext.define('gant_header_model', {
-            extend: 'Ext.data.Model',
-            fields: [{
-                name: 'id',
-                type: 'int'
-            }, {
-                name: 'name',
-                type: 'string'
-            }, {
-                name: 'vlc',
-                type: 'date'
-            }]
-        });
-    },
-    data: [
-        { "id": "1", "name": "Дата виходу газети:", "vlc": "" },
-        { "id": "2", "name": "Погодження кількості артикулів:", "vlc": "" },
-        { "id": "3", "name": "Початок підготовки товарів:", "vlc": "" },
-        { "id": "4", "name": "Відбір, аналіз, погодження товарів:", "vlc": "" },
-        { "id": "5", "name": "Верстка газети:", "vlc": "" },
-        { "id": "6", "name": "Коректування товарів:", "vlc": "" },
-        { "id": "7", "name": "Фін. погодження, підписання у відділах:", "vlc": "" },
-        { "id": "8", "name": "Підготовка до друку, підпис керівництва:", "vlc": "" },
-        { "id": "9", "name": "Друк газети:'", "vlc": "" },
-        { "id": "10", "name": "Доставка газети:", "vlc": "" }
-    ]
-});
+    var gant_header_store = Ext.create('Ext.data.Store', {
+        fields: ['id', 'name', 'vlc'],
+        model: function () {
+            return Ext.define('gant_header_model', {
+                extend: 'Ext.data.Model',
+                fields: [{
+                    name: 'id',
+                    type: 'int'
+                }, {
+                    name: 'name',
+                    type: 'string'
+                }, {
+                    name: 'vlc',
+                    type: 'date'
+                }]
+            });
+        },
+        data: [
+            { "id": "1", "name": "Дата виходу газети:", "vlc": "" },
+            { "id": "2", "name": "Погодження кількості артикулів:", "vlc": "" },
+            { "id": "3", "name": "Початок підготовки товарів:", "vlc": "" },
+            { "id": "4", "name": "Відбір, аналіз, погодження товарів:", "vlc": "" },
+            { "id": "5", "name": "Верстка газети:", "vlc": "" },
+            { "id": "6", "name": "Коректування товарів:", "vlc": "" },
+            { "id": "7", "name": "Фін. погодження, підписання у відділах:", "vlc": "" },
+            { "id": "8", "name": "Підготовка до друку, підпис керівництва:", "vlc": "" },
+            { "id": "9", "name": "Друк газети:'", "vlc": "" },
+            { "id": "10", "name": "Доставка газети:", "vlc": "" }
+        ]
+    });
 
-var wintemplate = function (template_id) {
+    clearColumnGridGant();
 
-    wintmpl = Ext.create('Ext.Window', {
+    var wintmpl = Ext.create('Ext.Window', {
         title: 'Створити шаблон',
         width: 1000,
         height: 500,
@@ -56,14 +58,14 @@ var wintemplate = function (template_id) {
         items: [
                 {
                     xtype: 'panel',
-                    border: false,                    
+                    border: false,
                     layout: 'anchor',
                     height: 50,
                     padding: 5,
                     items: [{
                         anchor: '100%',
                         xtype: 'textfield',
-                        fieldLabel:'Назва шаблону:'
+                        fieldLabel: 'Назва шаблону:'
                     }]
                 }, {
                     xtype: 'panel',
@@ -122,7 +124,9 @@ var wintemplate = function (template_id) {
                         xtype: 'panel',
                         flex: 1,
                         padding: 2,
-                        items: [gridgant]
+                        items: [
+                            gridgant
+                        ]
                     }]
                 }
         ],
@@ -138,16 +142,16 @@ var wintemplate = function (template_id) {
                         grid.getView().refresh();
                     }
                     while (grid.getColumns().length > 0);
-                    
+
                     var i = 0;
                     do {
                         var column = Ext.create('Ext.grid.column.Column', {
                             text: 'h', width: 30
                         });
                         grid.headerCt.insert(grid.columns.length, column);
-                        
+
                         i++;
-                    } while (i <= 20);                    
+                    } while (i <= 20);
 
                     grid.getView().refresh();
 
@@ -208,7 +212,16 @@ var wintemplate = function (template_id) {
         }]
     })
 
-    clearColumnGridGant();
+    //var wintemplate = function (template_id) {
 
-    wintmpl.show();
+
+
+    //    clearColumnGridGant();
+
+    //    return wintmpl;        
+    //}
+
+    //wintmpl.show();
+    //return wintemplate;
+    return wintmpl;
 }
