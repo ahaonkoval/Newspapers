@@ -104,20 +104,27 @@
                             '<tpl for=".">',
                                 '<div class="conteiner-paper-item">',
                                     '<div class="page-paper">',
-                                        "<div class='page-paper-inner' id=page{p1}'>",
-                                        '{departs}',
+                                        "<div class='page-paper-conteiner' id=page{p1}'>",
+                                            '<div class="page-paper-inner-head">',
+                                                'Перелік департаментів на сторінці: {departs}',
+                                             '</div>',
+                                            '<div class="page-paper-inner-bottom">{p2}</div>',
                                         '</div>',
                                     '</div>',
                                     '<div class="page-paper">',
-                                        '<div class="page-paper-inner" id=page{p2}>',
-                                        '{departs}',
+                                        '<div class="page-paper-conteiner" id=page{p2}>',
+                                            '<div class="page-paper-inner-head">',
+                                                'Перелік департаментів на сторінці: {departs}',
+                                            '</div>',
+                                            '<div class="page-paper-inner-bottom">{p1}</div>',
                                         '</div>',
                                     '</div>',
                                 '</div>',
                             '</tpl>'],
-                        multiSelect: false,
+                        //multiSelect: false,
+                        singleSelect: true,                        
                         trackOver: true,
-                        overItemCls: '',
+                        overItemCls: 'x-item-over',
                         itemSelector: 'div.conteiner-paper-item',
                         emptyText: 'No images to display',
                         listeners: {
@@ -131,6 +138,10 @@
                             {
                                 element: 'el', //bind to the underlying body property on the panel
                                 fn: function () { console.log('dblclick body'); }
+                            },
+                            selectionchange: function (record, item, index, e) {
+                                //var node = this.getNode(record); //this.getNode(record);
+                                //console.log(node.get('id'));
                             }
                         }
                     }]
