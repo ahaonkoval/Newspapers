@@ -36,11 +36,13 @@
     width: 100%; 
     height: 80%;
     font-size: 14px;
+    user-select: none;
 }
 
 .page-paper-inner-bottom {
     width: 100%; 
     height: 20%;
+    user-select: none;
 }
 
 .x-item-selected {

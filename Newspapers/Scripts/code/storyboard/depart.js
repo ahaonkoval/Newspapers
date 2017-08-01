@@ -1,20 +1,22 @@
 ﻿
 var departset = function () {
 
+    var row_height = 160;
+
     var deptCellEditing = new Ext.grid.plugin.CellEditing({ clicksToEdit: 1 });
 
     var store_dept = Ext.create('Ext.data.Store', {
         fields: ['id', 'name'],
         data: [
-            { "id": "10",  "name": "10 (САД, ГОРОД)" },
-            { "id": "20",  "name": "20 (ІНСТРУМЕНТИ)" },
-            { "id": "30",  "name": "30 (ЕЛЕКТРОТЕХНІКА)" },
-            { "id": "40",  "name": "40 (ВИРОБИ З МЕТАЛУ)" },
-            { "id": "50",  "name": "50 (ДЕКОР)" },
-            { "id": "60",  "name": "60 (ПОКРИТТЯ ДЛЯ ПІДЛОГИ)" },
-            { "id": "70",  "name": "70 (САНТЕХНІКА)" },
-            { "id": "80",  "name": "80 (ВИРОБИ З ДЕРЕВА)" },
-            { "id": "90",  "name": "90 (БУДІВЕЛЬНІ МАТЕРІАЛИ)" },
+            { "id": "10", "name": "10 (САД, ГОРОД)" },
+            { "id": "20", "name": "20 (ІНСТРУМЕНТИ)" },
+            { "id": "30", "name": "30 (ЕЛЕКТРОТЕХНІКА)" },
+            { "id": "40", "name": "40 (ВИРОБИ З МЕТАЛУ)" },
+            { "id": "50", "name": "50 (ДЕКОР)" },
+            { "id": "60", "name": "60 (ПОКРИТТЯ ДЛЯ ПІДЛОГИ)" },
+            { "id": "70", "name": "70 (САНТЕХНІКА)" },
+            { "id": "80", "name": "80 (ВИРОБИ З ДЕРЕВА)" },
+            { "id": "90", "name": "90 (БУДІВЕЛЬНІ МАТЕРІАЛИ)" },
             { "id": "100", "name": "100 (ДЕКО)" },
             { "id": "800", "name": "800 (ІНТЕРСПОРТ)" }
         ],
@@ -32,8 +34,8 @@ var departset = function () {
 
     windepartset = Ext.create('Ext.Window', {
         title: 'Розподілення клітинок',
-        width: 750,
-        height: 215,
+        width: 800,
+        height: 600,
         modal: true,
         closable: true,
         layout: {
@@ -41,9 +43,35 @@ var departset = function () {
             pack: 'start',
             align: 'stretch'
         },
-        items: [{
+        items: [
+        {
             xtype: 'panel',
-            height: 42,
+            height: 40,
+            padding: '3 3 3 3',
+            layout: {
+                type: 'hbox',
+                pack: 'start',
+                align: 'stretch'
+            },
+            items: [
+                {
+                    xtype: 'panel',
+                    items: [
+                                                {
+                                                    xtype: 'combobox',
+                                                    width: '100%',
+                                                    store: store_dept,
+                                                    displayField: 'name',
+                                                    valueField: 'id'
+                                                }
+                    ]
+                }
+            ]
+        },
+        {
+            xtype: 'panel',
+            height: row_height,
+            border: false,
             layout: {
                 type: 'hbox',
                 pack: 'start',
@@ -53,44 +81,51 @@ var departset = function () {
                 {
                     flex: 1,
                     xtype: 'panel',
-                    border: false,
+                    border: true,
                     padding: '3 3 3 3',
-                    items: [{
-                            xtype: 'combobox',
-                            width: '100%',
-                            store: store_dept,
-                            displayField: 'name',
-                            valueField: 'id'
-                        }]
+                    items: [
+                        //{
+                        //    xtype: 'combobox',
+                        //    width: '100%',
+                        //    store: store_dept,
+                        //    displayField: 'name',
+                        //    valueField: 'id'
+                        //}
+                    ]
                 }, {
                     flex: 1,
                     xtype: 'panel',
-                    border: false,
+                    border: true,
                     padding: '3 3 3 3',
-                    items: [{
-                        xtype: 'combobox',
-                        width: '100%',
-                        store: store_dept,
-                        displayField: 'name',
-                        valueField: 'id'
-                    }]
+                    items: [
+                        //{
+                        //    xtype: 'combobox',
+                        //    width: '100%',
+                        //    store: store_dept,
+                        //    displayField: 'name',
+                        //    valueField: 'id'
+                        //}
+                    ]
                 }, {
                     flex: 1,
                     xtype: 'panel',
-                    border: false,
+                    border: true,
                     padding: '3 3 3 3',
-                    items: [{
-                        xtype: 'combobox',
-                        width: '100%',
-                        store: store_dept,
-                        displayField: 'name',
-                        valueField: 'id'
-                    }]
+                    items: [
+                        //{
+                            //xtype: 'combobox',
+                            //width: '100%',
+                            //store: store_dept,
+                            //displayField: 'name',
+                            //valueField: 'id'
+                        //}
+                    ]
                 }
             ]
         }, {
             xtype: 'panel',
-            height: 42,
+            height: row_height,
+            border: false,
             layout: {
                 type: 'hbox',
                 pack: 'start',
@@ -100,44 +135,51 @@ var departset = function () {
                 {
                     flex: 1,
                     xtype: 'panel',
-                    border: false,
+                    border: true,
                     padding: '3 3 3 3',
-                    items: [{
-                        xtype: 'combobox',
-                        width: '100%',
-                        store: store_dept,
-                        displayField: 'name',
-                        valueField: 'id'
-                    }]
+                    items: [
+                        //{
+                            //xtype: 'combobox',
+                            //width: '100%',
+                            //store: store_dept,
+                            //displayField: 'name',
+                            //valueField: 'id'
+                        //}
+                    ]
                 }, {
                     flex: 1,
                     xtype: 'panel',
-                    border: false,
+                    border: true,
                     padding: '3 3 3 3',
-                    items: [{
-                        xtype: 'combobox',
-                        width: '100%',
-                        store: store_dept,
-                        displayField: 'name',
-                        valueField: 'id'
-                    }]
+                    items: [
+                        //{
+                        //xtype: 'combobox',
+                        //width: '100%',
+                        //store: store_dept,
+                        //displayField: 'name',
+                        //valueField: 'id'
+                        //}
+                    ]
                 }, {
                     flex: 1,
                     xtype: 'panel',
-                    border: false,
+                    border: true,
                     padding: '3 3 3 3',
-                    items: [{
-                        xtype: 'combobox',
-                        width: '100%',
-                        store: store_dept,
-                        displayField: 'name',
-                        valueField: 'id'
-                    }]
+                    items: [
+                        //{
+                            //xtype: 'combobox',
+                            //width: '100%',
+                            //store: store_dept,
+                            //displayField: 'name',
+                            //valueField: 'id'
+                        //}
+                    ]
                 }
             ]
         }, {
             xtype: 'panel',
-            height: 42,
+            height: row_height,
+            border: false,
             layout: {
                 type: 'hbox',
                 pack: 'start',
@@ -147,39 +189,45 @@ var departset = function () {
                 {
                     flex: 1,
                     xtype: 'panel',
-                    border: false,
+                    border: true,
                     padding: '3 3 3 3',
-                    items: [{
-                        xtype: 'combobox',
-                        width: '100%',
-                        store: store_dept,
-                        displayField: 'name',
-                        valueField: 'id'
-                    }]
+                    items: [
+                        //{
+                        //    xtype: 'combobox',
+                        //    width: '100%',
+                        //    store: store_dept,
+                        //    displayField: 'name',
+                        //    valueField: 'id'
+                        //}
+                    ]
                 }, {
                     flex: 1,
                     xtype: 'panel',
-                    border: false,
+                    border: true,
                     padding: '3 3 3 3',
-                    items: [{
-                        xtype: 'combobox',
-                        width: '100%',
-                        store: store_dept,
-                        displayField: 'name',
-                        valueField: 'id'
-                    }]
+                    items: [
+                        //{
+                        //xtype: 'combobox',
+                        //width: '100%',
+                        //store: store_dept,
+                        //displayField: 'name',
+                        //valueField: 'id'
+                        //}
+                    ]
                 }, {
                     flex: 1,
                     xtype: 'panel',
-                    border: false,
+                    border: true,
                     padding: '3 3 3 3',
-                    items: [{
-                        xtype: 'combobox',
-                        width: '100%',
-                        store: store_dept,
-                        displayField: 'name',
-                        valueField: 'id'
-                    }]
+                    items: [
+                        //{
+                        //xtype: 'combobox',
+                        //width: '100%',
+                        //store: store_dept,
+                        //displayField: 'name',
+                        //valueField: 'id'
+                        //}
+                    ]
                 }
             ]
         }],
