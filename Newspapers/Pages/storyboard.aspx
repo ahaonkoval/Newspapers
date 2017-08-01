@@ -6,13 +6,14 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>
-
+        Управління сторінками...
     </title>
 
     <script type="text/javascript" src="../Scripts/ext/ext-all.js"></script>
     <script type="text/javascript" src="../Scripts/jquery/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="../Scripts/code/storyboard/depart.js"></script>
-    <script type="text/javascript" src="../Scripts/code/main/topmenu.js"></script>   
+    <script type="text/javascript" src="../Scripts/code/storyboard/windepartpage.js"></script>
+    <script type="text/javascript" src="../Scripts/code/main/topmenu.js"></script>
+    <script type="text/javascript" src="../Scripts/code/storyboard/storyboardstore.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../Scripts/ext/classic/theme-crisp/resources/theme-crisp-all.css" />
     <link rel="stylesheet" type="text/css" href="../css/cellcss.css" />
@@ -60,7 +61,8 @@
             
             var rec = store.getAt(index);
 
-            departset();
+            getWinDepartCell().show();
+
         };
 
         Ext.onReady(function () {
@@ -88,44 +90,6 @@
                 }]
             });
 
-            function getDataStore() {
-
-                var store_papers = Ext.create('Ext.data.Store', {
-                    fields: ['id', 'name'],
-                    data: [
-                        { "id": "1", "departs1": "10", "departs2": "10", "p1": 22, "p2": 1 },
-                        { "id": "2", "departs1": "20", "departs2": "10", "p1": 2, "p2": 3 },
-                        { "id": "3", "departs1": "30", "departs2": "10", "p1": 4, "p2": 5 },
-                        { "id": "4", "departs1": "40", "departs2": "10", "p1": 6, "p2": 7 },
-                        { "id": "5", "departs1": "50", "departs2": "10", "p1": 8, "p2": 9 },
-                        { "id": "6", "departs1": "60", "departs2": "10", "p1": 10, "p2": 11 },
-                        { "id": "7", "departs1": "70", "departs2": "10", "p1": 12, "p2": 13 },
-                        { "id": "8", "departs1": "80", "departs2": "10", "p1": 14, "p2": 15 },
-                        { "id": "9", "departs1": "90", "departs2": "10", "p1": 16, "p2": 17 },
-                        { "id": "10", "departs1": "100", "departs2": "10", "p1": 18, "p2": 19 },
-                        { "id": "11", "departs1": "800", "departs2": "10", "p1": 20, "p2": 21 }
-                    ],
-                    model: Ext.define('model_dept', {
-                        extend: 'Ext.data.Model',
-                        fields: [{
-                            name: 'id', type: 'int'
-                        }, {
-                            name: 'departs1', type: 'string'
-                        }, {
-                            name: 'departs2', type: 'string'
-                        }, {
-                            name: 'p1', type: 'int'
-                        }, {
-                            name: 'p2', type: 'int'
-                        }]
-                    })
-                });
-
-                return store_papers;
-            };
-
-
-
             Ext.create('Ext.window.Window', {
                 title: 'Перегляд стрінок газети...',
                 height: 600,
@@ -146,7 +110,7 @@
                         xtype: 'dataview',
                         id: 'lst_pages',
                         //width: 600,
-                        store: getDataStore(),  //evaluate this also
+                        store: getDataStorePapersPage(), //getDataStore(),  //evaluate this also
                         tpl: [
                             '<tpl for=".">',
 
@@ -232,9 +196,11 @@
                                     {
                                         xtype: 'panel',
                                         border: false,
+                                        height: 30,
                                         items: [{
                                             xtype: 'button',
                                             width: '100%',
+                                            height: 28,
                                             text: 'Новий розворот',
                                             margin: 2,
                                             listeners: {
