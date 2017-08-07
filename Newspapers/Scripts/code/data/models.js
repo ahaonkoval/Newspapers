@@ -44,27 +44,27 @@ Ext.define('User', {
     }]
 });
 
-Ext.define('Access', {
-    extend: 'Ext.data.Model',
-    fields: [{
-        name: 'AccessId',
-        type: 'int'
-    }, {
-        name: 'Name',
-        type: 'string'
-    }]
-});
+//Ext.define('Access', {
+//    extend: 'Ext.data.Model',
+//    fields: [{
+//        name: 'AccessId',
+//        type: 'int'
+//    }, {
+//        name: 'Name',
+//        type: 'string'
+//    }]
+//});
 
-Ext.define('Otd', {
-    extend: 'Ext.data.Model',
-    fields: [{
-        name: 'OtdId',
-        type: 'int'
-    }, {
-        name: 'Name',
-        type: 'string'
-    }]
-});
+//Ext.define('Otd', {
+//    extend: 'Ext.data.Model',
+//    fields: [{
+//        name: 'OtdId',
+//        type: 'int'
+//    }, {
+//        name: 'Name',
+//        type: 'string'
+//    }]
+//});
 
 Ext.define('Papers', {
     extend: 'Ext.data.Model',

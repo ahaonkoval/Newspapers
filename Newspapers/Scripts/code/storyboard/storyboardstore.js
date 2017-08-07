@@ -11,7 +11,11 @@ var getStoreCellDeparts = function () {
             { "id": 6, "otd_id": 10, "name": "10 (САД, ГОРОД)" },
             { "id": 7, "otd_id": 10, "name": "10 (САД, ГОРОД)" },
             { "id": 8, "otd_id": 10, "name": "10 (САД, ГОРОД)" },
-            { "id": 9, "otd_id": 100, "name": "100 (ДЕКО)" }
+            { "id": 9, "otd_id": 100, "name": "100 (ДЕКО)" },
+            { "id": 10, "otd_id": 100, "name": "100 (ДЕКО)" },
+            { "id": 11, "otd_id": 100, "name": "100 (ДЕКО)" },
+            { "id": 12, "otd_id": 100, "name": "100 (ДЕКО)" }
+
         ],
         model: Ext.define('model_deptforcell', {
             extend: 'Ext.data.Model',

@@ -1,4 +1,55 @@
 ﻿
+/*
+'<div class="page-paper-inner-head">',
+'Товар відділу: {name}',
+'</div>',
+'<div class="page-paper-inner-bottom">{id}</div>',
+*/
+
+var getDataViewPageCells = function () {
+    var dw = new Ext.create({
+        id: 'viewPageCells',
+        xtype: 'dataview',
+        layout: 'fit',
+        margin: 5,
+        store: getStorePageCells(),
+        autoScroll: true,
+        tpl: [
+            '<tpl for=".">',
+                '<div class="conteiner-depart-cell">',
+                    '<div class="conteiner-depart-cell-fill"></div>',
+                '</div>',
+            '</tpl>'],
+        singleSelect: true,
+        trackOver: true,
+        overItemCls: 'x-item-over',
+        itemSelector: 'div.conteiner-depart-cell',
+        emptyText: 'No images to display',
+        listeners: {
+            selectionchange: function (record, item, index, e) {
+
+            },
+            dblclick:
+            {
+                element: 'el',
+                fn: function (event, b, c) {
+                    /*  */
+                    var selected = dw.getSelection();
+                    if (selected.length > 0) {
+                        var record = selected[0];
+                        var data = record.data;
+
+                        getWinFillCell(record).show();
+                    }                                        
+                }
+            },
+        }
+    });
+
+    return dw;
+}
+
+/*
 var getgridtmp = function (pnls) {
 
     var p = pnls;
@@ -224,3 +275,4 @@ var getgridtmp = function (pnls) {
 
     return gridtmp;
 }
+*/

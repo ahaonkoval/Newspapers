@@ -235,6 +235,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CellsController.cs" />
     <Compile Include="Controllers\DictController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -301,6 +302,7 @@
     <Content Include="Pages\mastertmp.aspx" />
     <Content Include="Pages\storyboard.aspx" />
     <Content Include="reports\pages\goodlist.aspx" />
+    <Content Include="Scripts\code\mastertmp\mastertmpstore.js" />
     <Content Include="Scripts\code\storyboard\selectpage.js" />
     <Content Include="Scripts\code\storyboard\storyboardstore.js" />
     <Content Include="Scripts\jquery\ai.0.22.9-build00167.js" />
@@ -454,8 +456,8 @@
     <Content Include="Scripts\code\data\models.js" />
     <Content Include="Scripts\code\main\grid.js" />
     <Content Include="Scripts\code\main\topmenu.js" />
-    <Content Include="Scripts\code\mastertmp\articuladd.js" />
-    <Content Include="Scripts\code\mastertmp\gridtmp.js" />
+    <Content Include="Scripts\code\mastertmp\fillcell.js" />
+    <Content Include="Scripts\code\mastertmp\dw.js" />
     <Content Include="Scripts\code\mastertmp\showgoods.js" />
     <Content Include="Scripts\code\storyboard\windepartpage.js" />
     <Content Include="Scripts\code\wintemplate\gridgant.js" />
@@ -6695,6 +6697,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="reports\rprt\goodlist.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PapersDb\PapersDb\PapersDbWorker.csproj">
+      <Project>{ec25ea3e-cba4-4fe4-bc35-22ea3f7977ba}</Project>
+      <Name>PapersDbWorker</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

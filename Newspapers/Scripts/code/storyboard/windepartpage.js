@@ -7,6 +7,7 @@ var getWinDepartCell = function () {
     var dataview = new Ext.create({
         xtype: 'dataview',
         store: getStoreCellDeparts(),
+        autoScroll: true,
         tpl: [
             '<tpl for=".">',
                 '<div class="conteiner-depart-cell">',
@@ -52,12 +53,12 @@ var getWinDepartCell = function () {
         border: false,
         layout: 'fit',
         padding: '3 3 3 3',
-        margin: 15,
+        margin: 3,        
         items: [dataview]
     });
     /* віконце що відповідає за призначення клітоинок відділам */
     var windepartset = Ext.create('Ext.Window', {
-        title: 'Розподілення клітинок',
+        title: 'Розподілення клітинок між відділами...',
         width: 800,
         height: 600,
         modal: true,

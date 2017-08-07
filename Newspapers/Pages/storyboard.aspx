@@ -22,6 +22,14 @@
 <body>
     <script>
 
+        var cursorX;
+        var cursorY;
+
+        document.onmousemove = function (e) {
+            cursorX = e.pageX;
+            cursorY = e.pageY;
+        }
+
         var fth_click = function (ctrl, side) {
             var page_id = parseInt(ctrl.id.replace('page', ''));
             var lst = Ext.getCmp('lst_pages')
@@ -32,21 +40,25 @@
             });
             var record = store.getAt(index);
             /* відображаємо параметри активної сторінки */
-            Ext.getCmp('txt_actpage').setValue(page_id);
+            Ext.getCmp('pnl_act_page').setTitle('Активна сторінка');
             if (side == 1) {
-                Ext.getCmp('txt_listdeparts').setValue(record.data.departs1);
+                Ext.getCmp('pnl_act_page').setHtml(
+                    '<div class="act-page-info">Активна сторінка: ' + page_id + ' </div>'
+                    + '<div class="act-page-info">Відділ: ' + record.data.departs1 + ' </div>'
+                    );
             }
             if (side == 2) {
-                Ext.getCmp('txt_listdeparts').setValue(record.data.departs2);
+                Ext.getCmp('pnl_act_page').setHtml(
+                    '<div class="act-page-info">Активна сторінка: ' + page_id + ' </div>'
+                    + '<div class="act-page-info">Відділ: ' + record.data.departs2 + ' </div>'
+                    );
             }
-            /* ------------------------------------------------------------------- */
             /* переміщаємо виділення сторінки */
             store.each(function (record, id) {
                 $('#page' + record.data.p1).attr('style', 'background: #ffffff');
                 $('#page' + record.data.p2).attr('style', 'background: #ffffff');
             });
             $('#' + ctrl.id).attr('style', 'background: #eeeeee');
-            /* ------------------------------------------------------------------- */
         };
 
         var fth_dbclick = function (ctrl, side) {
@@ -60,9 +72,28 @@
             });
             
             var rec = store.getAt(index);
-
-            getWinDepartCell().show();
-
+            /*
+                В залежності від доступу користовача створююється меню, чи відразу відкривається призначення товарів в клітинки
+            */
+            Ext.create('Ext.menu.Menu', {
+                //width: 100,
+                //height: 0,
+                margin: '0 0 10 0',
+                items: [
+                    {
+                        text: 'Призначення відділів на сторінці №' + id,
+                        handler: function () {
+                            getWinDepartCell().show();
+                        }
+                    },{
+                        text: 'Призначення товарів на сторінці №' + id,
+                        handler: function () {
+                            window.location.href = "../pages/mastertmp.aspx";
+                        }
+                    }]
+            }).showAt(
+                cursorX, cursorY
+            );
         };
 
         Ext.onReady(function () {
@@ -90,6 +121,15 @@
                 }]
             });
 
+            var panel_act = Ext.create('Ext.panel.Panel', {
+                id: 'pnl_act_page',
+                xtype: 'panel',
+                //title: 'Активна сторінка',
+                height: 150,
+                layout: 'fit',
+                border: false
+            });
+
             Ext.create('Ext.window.Window', {
                 title: 'Перегляд стрінок газети...',
                 height: 600,
@@ -103,14 +143,12 @@
                 },
                 items: [{
                     xtype: 'panel',
-                    //html: '<div id="dataview-example"></div>',
                     autoScroll: true,
                     flex: 1,
                     items: [{
                         xtype: 'dataview',
                         id: 'lst_pages',
-                        //width: 600,
-                        store: getDataStorePapersPage(), //getDataStore(),  //evaluate this also
+                        store: getDataStorePapersPage(), 
                         tpl: [
                             '<tpl for=".">',
 
@@ -173,8 +211,8 @@
                             //    }
                             //},
                             selectionchange: function (record, item, index, e) {
-                                Ext.getCmp('btnMenuPage_1').setText('Сторінка № ' + item[0].data.p1);
-                                Ext.getCmp('btnMenuPage_2').setText('Сторінка № ' + item[0].data.p2);
+                                //Ext.getCmp('btnMenuPage_1').setText('Сторінка № ' + item[0].data.p1);
+                                //Ext.getCmp('btnMenuPage_2').setText('Сторінка № ' + item[0].data.p2);
                             }
 
                         }
@@ -192,6 +230,7 @@
                                 xtype: 'panel',
                                 flex: 1,
                                 bodyPadding: 2,
+                                //layout: 'form',
                                 items: [
                                     {
                                         xtype: 'panel',
@@ -199,79 +238,91 @@
                                         height: 30,
                                         items: [{
                                             xtype: 'button',
-                                            width: '100%',
+                                            width: 170,
                                             height: 28,
                                             text: 'Новий розворот',
                                             margin: 2,
                                             listeners: {
                                                 click: function () {
-
+                                                    
                                                 }
                                             }
                                         }]
                                     }, {
                                         xtype: 'panel',
                                         border: false,
+                                        height: 30,
                                         items: [{
                                             xtype: 'button',
-                                            width: '100%',
+                                            width: 170,
+                                            height: 28,
                                             text: 'Призначення відділів',
                                             margin: 2,
-                                            menu: [{
-                                                id: 'btnMenuPage_1',
-                                                text: 'Сторінка № '
-                                            }, {
-                                                id: 'btnMenuPage_2',
-                                                text: 'Сторінка № '
-                                            }]
+                                            listeners: {
+                                                click: function () {
+                                                    getWinDepartCell().show();
+                                                }
+                                            }
+                                            //menu: [{
+                                            //    id: 'btnMenuPage_1',
+                                            //    text: 'Сторінка № '
+                                            //}, {
+                                            //    id: 'btnMenuPage_2',
+                                            //    text: 'Сторінка № '
+                                            //}]
                                         }]
                                     }, {
                                         xtype: 'panel',
                                         border: false,
+                                        height: 30,
                                         items: [{
                                             xtype: 'button',
-                                            width: '100%',
+                                            width: 170,
+                                            height: 28,
                                             text: 'Шаблон сторінки',
                                             margin: 2,
                                             listeners: {
                                                 click: function () {
-
+                                                    window.location.href = "../pages/mastertmp.aspx";
                                                 }
                                             }
                                         }]
-                                    }, {
-                                        xtype: 'panel',
-                                        title: 'Активна сторінка',                                        
-                                        height: 200,
-                                        layout: 'fit',
-                                        border: false,
-                                        items: [
-                                            {
-                                                xtype: 'panel',
-                                                layout: 'anchor',
-                                                margin: 2,
-                                                border: false,
-                                                items: [{
-                                                    id: 'txt_actpage',
-                                                    xtype: 'textfield',
-                                                    fieldLabel: '№ стрінки',
-                                                    labelWidth: 65,
-                                                    anchor: '100%',
-                                                    readOnly: true
-                                                }, {
-                                                    id: 'txt_listdeparts',
-                                                    xtype: 'textareafield',
-                                                    name: 'textarea1',
-                                                    fieldLabel: 'Відділи на сторінці',
-                                                    //value: 'Textarea value',
-                                                    labelAlign: 'top',
-                                                    anchor: '100%',
-                                                    readOnly: true,
-                                                    heigth:30
-                                                }]
-                                            }
-                                        ]
-                                    }]
+                                    }, panel_act
+                                        //{
+                                        //xtype: 'panel',
+                                        //title: 'Активна сторінка',                                        
+                                        //height: 200,
+                                        //layout: 'fit',
+                                        //border: false,
+                                        //items: [
+                                        //    {
+                                        //        xtype: 'panel',
+                                        //        layout: 'anchor',
+                                        //        margin: 2,
+                                        //        border: false,
+                                        //        items: [{
+                                        //            id: 'txt_actpage',
+                                        //            xtype: 'textfield',
+                                        //            fieldLabel: '№ стрінки',
+                                        //            labelWidth: 65,
+                                        //            anchor: '100%',
+                                        //            readOnly: true
+                                        //        }, {
+                                        //            id: 'txt_listdeparts',
+                                        //            xtype: 'textareafield',
+                                        //            name: 'textarea1',
+                                        //            fieldLabel: 'Відділи на сторінці',
+                                        //            //value: 'Textarea value',
+                                        //            labelAlign: 'top',
+                                        //            anchor: '100%',
+                                        //            readOnly: true,
+                                        //            heigth:30,
+                                        //            disabled: true
+                                        //        }]
+                                        //    }
+                                        //]
+                                    //}
+                                ]
                             }, {
                                 xtype: 'panel',
                                 width: 150,
