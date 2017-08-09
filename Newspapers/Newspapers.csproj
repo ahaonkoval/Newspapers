@@ -85,6 +85,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -447,6 +448,8 @@
     <Content Include="Scripts\ext\classic\theme-triton\resources\Readme.md" />
     <Content Include="Scripts\ext\classic\theme-triton\theme-triton-all-debug.scss" />
     <Content Include="Scripts\ext\classic\theme-triton\theme-triton-all-rtl-debug.scss" />
+    <None Include="Documents\Приклад графіка.xlsx" />
+    <None Include="Documents\Проект порталу шаблонів газет v2.docx" />
     <None Include="Scripts\jquery\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\code\administration\goodgrid.js" />
     <Content Include="Scripts\code\administration\goods.js" />

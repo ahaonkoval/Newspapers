@@ -13,7 +13,15 @@ namespace PapersDbWorker
         {
             using (var db = new PapersDB())
             {
-                return db.Otds.OrderBy(o => o.OtdId).ToList();
+                return db.Otds.Where(w=> w.OtdId != 726).Where(w=> w.OtdId != 1000).OrderBy(o => o.OtdId).ToList();
+            }
+        }
+
+        public IEnumerable<Depart> GetDepartList()
+        {
+            using (var db = new PapersDB())
+            {
+                return db.Departs.OrderBy(o => o.DepartId).ToList();
             }
         }
     }

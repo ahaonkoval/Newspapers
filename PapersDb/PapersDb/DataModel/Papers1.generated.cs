@@ -15,6 +15,7 @@ using LinqToDB;
 using LinqToDB.Common;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SqlServer;
+using LinqToDB.Extensions;
 using LinqToDB.Mapping;
 
 namespace DataModels
@@ -28,6 +29,7 @@ namespace DataModels
 	{
 		public ITable<Access> Accesses { get { return this.GetTable<Access>(); } }
 		public ITable<Cell>   Cells    { get { return this.GetTable<Cell>(); } }
+		public ITable<Depart> Departs  { get { return this.GetTable<Depart>(); } }
 		public ITable<Otd>    Otds     { get { return this.GetTable<Otd>(); } }
 		public ITable<Page>   Pages    { get { return this.GetTable<Page>(); } }
 		public ITable<Token>  Tokens   { get { return this.GetTable<Token>(); } }
@@ -55,22 +57,31 @@ namespace DataModels
 			public int Rank;
 		}
 
+		private static MethodInfo _freeTextTableMethod1 = typeof(PapersDB).GetMethod("FreeTextTable", new Type[] { typeof(string), typeof(string) });
+
 		[FreeTextTableExpression]
 		public ITable<FreeTextKey<TKey>> FreeTextTable<TTable,TKey>(string field, string text)
 		{
 			return this.GetTable<FreeTextKey<TKey>>(
 				this,
-				((MethodInfo)(MethodBase.GetCurrentMethod())).MakeGenericMethod(typeof(TTable), typeof(TKey)),
+				_freeTextTableMethod1,
 				field,
 				text);
 		}
+
+		private static MethodInfo _freeTextTableMethod2 = 
+			typeof(PapersDB).GetMethods()
+				.Where(m => m.Name == "FreeTextTable" &&  m.IsGenericMethod && m.GetParameters().Length == 2)
+				.Where(m => m.GetParameters()[0].ParameterType.IsGenericTypeEx() && m.GetParameters()[0].ParameterType.GetGenericTypeDefinition() == typeof(Expression<>))
+				.Where(m => m.GetParameters()[1].ParameterType == typeof(string))
+				.Single();
 
 		[FreeTextTableExpression]
 		public ITable<FreeTextKey<TKey>> FreeTextTable<TTable,TKey>(Expression<Func<TTable,string>> fieldSelector, string text)
 		{
 			return this.GetTable<FreeTextKey<TKey>>(
 				this,
-				((MethodInfo)(MethodBase.GetCurrentMethod())).MakeGenericMethod(typeof(TTable), typeof(TKey)),
+				_freeTextTableMethod2,
 				fieldSelector,
 				text);
 		}
@@ -102,7 +113,7 @@ namespace DataModels
 		[Column("page_id"),                   NotNull              ] public long     PageId                 { get; set; } // bigint
 		[Column("page_position"),                Nullable          ] public int?     PagePosition           { get; set; } // int
 		[Column("otd_id"),                       Nullable          ] public long?    OtdId                  { get; set; } // bigint
-		[Column("depart"),                       Nullable          ] public string   Depart                 { get; set; } // nvarchar(50)
+		[Column("depart_id"),                    Nullable          ] public long?    DepartId               { get; set; } // bigint
 		[Column("artlst"),                       Nullable          ] public string   Artlst                 { get; set; } // nvarchar(50)
 		[Column("unit"),                         Nullable          ] public string   Unit                   { get; set; } // nvarchar(50)
 		[Column("number"),                       Nullable          ] public string   Number                 { get; set; } // nvarchar(50)
@@ -134,14 +145,50 @@ namespace DataModels
 		[Column("manager"),                      Nullable          ] public string   Manager                { get; set; } // nvarchar(50)
 		[Column("produckt_category"),            Nullable          ] public string   ProducktCategory       { get; set; } // nvarchar(50)
 		[Column("path_photo"),                   Nullable          ] public string   PathPhoto              { get; set; } // nvarchar(50)
+		[Column("isfill"),                       Nullable          ] public bool?    Isfill                 { get; set; } // bit
+		[Column(),                               Nullable          ] public string   OtdName                { get; set; } // nvarchar(255)
+		[Column(),                               Nullable          ] public string   DepartName             { get; set; } // nvarchar(255)
 
 		#region Associations
+
+		/// <summary>
+		/// FK_cells_departs
+		/// </summary>
+		[Association(ThisKey="DepartId", OtherKey="Lf1Id", CanBeNull=true, Relationship=Relationship.ManyToOne, KeyName="FK_cells_departs", BackReferenceName="cells")]
+		public Depart depart { get; set; }
 
 		/// <summary>
 		/// FK_cells_pages
 		/// </summary>
 		[Association(ThisKey="PageId", OtherKey="PageId", CanBeNull=false, Relationship=Relationship.ManyToOne, KeyName="FK_cells_pages", BackReferenceName="cells")]
 		public Page page { get; set; }
+
+		#endregion
+	}
+
+	[Table(Schema="dbo", Name="departs")]
+	public partial class Depart
+	{
+		[Column("depart_id"), PrimaryKey, Identity] public long   DepartId { get; set; } // bigint
+		[Column("otd_id"),    Nullable            ] public long?  OtdId    { get; set; } // bigint
+		[Column("lf0_id"),    Nullable            ] public long?  Lf0Id    { get; set; } // bigint
+		[Column("name_0"),    Nullable            ] public string Name0    { get; set; } // nvarchar(255)
+		[Column("lf1_id"),    Nullable            ] public long?  Lf1Id    { get; set; } // bigint
+		[Column("name_1"),    Nullable            ] public string Name1    { get; set; } // nvarchar(255)
+
+		#region Associations
+
+		/// <summary>
+		/// FK_cells_departs_BackReference
+		/// </summary>
+		[Association(ThisKey="Lf1Id", OtherKey="DepartId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
+		public IEnumerable<Cell> cells { get; set; }
+
+		/// <summary>
+		/// FK_departs_otds
+		/// </summary>
+		[Association(ThisKey="OtdId", OtherKey="OtdId", CanBeNull=true, Relationship=Relationship.ManyToOne, KeyName="FK_departs_otds", BackReferenceName="departs")]
+		public Otd otd { get; set; }
 
 		#endregion
 	}
@@ -153,6 +200,12 @@ namespace DataModels
 		[Column(),            Nullable         ] public string Name  { get; set; } // nvarchar(50)
 
 		#region Associations
+
+		/// <summary>
+		/// FK_departs_otds_BackReference
+		/// </summary>
+		[Association(ThisKey="OtdId", OtherKey="OtdId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
+		public IEnumerable<Depart> departs { get; set; }
 
 		/// <summary>
 		/// FK__users__otd_id__17F790F9_BackReference
@@ -249,19 +302,6 @@ namespace DataModels
 
 	public static partial class PapersDBStoredProcedures
 	{
-		#region SpAlterdiagram
-
-		public static int SpAlterdiagram(this DataConnection dataConnection, string @diagramname, int? @owner_id, int? @version, byte[] @definition)
-		{
-			return dataConnection.ExecuteProc("[dbo].[sp_alterdiagram]",
-				new DataParameter("@diagramname", @diagramname, DataType.NVarChar),
-				new DataParameter("@owner_id",    @owner_id,    DataType.Int32),
-				new DataParameter("@version",     @version,     DataType.Int32),
-				new DataParameter("@definition",  @definition,  DataType.VarBinary));
-		}
-
-		#endregion
-
 		#region SpCreatediagram
 
 		public static int SpCreatediagram(this DataConnection dataConnection, string @diagramname, int? @owner_id, int? @version, byte[] @definition)
@@ -286,23 +326,6 @@ namespace DataModels
 
 		#endregion
 
-		#region SpHelpdiagramdefinition
-
-		public static IEnumerable<SpHelpdiagramdefinitionResult> SpHelpdiagramdefinition(this DataConnection dataConnection, string @diagramname, int? @owner_id)
-		{
-			return dataConnection.QueryProc<SpHelpdiagramdefinitionResult>("[dbo].[sp_helpdiagramdefinition]",
-				new DataParameter("@diagramname", @diagramname, DataType.NVarChar),
-				new DataParameter("@owner_id",    @owner_id,    DataType.Int32));
-		}
-
-		public partial class SpHelpdiagramdefinitionResult
-		{
-			public int?   version    { get; set; }
-			public byte[] definition { get; set; }
-		}
-
-		#endregion
-
 		#region SpHelpdiagrams
 
 		public static IEnumerable<SpHelpdiagramsResult> SpHelpdiagrams(this DataConnection dataConnection, string @diagramname, int? @owner_id)
@@ -323,14 +346,11 @@ namespace DataModels
 
 		#endregion
 
-		#region SpRenamediagram
+		#region SpUpgraddiagrams
 
-		public static int SpRenamediagram(this DataConnection dataConnection, string @diagramname, int? @owner_id, string @new_diagramname)
+		public static int SpUpgraddiagrams(this DataConnection dataConnection)
 		{
-			return dataConnection.ExecuteProc("[dbo].[sp_renamediagram]",
-				new DataParameter("@diagramname",     @diagramname,     DataType.NVarChar),
-				new DataParameter("@owner_id",        @owner_id,        DataType.Int32),
-				new DataParameter("@new_diagramname", @new_diagramname, DataType.NVarChar));
+			return dataConnection.ExecuteProc("[dbo].[sp_upgraddiagrams]");
 		}
 
 		#endregion
@@ -338,6 +358,26 @@ namespace DataModels
 
 	public static partial class SqlFunctions
 	{
+		#region FGetDepartNameById
+
+		[Sql.Function(Name="dbo.F_GetDepartNameById", ServerSideOnly=true)]
+		public static string FGetDepartNameById(long? @otd_id)
+		{
+			throw new InvalidOperationException();
+		}
+
+		#endregion
+
+		#region FGetOtdNameById
+
+		[Sql.Function(Name="dbo.F_GetOtdNameById", ServerSideOnly=true)]
+		public static string FGetOtdNameById(long? @otd_id)
+		{
+			throw new InvalidOperationException();
+		}
+
+		#endregion
+
 		#region FnDiagramobjects
 
 		[Sql.Function(Name="dbo.fn_diagramobjects", ServerSideOnly=true)]
@@ -361,6 +401,12 @@ namespace DataModels
 		{
 			return table.FirstOrDefault(t =>
 				t.GlobalCellId == GlobalCellId);
+		}
+
+		public static Depart Find(this ITable<Depart> table, long DepartId)
+		{
+			return table.FirstOrDefault(t =>
+				t.DepartId == DepartId);
 		}
 
 		public static Otd Find(this ITable<Otd> table, long OtdId)

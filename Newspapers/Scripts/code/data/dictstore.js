@@ -34,9 +34,9 @@ var access_store = Ext.create('Ext.data.JsonStore', {
 });
 */
 
-var getStoreCellDeparts = function () {
+var getStoreCellOtds = function () {
     var otd_store = Ext.create('Ext.data.JsonStore', {
-        model: Ext.define('Otd', {
+        model: Ext.define('Otds', {
             extend: 'Ext.data.Model',
             fields: [{
                 name: 'OtdId',
@@ -70,6 +70,59 @@ var getStoreCellDeparts = function () {
     });
 
     return otd_store;
+};
+
+var getStoreCellDeparts = function (otdId) {
+    if (otdId == undefined) {
+        otdId = 0
+    }
+    var store = Ext.create('Ext.data.JsonStore', {
+        model: Ext.define('Departs', {
+            extend: 'Ext.data.Model',
+            fields: [{
+                name: 'DepartId',
+                type: 'int'
+            }, {
+                name: 'OtdId',
+                type: 'int'
+            }, {
+                name: 'Lf0Id',
+                type: 'int'
+            }, {
+                name: 'Name0',
+                type: 'string'
+            }, {
+                name: 'Lf1Id',
+                type: 'int'
+            }, {
+                name: 'Name1',
+                type: 'string'
+            }]
+        }),
+        autoDestroy: true,
+        autoLoad: true,
+        proxy: {
+            type: 'rest',
+            url: ('/api/dict/GetDepartList/' + otdId), //
+            headers: {
+                'Authorization': 'tk ' + btoa(sessionStorage.getItem("token"))
+            },
+            reader: {
+                type: 'json',
+                rootProperty: 'data',
+                idProperty: 'DepartId',
+                totalProperty: 'total'
+            }
+        },
+        remoteSort: false,
+        sorters: [{
+            property: 'DepartId',
+            direction: 'ASC'
+        }],
+        pageSize: 50
+    });
+
+    return store;
 }
 
 //var getStoreCellDeparts = function () {

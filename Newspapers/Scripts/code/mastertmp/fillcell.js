@@ -1,10 +1,44 @@
 ﻿
 
-var getWinFillCell = function (record) {
+var getWinFillCell = function (record, header) {
+    var rec = record;
     var data = record.data;
 
+    var cmbDeparts = Ext.create('Ext.form.ComboBox', {
+        xtype: 'combobox',
+        fieldLabel: 'Департамент',
+        labelWidth: '30%',
+        store: getStoreCellDeparts(),
+        displayField: 'Name1',
+        valueField: 'Lf1Id',
+        anchor: '-15',
+        minChars: 0,
+        typeAhead: true,
+        bind: '{rec.DepartId}'
+    });
+
+    var cmbOtds = Ext.create('Ext.form.ComboBox', {
+        publishes: 'value',
+        fieldLabel: '№ відділу ',
+        labelWidth: '30%',
+        store: getStoreCellOtds(),
+        displayField: 'Name',
+        valueField: 'OtdId',
+        anchor: '-15',
+        minChars: 0,
+        typeAhead: true,
+        bind: '{rec.OtdId}',
+        listeners: {
+            select: function (ctrl, newValue, oldValue, eOpts) {
+                var store = getStoreCellDeparts(newValue.data.OtdId);
+                cmbDeparts.setStore(store);
+                cmbDeparts.setValue(0);
+            }
+        }
+    });
+
     var win = Ext.create('Ext.Window', {
-        title: 'Додати артикул на сторінку',
+        title: header + data.PagePosition,
         width: 800,
         height: 600,
         modal: true,
@@ -17,28 +51,15 @@ var getWinFillCell = function (record) {
                 rec: record
             }
         },
-        items: [{
-            xtype: 'combobox',
-            //reference: 'states',
-            publishes: 'value',
-            fieldLabel: '№ відділу ',
-            labelWidth: '30%',
-            store: getStoreCellDeparts(),
-            displayField: 'Name',
-            valueField: 'OtdId',
-            anchor: '-15',
-            minChars: 0,
-            //queryMode: 'local',
-            typeAhead: true,
-            bind: '{rec.OtdId}'
-        }, {
-            xtype: 'combobox',
-            fieldLabel: 'Департамент',
-            bind: '{rec.Depart}'
-        }, {
+        items: [
+           //{
+           // xtype: 'combobox',
+           // id: 'cmbOtds',
+            //reference: 'states',}, 
+            cmbOtds, cmbDeparts, {
             xtype: 'textfield',
             fieldLabel: 'Артикул або група артикулів',
-            bind: '{rec.Artlist}'
+            bind: '{rec.Artlst}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Одиниця виміру',
@@ -50,7 +71,7 @@ var getWinFillCell = function (record) {
         }, {
             xtype: 'textfield',
             fieldLabel: 'Коротка назва товару',
-            bind: '{rec.Short_name}'
+            bind: '{rec.ShortName}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Бренд, торгова марка',
@@ -58,122 +79,128 @@ var getWinFillCell = function (record) {
         }, {
             xtype: 'textfield',
             fieldLabel: 'Країна-виробник',
-            bind: '{rec.madein}'
+            bind: '{rec.Madein}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Ціна закупівлі',
-            bind: '{rec.price_buy}'
+            bind: '{rec.PriceBuy}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Ціна до акції з ПДВ',
-            bind: '{rec.price_before_act}'
+            bind: '{rec.PriceBeforeAct}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Ціна акційна, яка буде з ПДВ',
-            bind: '{rec.price_act}'
+            bind: '{rec.PriceAct}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Ціна від',
-            bind: '{rec.price_start}'
+            bind: '{rec.PriceStart}'
         }, {
             xtype: 'textfield',
             fieldLabel: '% вигоди',
-            bind: '{rec.profit_procent}',
+            bind: '{rec.ProfitProcent}',
             enabled: false
         }, {
             xtype: 'textfield',
             fieldLabel: 'Маржа %',
-            bind: '{rec.margin}'
+            bind: '{rec.Margin}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Ціна після акції з ПДВ',
-            bind: '{rec.price_after_act}'
+            bind: '{rec.PriceAfterAct}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Різниця між акційною ціною та ціною після акції %',
-            bind: '{rec.diff_price}'
+            bind: '{rec.DiffPrice}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Прогноз  прибутку, грн.',
-            bind: '{rec.forecast_profit}'
+            bind: '{rec.ForecastProfit}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Прогноз  продажів у період акції, грн.',
-            bind: '{rec.forecast_profit_act}'
+            bind: '{rec.ForecastProfitAct}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Технічні характеристики товару',
-            bind: '{rec.specifiacations}'
+            bind: '{rec.Specifiacations}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Гарантія, яка вказуються в характеристиках товару',
-            bind: '{rec.garant}'
+            bind: '{rec.Garant}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Основні переваги товару',
-            bind: '{rec.advantage}'
+            bind: '{rec.Advantage}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Товарний запас',
-            bind: '{rec.inventory}'
+            bind: '{rec.Inventory}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Конкуренція/конкурент',
-            bind: '{rec.competitors}'
+            bind: '{rec.Competitors}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Конкуренція товар',
-            bind: '{rec.competitive_product}'
+            bind: '{rec.CompetitiveProduct}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Конкуренція/ціна',
-            bind: '{rec.competitors_price}'
+            bind: '{rec.CompetitorsPrice}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'різниця між нашою ціною та ціною конкурента',
-            bind: '{rec.diff_competitor_price}'
+            bind: '{rec.DiffCompetitorPrice}'
         }, {
             xtype: 'textfield',
             fieldLabel: '% різниці між нашою ціною та ціною конкурента',
-            bind: '{rec.diff_competitor_price_prc}'
+            bind: '{rec.DiffCompetitorPricePrc}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Тип розміщення',
-            bind: '{rec.placement_type}'
+            bind: '{rec.PlacementType}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Компенсація постачальником, грн.',
-            bind: '{rec.compensation_sp}'
+            bind: '{rec.CompensationSp}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Спеціальне розміщення',
-            bind: '{rec.specil_placement}'
+            bind: '{rec.SpecilPlacement}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'ПІБ менеджера, що заповнив таблицю',
-            bind: '{rec.manager}'
+            bind: '{rec.Manager}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Категорія товару',
-            bind: '{rec.produckt_category}'
+            bind: '{rec.ProducktCategory}'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Фото',
-            bind: '{rec.path_photo}'
+            bind: '{rec.PathPhoto}'
         }],
         buttons: [{
             xtype: 'button',
             text: 'Зберегти',//btnCaption,
             listeners: {
                 'click': function () {
-                    //if (is_current == 0) {
-                    //    fillcell(p);
-                    //}
+
+                    /* Добавить кучу проверок */
+
+                    rec.set('Isfill', true);
+
+
                     var grid = Ext.getCmp('viewPageCells');
                     var store = grid.getStore();
-                    store.sync();
-                    //store.commitChanges();
-
+                    store.sync({
+                        success: function () {
+                            store.load();
+                        },
+                        scope: this
+                    });
                     win.close();
                 }
             }
@@ -183,6 +210,9 @@ var getWinFillCell = function (record) {
             scope: this,
             listeners: {
                 'click': function () {
+                    var grid = Ext.getCmp('viewPageCells');
+                    var store = grid.getStore();
+                    store.load();
                     win.close();
                 }
             }

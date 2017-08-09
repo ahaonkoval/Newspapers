@@ -1,24 +1,10 @@
 ﻿
 var getStorePageCells = function () {
     var store = Ext.create('Ext.data.JsonStore', {
-        fields: [
-            'global_cell_id', 'page_id', 'otd_id', 'depart', 'artlst', 'unit', 'number', 'short_name', 'producer', 'madein', 'price_buy',
-                'price_before_act', 'price_act', 'price_after_act', 'price_start', 'profit_procent', 'margin', 'diff_price', 'forecast_profit',
-                'forecast_profit_act', 'specifiacations', 'garant', 'advantage', 'inventory', 'competitors', 'competitive_product', 'competitors_price',
-                'diff_competitor_price', 'diff_competitor_price_prc', 'placement_type', 'compensation_sp', 'specil_placement', 'manager',
-                'produckt_category', 'path_photo'],
-        autoLoad: true,
+        //autoLoad: true,
         autoDestroy: true,
         autoSync: false,
-        //proxy: {
-        //    type: 'rest',
-        //    url: '/api/cells',
-        //    reader: {
-        //        type: 'json',
-        //        root: 'Cell'
-        //    }
-        //},
-
+        idProperty: 'GlobalCellId',
         proxy:
             {
                 //type: 'ajax',
@@ -43,8 +29,10 @@ var getStorePageCells = function () {
                     update: 'POST'
                 },
                 writer: {
-                    type: 'json'
-                    //allowSingle: false // set false to send a single record in array
+                    type: 'json',
+                    writeAllFields: true,       // --<----------------------
+                    root: 'cell',
+                    allowSingle: true // set false to send a single record in array
                 }
             },
         listeners: {
@@ -52,118 +40,152 @@ var getStorePageCells = function () {
                 alert();
             }
         },
-        model: Ext.define('model_deptforcell', {
+        model: Ext.define('mdDeptForCell', {
             extend: 'Ext.data.Model',
-            idProperty: 'global_cell_id',
+            idProperty: 'GlobalCellId',
             fields: [{
-                name: 'global_cell_id',         /* унікальний ідентифікатор клітинки */
+                name: 'GlobalCellId',         /* унікальний ідентифікатор клітинки */
                 type: 'int',
                 defaultValue: 0
             }, {
-                name: 'page_id',                /* сторінка до якої прив'язана клітинка */
+                name: 'PageId',                /* сторінка до якої прив'язана клітинка */
                 type: 'int'
             }, {
-                name: 'otd_id',                 /* Відділ якому призначена клітинка */
+                name: 'PagePosition',
+                type: 'int'
+            },{
+                name: 'OtdId',                 /* Відділ якому призначена клітинка */
                 type: 'int'
             }, {
-                name: 'depart',                 /* Департамент */
+                name: 'DepartId',                 /* Департамент */
                 type: 'string'
             }, {
-                name: 'artlst',                 /* Артикул або група артикулів */
+                name: 'Artlst',                 /* Артикул або група артикулів */
                 type: 'string'
             }, {
-                name: 'unit',                   /* Одиниця виміру */
+                name: 'Unit',                   /* Одиниця виміру */
                 type: 'string'
             }, {
-                name: 'number',                 /* № товару */
+                name: 'Number',                 /* № товару */
                 type: 'string'
             }, {
-                name: 'short_name',             /* Коротка назва товару */
+                name: 'ShortName',             /* Коротка назва товару */
                 type: 'string'
             }, {
-                name: 'producer',               /* Бренд, торгова марка */
+                name: 'Producer',               /* Бренд, торгова марка */
                 type: 'string'
             }, {
-                name: 'madein',                 /* Країна-виробник */
+                name: 'Madein',                 /* Країна-виробник */
                 type: 'string'
             }, {
-                name: 'price_buy',              /*  Ціна закупівлі */
+                name: 'PriceBuy',              /* Ціна закупівлі */
                 type: 'float'
             }, {
-                name: 'price_before_act',       /* Ціна до акції  з ПДВ */
+                name: 'PriceBeforeAct',       /* Ціна до акції з ПДВ */
                 type: 'float'
             }, {
-                name: 'price_act',              /* Ціна акційна, яка буде з ПДВ */
+                name: 'PriceAct',              /* Ціна акційна, яка буде з ПДВ */
                 type: 'float'
             }, {
-                name: 'price_after_act',        /* Ціна після акції з ПДВ */
+                name: 'PriceAfterAct',        /* Ціна після акції з ПДВ */
                 type: 'float'
             }, {
-                name: 'price_start',            /* Ціна від */
+                name: 'PriceStart',            /* Ціна від */
                 type: 'float'
             }, {
-                name: 'profit_procent',         /* % вигоди */
+                name: 'ProfitProcent',         /* % вигоди */
                 type: 'float'
             }, {
-                name: 'margin',                 /* Маржа % */
+                name: 'Margin',                 /* Маржа % */
                 type: 'float'
             }, {
-                name: 'diff_price',             /* Різниця між акційною ціною та ціною після акції % */
+                name: 'DiffPrice',             /* Різниця між акційною ціною та ціною після акції % */
                 type: 'float'
             }, {
-                name: 'forecast_profit',        /* Прогноз  прибутку, грн. */
+                name: 'ForecastProfit',        /* Прогноз  прибутку, грн. */
                 type: 'float'
             }, {
-                name: 'forecast_profit_act',    /* Прогноз  продажів у період акції, грн. */
+                name: 'ForecastProfitAct',    /* Прогноз  продажів у період акції, грн. */
                 type: 'float'
             }, {
-                name: 'specifiacations',        /* Технічні характеристики товару */
+                name: 'Specifiacations',        /* Технічні характеристики товару */
                 type: 'string'
             }, {
-                name: 'garant',                 /* Гарантія, яка вказуються в характеристиках товару */
+                name: 'Garant',                 /* Гарантія, яка вказуються в характеристиках товару */
                 type: 'string'
             }, {
-                name: 'advantage',              /* Основні переваги товару */
+                name: 'Advantage',              /* Основні переваги товару */
                 type: 'string'
             }, {
-                name: 'inventory',              /* Товарний запас */
+                name: 'Inventory',              /* Товарний запас */
                 type: 'string'
             }, {
-                name: 'competitors',            /* Конкуренція/конкурент */
+                name: 'Competitors',            /* Конкуренція/конкурент */
                 type: 'string'
             }, {
-                name: 'competitive_product',    /* Конкуренція товар */
+                name: 'CompetitiveProduct',    /* Конкуренція товар */
                 type: 'string'
             }, {
-                name: 'competitors_price',      /* Конкуренція/ціна */
+                name: 'CompetitorsPrice',      /* Конкуренція/ціна */
                 type: 'string'
             }, {
-                name: 'diff_competitor_price',  /* різниця між нашою ціною та ціною конкурента */
+                name: 'DiffCompetitorPrice',  /* різниця між нашою ціною та ціною конкурента */
                 type: 'string'
             }, {
-                name: 'diff_competitor_price_prc',  /* % різниці між нашою ціною та ціною конкурента */
+                name: 'DiffCompetitorPricePrc',  /* % різниці між нашою ціною та ціною конкурента */
                 type: 'string'
             }, {
-                name: 'placement_type',         /* Тип розміщення */
+                name: 'PlacementType',         /* Тип розміщення */
                 type: 'string'
             }, {
-                name: 'compensation_sp',        /* Компенсація постачальником, грн. */
+                name: 'CompensationSp',        /* Компенсація постачальником, грн. */
                 type: 'string'
             }, {
-                name: 'specil_placement',       /* Спеціальне розміщення */
+                name: 'SpecilPlacement',       /* Спеціальне розміщення */
                 type: 'string'
             }, {
-                name: 'manager',                /* ПІБ менеджера, що заповнив таблицю */
+                name: 'Manager',                /* ПІБ менеджера, що заповнив таблицю */
                 type: 'string'
             }, {
-                name: 'produckt_category',      /* Категорія товару */
+                name: 'ProducktCategory',      /* Категорія товару */
                 type: 'string'
             }, {
-                name: 'path_photo',             /* Фото (посилання) */
+                name: 'PathPhoto',             /* Фото (посилання) */
                 type: 'string'
+            }, {
+                name: 'OtdName',
+                type: 'string'
+            }, {
+                name: 'DepartName',
+                type: 'string'
+            }, {
+                name: 'Isfill',
+                type: 'boolean'//, defaultValue: false
             }]
             
         })
+    });
+
+    store.load({
+        scope: this,
+        callback: function (records, operation, success) {
+            if (success) {
+
+                var recf = records.filter(
+                        function (cell) {
+                            if (cell.data.Isfill) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    );
+                var p = Ext.getCmp('pQtyFillCell');
+                p.setHtml('Заповнено клітинок: ' + recf.length);
+            } else {
+
+            }
+        }
     });
 
     return store;

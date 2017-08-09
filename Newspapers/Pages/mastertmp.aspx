@@ -27,37 +27,20 @@
     <script>
         Ext.onReady(function () {
 
-
-            //Ext.create('Ext.window.Window', {
-            //    title: 'Призначення товарів клітинкам...',
-            //    width: 1000,
-            //    height: 800,
-            //    closable: false,
-            //    layout: {
-            //        type: 'hbox',
-            //        pack: 'start',
-            //        align: 'stretch'
-            //    },                
-            //    items: [
-            //        {
-            //            xtype: 'panel',
-            //            flex: 1,
-            //            layout: 'fit',
-            //            items: [getDataViewPageCells()]
-            //        }, {
-            //            xtype: 'panel',
-            //            width: 200
-            //        }
-            //    ]
-            //}).show();
+            var pQtyFillCell = Ext.create('Ext.form.Panel', {
+                xtype: 'panel',
+                id: 'pQtyFillCell',
+                height: 35,
+                border: false,
+                margin: 5,
+                html: 'Кількість заповнених клітинок:'
+            });
 
             var wctrl = Ext.create('Ext.container.Viewport', {
                 layout: 'border',
                 items: [{
                     region: 'north',
-                    //html: '<h1 class="x-panel-header">Page Title</h1>',
                     border: false,
-                    //margin: '0 0 5 0',
                     layout: 'fit',
                     items: [{
                         xtype: 'panel',
@@ -81,7 +64,7 @@
                             flex: 1,
                             layout: 'fit',
                             title: 'Призначення товарів клітинкам',
-                            items: [getDataViewPageCells()]
+                            items: [getDataViewPageCells(pQtyFillCell)]
                         }, {
                             xtype: 'panel',
                             width: 200,
@@ -92,12 +75,14 @@
                                 align: 'stretch'
                             },
                             items: [
-                                {
-                                    xtype: 'panel',
-                                    height: 35,
-                                    border: false,
-                                    html: 'Кількість заповнених клітинок:'
-                                }, {
+                                //{
+                                //    xtype: 'panel',
+                                //    id: 'pQtyFillCell',
+                                //    height: 35,
+                                //    border: false,
+                                //    html: 'Кількість заповнених клітинок:'
+                                //}
+                                pQtyFillCell, {
                                     xtype: 'panel',
                                     height: 40,
                                     border: false,
@@ -106,7 +91,24 @@
                                     items: [
                                         {
                                             xtype: 'button',
-                                            text: 'Редагувати клітинку'
+                                            text: 'Заповнити наступну клітинку',
+                                            handler: function () {
+                                                var view = Ext.getCmp('viewPageCells');
+                                                var store = view.getStore();
+                                                var cell = null;
+
+                                                var i = 1;
+                                                while (i <= store.getCount()) {
+                                                    var c = store.findRecord('PagePosition', i);
+                                                    if (c != null) {
+                                                        if (!c.data.Isfill) {
+                                                            getWinFillCell(c, 'Заповнення клітинки №').show();
+                                                            return;
+                                                        }
+                                                    }
+                                                    i++;
+                                                }
+                                            }
                                         }
                                     ]
                                 }, {
@@ -130,13 +132,24 @@
                             ]
                         }
                     ]
-                }]
+                }],
+                listeners: {
+                    staterestore: function (ctrl, eOpts) {
+                        //var view = Ext.getCmp('viewPageCells');
+                        //var store = view.getStore()
+                        //var p = Ext.getCmp('pQtyFillCell');
+                        //p.setHtml(store.getCount());
+                    }
+                }
             });
         });
 
         Ext.override(Ext.Window, {
             closeAction: 'hide'
         });
+
+
+
     </script>
 </body>
 </html>

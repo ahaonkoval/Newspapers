@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using PapersDbWorker;
+using Newtonsoft.Json;
+using System.Web.Script.Serialization;
 
 namespace Newspapers.Controllers
 {
@@ -29,7 +31,13 @@ namespace Newspapers.Controllers
         public void Post([FromBody]object value)
         {
             string o = value.ToString();
-            int i = 1;
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            DataModels.Cell cell = jss.Deserialize<DataModels.Cell>(o);
+
+            using (WDB w = new WDB())
+            {
+                w.Cells.SetCell(cell);
+            }
         }
 
         // PUT: api/Cells/5
@@ -41,5 +49,6 @@ namespace Newspapers.Controllers
         public void Delete(int id)
         {
         }
+
     }
 }
