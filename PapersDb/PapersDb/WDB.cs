@@ -13,7 +13,7 @@ namespace PapersDbWorker
         bool disposed = false;
         SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
 
-        private User User { get; set; }
+        public User User { get; set; }
 
         public Dict Dict { get; set; }
 

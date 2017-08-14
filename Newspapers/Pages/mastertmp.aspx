@@ -11,7 +11,7 @@
     <script type="text/javascript" src="../Scripts/ext/ext-all.js"></script>
     <script type="text/javascript" src="../Scripts/jquery/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="../Scripts/code/main/topmenu.js"></script>
-    <script type="text/javascript" src="../Scripts/code/data/dictstore.js"></script>
+    <script type="text/javascript" src="../Scripts/code/data/stores.js"></script>
     <script type="text/javascript" src="../Scripts/code/data/models.js"></script>
 
     <script type="text/javascript" src="../Scripts/code/mastertmp/fillcell.js"></script>

@@ -1,46 +1,135 @@
 ﻿
-var get_usergrid = function () {
+var getUserGrid = function (stAccess, stOtds) {
 
-    var usergrid_store = Ext.create('Ext.data.JsonStore', {
-        model: 'User',
-        autoLoad: false,
-        proxy: {
-            type: 'rest',
-            //url: ('/api/user'),
-            api: {
-                read: '/api/user/',
-                create: '/api/user/',
-                update: '/api/user/'
-            },
-            headers: {
-                'Authorization': 'tk ' + btoa(sessionStorage.getItem("token"))
-            },
-            reader: {
-                type: 'json',
-                rootProperty: 'data',
-                idProperty: 'id',
-                totalProperty: 'total'
-            },
-            writer: new Ext.data.JsonWriter(
+    var storeAccess = stAccess;
+    var storeOtds = stOtds;
+
+    var getColumns = function (finish, start) {
+        var columns = [
+            //{
+            //    dataIndex: 'UserId',
+            //    text: 'ID',
+            //    visible: false
+            //},
             {
-                encode: false,
-                writeAllFields: true,
-                listful: true
-            })
-        },
-        remoteSort: false,
-        sorters: [{
-            property: 'id',
-            direction: 'ASC'
-        }],
-        pageSize: 50
+                dataIndex: 'Ps',
+                text: '№',
+                width: 60,
+            }, {
+                dataIndex: 'Name1',
+                width: 100,
+                text: 'Прізвище',
+                editor: {
+                    allowBlank: false
+                }
+            }, {
+                dataIndex: 'Name2',
+                width: 100,
+                text: "Ім'я",
+                editor: {
+                    allowBlank: false
+                }
+            }, {
+                dataIndex: 'Name3',
+                width: 100,
+                text: "по-батькові",
+                editor: {
+                    allowBlank: false
+                }
+            }, {
+                dataIndex: 'Login',
+                width: 150,
+                text: 'Логін',
+                editor: {
+                    allowBlank: false
+                }
+            }, {
+                dataIndex: 'OtdId',
+                width: 150,
+                text: 'Відділ'
+            }, {
+                dataIndex: 'OtdId',
+                width: 150,
+                text: 'Відділ',
+                editor: new Ext.form.field.ComboBox({
+                    id: 'cmbOtd',
+                    store: getStoreCellOtds(),
+                    displayField: 'Name',
+                    valueField: 'OtdId',
+                    editable: false,
+                    forceSelection: true,
+                    mode: 'local',
+                    triggerAction: 'all'
+                }),
+                renderer: function (value, a1, a2) {
+                    if (value) {
+                        var recordIndex = -1;
+                        if (Number.isInteger(value)) {
+                            recordIndex = otd_store.find('OtdId', value);
+                        } else {
+                            recordIndex = otd_store.find('Name', value);
+                        }
+
+                        if (recordIndex === -1) {
+                            return 'Unknown value: ' + value;
+                        }
+                        return otd_store.getAt(recordIndex).get('Name');
+                    }
+                },
+            }, {
+                text: 'Доступ',
+                width: 120,
+                dataIndex: 'AccessId',
+                editor: new Ext.form.field.ComboBox({                    
+                    store: getStoreAccess(),
+                    displayField: 'Name',
+                    valueField: 'AccessId',
+                    editable: false,
+                    forceSelection: true,
+                    mode: 'local',
+                    triggerAction: 'all'
+                }),
+                renderer: function (value) {
+                    if (value) {
+                        var recordIndex = -1;
+                        if (Number.isInteger(value)) {
+                            recordIndex = access_store.find('AccessId', value);
+                        } else {
+                            recordIndex = access_store.find('Name', value);
+                        }
+
+                        if (recordIndex === -1) {
+                            return 'Unknown value: ' + value;
+                        }
+                        return access_store.getAt(recordIndex).get('Name');
+                    }
+                }
+            }
+        ];
+        return columns.slice(start || 0, finish);
+    };
+
+    var store = getStoreUsers();
+
+    var usergridEditing = new Ext.grid.plugin.CellEditing({
+        clicksToEdit: 1
     });
 
-    var usergrid_columns = function (finish, start) {
-        var columns = [
+    var grid = Ext.create('Ext.grid.Panel', {
+        stateful: true,
+        id: 'grdUserAdm',
+        stateId: 'stateful-filter-grid',
+        border: false,
+        store: store,
+        columns: [
+            //{
+            //    dataIndex: 'UserId',
+            //    text: 'ID',
+            //    visible: false
+            //},
             {
-                dataIndex: 'Number',
-                text: 'ID',
+                dataIndex: 'Ps',
+                text: '№',
                 width: 60,
             }, {
                 dataIndex: 'Name1',
@@ -76,7 +165,7 @@ var get_usergrid = function () {
                 text: 'Відділ',
                 editor: new Ext.form.field.ComboBox({
                     id: 'cmbOtd',
-                    store: otd_store,
+                    store: storeOtds,//getStoreCellOtds(),
                     displayField: 'Name',
                     valueField: 'OtdId',
                     editable: false,
@@ -85,26 +174,35 @@ var get_usergrid = function () {
                     triggerAction: 'all'
                 }),
                 renderer: function (value, a1, a2) {
-                    if (value) {
-                        var recordIndex = -1;
-                        if (Number.isInteger(value)) {
-                            recordIndex = otd_store.find('OtdId', value);
-                        } else {
-                            recordIndex = otd_store.find('Name', value);
-                        }
+                    //if (value) {
+                    //    var recordIndex = -1;
+                    //    if (Number.isInteger(value)) {
+                    //        recordIndex = otd_store.find('OtdId', value);
+                    //    } else {
+                    //        recordIndex = otd_store.find('Name', value);
+                    //    }
 
-                        if (recordIndex === -1) {
-                            return 'Unknown value: ' + value;
+                    //    if (recordIndex === -1) {
+                    //        return 'Unknown value: ' + value;
+                    //    }
+                    //    return otd_store.getAt(recordIndex).get('Name');
+                    //}
+                    if (value) {
+                        if (Number.isInteger(value)) {
+                            recordIndex = storeOtds.find('OtdId', value);
                         }
-                        return otd_store.getAt(recordIndex).get('Name');
+                        return storeOtds.getAt(recordIndex).get('Name'); //value;
+                    } else {
+                        return '';
                     }
+                    //return value;
                 },
             }, {
                 text: 'Доступ',
                 width: 120,
                 dataIndex: 'AccessId',
-                editor: new Ext.form.field.ComboBox({                    
-                    store: access_store,
+                editor: new Ext.form.field.ComboBox({
+                    store: storeAccess,
                     displayField: 'Name',
                     valueField: 'AccessId',
                     editable: false,
@@ -116,33 +214,19 @@ var get_usergrid = function () {
                     if (value) {
                         var recordIndex = -1;
                         if (Number.isInteger(value)) {
-                            recordIndex = access_store.find('AccessId', value);
+                            recordIndex = storeAccess.find('AccessId', value);
                         } else {
-                            recordIndex = access_store.find('Name', value);
+                            recordIndex = storeAccess.find('Name', value);
                         }
 
                         if (recordIndex === -1) {
                             return 'Unknown value: ' + value;
                         }
-                        return access_store.getAt(recordIndex).get('Name');
+                        return storeAccess.getAt(recordIndex).get('Name');
                     }
                 }
             }
-        ];
-        return columns.slice(start || 0, finish);
-    };
-
-    var usergridEditing = new Ext.grid.plugin.CellEditing({
-        clicksToEdit: 1
-    });
-
-    var usergrid = Ext.create('Ext.grid.Panel', {
-        stateful: true,
-        id: 'usergrid',
-        stateId: 'stateful-filter-grid',
-        border: false,
-        store: usergrid_store,
-        columns: usergrid_columns(8),
+        ],
         loadMask: true,
         frame: true,
         plugins: [
@@ -150,7 +234,7 @@ var get_usergrid = function () {
         ],
         dockedItems: [Ext.create('Ext.toolbar.Paging', {
             dock: 'bottom',
-            store: usergrid_store
+            store: store
         })],
         //listeners: {
         //    'validateedit': function (cep, e, eOpts) {
@@ -181,7 +265,7 @@ var get_usergrid = function () {
 
     });
 
-    usergrid_store.load();
+    store.load();
 
-    return usergrid;
+    return grid;
 }

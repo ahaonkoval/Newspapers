@@ -24,5 +24,13 @@ namespace PapersDbWorker
                 return db.Departs.OrderBy(o => o.DepartId).ToList();
             }
         }
+
+        public IEnumerable<Access> GetAccessList()
+        {
+            using (var db = new PapersDB())
+            {
+                return db.Accesses.OrderBy(o => o.AccessId).ToList();
+            }
+        }
     }
 }

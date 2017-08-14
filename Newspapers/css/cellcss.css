@@ -104,7 +104,7 @@
     color:black;
     font-weight:400;
     pointer-events: none;
-    user-select: none;
+    user-select: none;    
 }
 .cell-inner-head {
     width: 100%; 
@@ -124,6 +124,11 @@
     height: 90%;
     user-select: none;
 }
+.cell-inner-field {
+    /*border: 1px solid #808080;*/
+    margin: 2px 2px 2px 2px;
+    background-color:#eff3f5;
+}
 /* ---------------------------------------------------------------------------------------------------------------- */
 .act-page-info {
     /*width: 100%;
@@ -131,4 +136,8 @@
     font-size: 14px;
     user-select: none;
     margin: 10px 10px 10px 10px;
+}
+
+.red-field .x-form-text {
+    background-color: rgb(245, 131, 131);
 }

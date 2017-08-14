@@ -27,7 +27,7 @@ namespace PapersDbWorker
         {
             using (var db = new PapersDB())
             {                
-                ITable<Cell> cell = db.GetTable<Cell>();
+                //ITable<Cell> cell = db.GetTable<Cell>();
 
                 db.Cells.Where(w => w.GlobalCellId == c.GlobalCellId)
                     .Set(p => p.Artlst, c.Artlst)

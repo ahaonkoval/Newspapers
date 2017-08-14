@@ -147,7 +147,7 @@ namespace DataModels
 		[Column("path_photo"),                   Nullable          ] public string   PathPhoto              { get; set; } // nvarchar(50)
 		[Column("isfill"),                       Nullable          ] public bool?    Isfill                 { get; set; } // bit
 		[Column(),                               Nullable          ] public string   OtdName                { get; set; } // nvarchar(255)
-		[Column(),                               Nullable          ] public string   DepartName             { get; set; } // nvarchar(255)
+		[Column(),                            NotNull              ] public string   DepartName             { get; set; } // nvarchar(255)
 
 		#region Associations
 
@@ -255,6 +255,7 @@ namespace DataModels
 	public partial class User
 	{
 		[Column("user_id"),   PrimaryKey,  NotNull] public long   UserId   { get; set; } // bigint
+		[Column("ps"),           Nullable         ] public int?   Ps       { get; set; } // int
 		[Column("name1"),        Nullable         ] public string Name1    { get; set; } // nvarchar(50)
 		[Column("name2"),        Nullable         ] public string Name2    { get; set; } // nvarchar(50)
 		[Column("name3"),        Nullable         ] public string Name3    { get; set; } // nvarchar(50)

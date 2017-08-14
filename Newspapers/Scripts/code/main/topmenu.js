@@ -20,7 +20,7 @@ var topmenu = Ext.create('Ext.panel.Panel', {
                     menu: [{
                         text: 'Користувачі (управління доступом)',
                         handler: function () {
-                            useradm();
+                            getUserAdm();
                         }
                     }, {
                         text: 'Адміністрування товарів',

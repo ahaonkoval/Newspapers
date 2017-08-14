@@ -11,6 +11,11 @@
     <script type="text/javascript" src="../Scripts/jquery/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="../Scripts/code/main/grid.js"></script>
     <script type="text/javascript" src="../Scripts/code/main/topmenu.js"></script>
+
+    <script type="text/javascript" src="../Scripts/code/administration/user.js"></script>
+    <script type="text/javascript" src="../Scripts/code/administration/usergrid.js"></script>
+    <script type="text/javascript" src="../Scripts/code/data/stores.js"></script>
+
     <script type="text/javascript" src="../Scripts/code/main/winpapers.js"></script>
     <script type="text/javascript" src="../Scripts/code/data/models.js"></script>
     <script type="text/javascript" src="../Scripts/code/wintemplate/wintemplate.js"></script>
@@ -24,6 +29,7 @@
 <body>
     <script>
         Ext.onReady(function () {
+
             var wctrl = Ext.create('Ext.container.Viewport', {
                 layout: 'border',
                 items: [{
@@ -44,6 +50,7 @@
                     region: 'center',
                     xtype: 'panel', // TabPanel itself has no title
                     layout: 'center',
+                    border: true,
                     items: [{
                         extend: 'Ext.panel.Panel',
                         requires: [

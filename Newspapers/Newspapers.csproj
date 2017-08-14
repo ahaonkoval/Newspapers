@@ -455,7 +455,7 @@
     <Content Include="Scripts\code\administration\goods.js" />
     <Content Include="Scripts\code\administration\user.js" />
     <Content Include="Scripts\code\administration\usergrid.js" />
-    <Content Include="Scripts\code\data\dictstore.js" />
+    <Content Include="Scripts\code\data\stores.js" />
     <Content Include="Scripts\code\data\models.js" />
     <Content Include="Scripts\code\main\grid.js" />
     <Content Include="Scripts\code\main\topmenu.js" />
@@ -6702,6 +6702,10 @@
     <EmbeddedResource Include="reports\rprt\goodlist.rdlc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CryptA\CryptA.csproj">
+      <Project>{a98c9bd0-14ab-4884-aede-61dd2454b748}</Project>
+      <Name>CryptA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PapersDb\PapersDb\PapersDbWorker.csproj">
       <Project>{ec25ea3e-cba4-4fe4-bc35-22ea3f7977ba}</Project>
       <Name>PapersDbWorker</Name>

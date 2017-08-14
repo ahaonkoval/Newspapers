@@ -53,5 +53,14 @@ namespace Newspapers.Controllers
                 return w.Dict.GetDepartList().Where(o => o.OtdId == (id == 0 ? o.OtdId : id)).ToList();
             }
         }
+        [HttpGet]
+        public IEnumerable<DataModels.Access> GetAccessList()
+        {
+            using (WDB w = new WDB())
+            {
+                return w.Dict.GetAccessList();
+            }
+        }
+
     }
 }
