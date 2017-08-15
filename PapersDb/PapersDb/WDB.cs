@@ -19,11 +19,14 @@ namespace PapersDbWorker
 
         public Cells Cells { get; set; }
 
+        public Good Good { get; set; }
+
         public WDB()
         {
             this.User = new PapersDbWorker.User();
             this.Dict = new PapersDbWorker.Dict();
             this.Cells = new PapersDbWorker.Cells();
+            this.Good = new PapersDbWorker.Good();
         }
 
         public void Dispose()

@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
     <script type="text/javascript" src="Scripts/ext/ext-all.js"></script>
-    <script type="text/javascript" src="Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="Scripts/jquery/jquery-1.10.2.js"></script>
     <link rel="stylesheet" type="text/css" href="Scripts/ext/classic/theme-crisp/resources/theme-crisp-all.css" />
 </head>
 <body>

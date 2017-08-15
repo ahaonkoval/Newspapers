@@ -7,6 +7,7 @@ using System.Web.Http;
 using PapersDbWorker;
 using DataModels;
 using System.Web.Script.Serialization;
+using CryptA;
 
 namespace Newspapers.Controllers
 {
@@ -64,18 +65,20 @@ namespace Newspapers.Controllers
 
                 if (UserTmp.password == UserTmp.password_check)
                 {
-                    DataModels.User user = new DataModels.User
-                    {
-                        Name1 = UserTmp.name1,
-                        Name2 = UserTmp.name2,
-                        Name3 = UserTmp.name3,
-                        AccessId = UserTmp.access,
-                        Login = UserTmp.login,
-                        OtdId = UserTmp.otd
-                    };
-
-                    user.UserId = w.User.CreateUser(user);
-                    return user.UserId;
+                    using (Cryptor cryptor = new Cryptor()) {
+                        DataModels.User user = new DataModels.User
+                        {
+                            Name1 = UserTmp.name1,
+                            Name2 = UserTmp.name2,
+                            Name3 = UserTmp.name3,
+                            AccessId = UserTmp.access,
+                            Login = UserTmp.login,
+                            OtdId = UserTmp.otd,
+                            Password = new Guid(cryptor.Crypt(UserTmp.password))
+                        };
+                        user.UserId = w.User.CreateUser(user);
+                        return user.UserId;
+                    }
                 }
                 else
                 {

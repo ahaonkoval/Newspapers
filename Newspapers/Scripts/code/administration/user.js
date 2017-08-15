@@ -32,7 +32,7 @@ var getUserAdm = function () {
     //}
     var win = null;
     var storeAccess = null;
-    var storeOtds = getStoreCellOtds().load({
+    var storeOtds = getStoreCellOtds(1).load({
         scope: this,
         callback: function (records, operation, success) {
             if (success) {
@@ -412,21 +412,20 @@ var getWinUserAdd = function (stAccess, stOtds) {
                 if (is_save) {
                     var grid = Ext.getCmp('grdUserAdm');
                     var store = grid.getStore();
-                    //store.add({
-                    //    Ps: 0,
-                    //    UserId: 0,
-                    //    Name1: us.name1,
-                    //    Name2: us.name2,
-                    //    Name3: us.name3,
-                    //    Login: us.login,
-                    //    OtdId: us.otd,
-                    //    AccessId: us.access
-                    //});
+                    var row = store.add({
+                        Ps: 0,
+                        UserId: 0,
+                        Name1: us.name1,
+                        Name2: us.name2,
+                        Name3: us.name3,
+                        Login: us.login,
+                        OtdId: us.otd,
+                        AccessId: us.access
+                    });
                     $.ajax({
                         url: '/api/user/0',
                         type: 'Put',
                         data: JSON.stringify(us),
-                        //data: JSON.stringify(record.data),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         beforeSend: function (req) {
@@ -435,10 +434,14 @@ var getWinUserAdd = function (stAccess, stOtds) {
                         success: function (UserId) {
                             //var rec = record;
                             if (UserId > 0) {
-
+                                record = store.findRecord("Login", row[0].data.Login);
+                                var max = store.max('Ps', false);
+                                record.set("UserId", UserId);
+                                record.set("Ps", max + 1);
+                                record.commit();
+                                win.close();
                             }
-                                //rec.commit();
-                            },
+                        },
                         error: function (error) {
                             if (error.status == 401) {
                                 //alert('Unauthorized');

@@ -38,7 +38,7 @@ var getStoreAccess = function () {
     return store;
 }
 
-var getStoreCellOtds = function () {
+var getStoreCellOtds = function (type) {
     var store = Ext.create('Ext.data.JsonStore', {
         model: Ext.define('Otds', {
             extend: 'Ext.data.Model',
@@ -55,7 +55,7 @@ var getStoreCellOtds = function () {
         idProperty: 'OtdId',
         proxy: {
             type: 'rest',
-            url: ('/api/dict/GetOtdList/0'),
+            url: ('/api/dict/GetOtdList/' + type),
             headers: {
                 'Authorization': 'tk ' + btoa(sessionStorage.getItem("token"))
             },
@@ -229,38 +229,110 @@ var getStoreUsers = function () {
     return store;
 }
 
-//var getStoreCellDeparts = function () {
-//    var store = Ext.create('Ext.data.Store', {
-//        fields: ['id', 'name'],
-//        data: [
-//            { "id": 1, "otd_id": 10, "name": "10 (САД, ГОРОД)" },
-//            { "id": 2, "otd_id": 10, "name": "10 (САД, ГОРОД)" },
-//            { "id": 3, "otd_id": 10, "name": "10 (САД, ГОРОД)" },
-//            { "id": 4, "otd_id": 10, "name": "10 (САД, ГОРОД)" },
-//            { "id": 5, "otd_id": 10, "name": "10 (САД, ГОРОД)" },
-//            { "id": 6, "otd_id": 10, "name": "10 (САД, ГОРОД)" },
-//            { "id": 7, "otd_id": 10, "name": "10 (САД, ГОРОД)" },
-//            { "id": 8, "otd_id": 10, "name": "10 (САД, ГОРОД)" },
-//            { "id": 9, "otd_id": 100, "name": "100 (ДЕКО)" },
-//            { "id": 10, "otd_id": 100, "name": "100 (ДЕКО)" },
-//            { "id": 11, "otd_id": 100, "name": "100 (ДЕКО)" },
-//            { "id": 12, "otd_id": 100, "name": "100 (ДЕКО)" }
+var getStoreGoods = function () {
+    var store = Ext.create('Ext.data.JsonStore', {
+        model: Ext.define('GoodGridModel', {
+            extend: 'Ext.data.Model',
+            fields: [{
+                name: 'GoodtmpId',
+                type: 'int'
+            }, {
+                name: 'Number',
+                type: 'int'
+            },{
+                name: 'Name',
+                type: 'string'
+            }, {
+                name: 'Keywords',
+                type: 'string'
+            }, {
+                name: 'SizeId',
+                type: 'int'
+            }]
+        }),
+        autoLoad: true,
+        idProperty: 'GoodtmpId',
+        proxy: {
+            type: 'rest',
+            api: {
+                read: '/api/goods/',
+                create: '/api/goods/',
+                update: '/api/goods/',
+                destroy: '/api/goods/'
+            },
+            actionMethods:
+            {
+                destroy: 'POST',
+                read: 'GET',
+                create: 'POST',
+                update: 'PUT'
+            },
+            writer: {
+                type: 'json',
+                writeAllFields: true,       // --<----------------------
+                root: 'cell',
+                allowSingle: true, // set false to send a single record in array
+                listful: true,
+                encode: false,
+            },
+            headers: {
+                'Authorization': 'tk ' + btoa(sessionStorage.getItem("token"))
+            },
+            reader: {
+                type: 'json',
+                rootProperty: 'data',
+                idProperty: 'GoodtmpId',
+                totalProperty: 'total'
+            }
+        },
+        remoteSort: false,
+        sorters: [{
+            property: 'Ps',
+            direction: 'ASC'
+        }],
+        pageSize: 50
 
-//        ],
-//        model: Ext.define('model_deptforcell', {
-//            extend: 'Ext.data.Model',
-//            fields: [{
-//                name: 'id',
-//                type: 'int'
-//            }, {
-//                name: 'otd_id',
-//                type: 'int'
-//            }, {
-//                name: 'name',
-//                type: 'string'
-//            }]
-//        })
-//    });
 
-//    return store;
-//};
+    });
+
+    return store;
+}
+
+var getStoreCellSizes = function () {
+    var store = Ext.create('Ext.data.JsonStore', {
+        model: Ext.define('CellSizes', {
+            extend: 'Ext.data.Model',
+            fields: [{
+                name: 'SizeId',
+                type: 'int'
+            }, {
+                name: 'Name',
+                type: 'string'
+            }]
+        }),
+        autoDestroy: true,
+        autoLoad: true,
+        idProperty: 'SizeId',
+        proxy: {
+            type: 'rest',
+            url: ('/api/dict/GetGoodsSizes/0'),
+            //headers: {
+            //    'Authorization': 'tk ' + btoa(sessionStorage.getItem("token"))
+            //},
+            reader: {
+                type: 'json',
+                rootProperty: 'data',
+                idProperty: 'SizeId',
+                totalProperty: 'total'
+            }
+        },
+        remoteSort: false,
+        sorters: [{
+            property: 'SizeId',
+            direction: 'ASC'
+        }],
+        pageSize: 50
+    });
+
+    return store;
+}

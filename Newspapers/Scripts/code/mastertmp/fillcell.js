@@ -21,7 +21,7 @@ var getWinFillCell = function (record, header) {
         publishes: 'value',
         fieldLabel: '№ відділу ',
         labelWidth: '30%',
-        store: getStoreCellOtds(),
+        store: getStoreCellOtds(0),
         displayField: 'Name',
         valueField: 'OtdId',
         anchor: '-15',

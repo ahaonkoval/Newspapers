@@ -15,9 +15,17 @@
     <script type="text/javascript" src="../Scripts/code/main/topmenu.js"></script>
     <script type="text/javascript" src="../Scripts/code/storyboard/storyboardstore.js"></script>
 
+    <script type="text/javascript" src="../Scripts/code/administration/goods.js"></script>
+    <script type="text/javascript" src="../Scripts/code/administration/goodgrid.js"></script>    
+
+    <script type="text/javascript" src="../Scripts/code/administration/user.js"></script>
+    <script type="text/javascript" src="../Scripts/code/administration/usergrid.js"></script>
+
     <link rel="stylesheet" type="text/css" href="../Scripts/ext/classic/theme-crisp/resources/theme-crisp-all.css" />
     <link rel="stylesheet" type="text/css" href="../css/cellcss.css" />
     <link rel="stylesheet" type="text/css" href="../css/gtmpcell.css" />
+
+
 </head>
 <body>
     <script>

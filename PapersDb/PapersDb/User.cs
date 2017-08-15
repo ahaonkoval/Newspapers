@@ -41,7 +41,7 @@ namespace PapersDbWorker
             using (var db = new PapersDB())
             {
                 db.Users.Where(w => w.UserId == user.UserId)
-                    .Set(p => p.AccessId, user.AccessId)
+                    //.Set(p => p.AccessId, user.AccessId)
                     //.Set(p => p.accessid18EBB, user.accessid18EBB)
                     .Set(p => p.Login, user.Login)
                     .Set(p => p.Name1, user.Name1)
@@ -49,24 +49,25 @@ namespace PapersDbWorker
                     .Set(p => p.Name3, user.Name3)
                     .Set(p => p.OtdId, user.OtdId)
                     //.Set(p => p.otdid17F790F, user.otdid17F790F)
-                    .Set(p => p.UserId, user.UserId).Update();
+                    .Set(p => p.AccessId, user.AccessId).Update();
             }
         }
         public long CreateUser(DataModels.User user)
         {
             using (var db = new PapersDB())
             {
-               long userId = db.GetTable<DataModels.User>().Insert(() => new DataModels.User {
+               long st = db.GetTable<DataModels.User>().Insert(() => new DataModels.User {
                     Name1 = user.Name1,
                     Name2 = user.Name2,
                     Name3 = user.Name3,
                     Login = user.Login,
                     AccessId = user.AccessId,
                     OtdId = user.OtdId,
-                    Ps = 0
+                    Ps = 0,
+                    Password = user.Password
                 });
 
-                return userId;
+                return db.Users.Where(w => w.Login == user.Login).FirstOrDefault().UserId;
 
                 //db.GetTable<Cell>().Insert(() => new Cell {
                 //    Advantage = "",

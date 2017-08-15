@@ -3,6 +3,7 @@ var getUserGrid = function (stAccess, stOtds) {
 
     var storeAccess = stAccess;
     var storeOtds = stOtds;
+    var currentLogin = '';
 
     var getColumns = function (finish, start) {
         var columns = [
@@ -53,7 +54,7 @@ var getUserGrid = function (stAccess, stOtds) {
                 text: 'Відділ',
                 editor: new Ext.form.field.ComboBox({
                     id: 'cmbOtd',
-                    store: getStoreCellOtds(),
+                    store: getStoreCellOtds(1),
                     displayField: 'Name',
                     valueField: 'OtdId',
                     editable: false,
@@ -115,6 +116,15 @@ var getUserGrid = function (stAccess, stOtds) {
         clicksToEdit: 1
     });
 
+    var fReturnValue = function(g, ctrl){
+        var sell = g.getSelection();
+        var row = sell[0];
+        row.set('Login', currentLogin);
+        //var v = row.get('Login');        
+        ctrl.setValue(currentLogin);
+        row.cancelEdit();
+    };
+
     var grid = Ext.create('Ext.grid.Panel', {
         stateful: true,
         id: 'grdUserAdm',
@@ -156,9 +166,53 @@ var getUserGrid = function (stAccess, stOtds) {
                 dataIndex: 'Login',
                 width: 150,
                 text: 'Логін',
-                editor: {
-                    allowBlank: false
-                }
+                editor: new Ext.form.field.Text({
+                    allowBlank: false,
+                    listeners: {
+                        focus: function(ctrl, event, eOpts ) {
+                            currentLogin = ctrl.getValue();
+                        },
+                        blur : function(ctrl, event, eOpts ) {
+                            var c = ctrl;
+                            var currentValue = ctrl.getValue();
+                            if (currentValue != currentLogin){
+                                $.ajax({
+                                    url: '/api/login/LoginVerificated/0',
+                                    type: 'GET',
+                                    data: {
+                                        login: currentValue
+                                    },
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    //beforeSend: function (req) {
+                                    //    req.setRequestHeader('Authorization', 'tk ' + btoa(sessionStorage.getItem("token")));
+                                    //},
+                                    success: function (status) {
+                                        var c = ctrl;
+                                        var g = grid;
+                                        if (status == 'IsExists') {
+                                            var cr = currentValue;
+                                            Ext.Msg.alert(
+                                                'Увага!', 
+                                                "Вказаний логін '"+currentValue+"' вже використовується.", 
+                                                fReturnValue(g, c)
+                                            );
+                                            //c.setValue('eeee');
+                                        } else if (status == 'IsNotExists') {
+                                            //c.removeCls('red-field');
+                                        }
+                                    },
+                                    error: function (error) {
+
+                                    }
+                                });
+                            }
+                        }
+                    }
+                },)
+                //{
+                //    allowBlank: false
+                //}
             }, {
                 dataIndex: 'OtdId',
                 width: 150,

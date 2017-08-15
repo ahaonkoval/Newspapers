@@ -16,6 +16,9 @@
     <script type="text/javascript" src="../Scripts/code/administration/usergrid.js"></script>
     <script type="text/javascript" src="../Scripts/code/data/stores.js"></script>
 
+    <script type="text/javascript" src="../Scripts/code/administration/goods.js"></script>
+    <script type="text/javascript" src="../Scripts/code/administration/goodgrid.js"></script>    
+
     <script type="text/javascript" src="../Scripts/code/main/winpapers.js"></script>
     <script type="text/javascript" src="../Scripts/code/data/models.js"></script>
     <script type="text/javascript" src="../Scripts/code/wintemplate/wintemplate.js"></script>

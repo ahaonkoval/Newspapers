@@ -13,13 +13,28 @@ namespace CryptA
     {
         bool disposed = false;
         SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
-        public string Crypt(string c) {
-            return c;
+
+        private MD5 md5Hash;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        /// 
+        public Cryptor()
+        {
+            md5Hash = MD5.Create();
         }
 
-        public string GetMd5Hash(MD5 md5Hash, string input)
-        {
+        public string Crypt(string c) {
+            string hash = string.Empty;
+            hash = GetMd5Hash(c);
+            return hash;
+        }
 
+        private string GetMd5Hash(string input)
+        {
+            input = SetSalt(input);
             // Convert the input string to a byte array and compute the hash.
             byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
 
@@ -39,11 +54,12 @@ namespace CryptA
         }
 
         // Verify a hash against a string.
-        public bool VerifyMd5Hash(MD5 md5Hash, string input, string hash)
+        private bool VerifyMd5Hash(string input, string hash)
         {
+            input = SetSalt(input);
             // Hash the input.
-            string hashOfInput = GetMd5Hash(md5Hash, input);
-
+            string hashOfInput = GetMd5Hash(input);
+            
             // Create a StringComparer an compare the hashes.
             StringComparer comparer = StringComparer.OrdinalIgnoreCase;
 
@@ -56,6 +72,12 @@ namespace CryptA
                 return false;
             }
         }
+        
+        private string SetSalt(string v)
+        {
+            return string.Format("{0}-{1}-{2}", "A", v, "K");
+        }
+
         public void Dispose()
         {
             Dispose(true);

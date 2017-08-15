@@ -9,11 +9,18 @@ namespace PapersDbWorker
 {
     public class Dict
     {
-        public IEnumerable<Otd> GetOtdList()
+        public IEnumerable<Otd> GetOtdList(int id)
         {
             using (var db = new PapersDB())
             {
-                return db.Otds.Where(w=> w.OtdId != 726).Where(w=> w.OtdId != 1000).OrderBy(o => o.OtdId).ToList();
+                if (id == 0)
+                {
+                    return db.Otds.Where(w => w.OtdId != 726).Where(w => w.OtdId != 1000).OrderBy(o => o.OtdId).ToList();
+                }
+                else
+                {
+                    return db.Otds.OrderBy(o => o.OtdId).ToList();
+                }
             }
         }
 
@@ -30,6 +37,14 @@ namespace PapersDbWorker
             using (var db = new PapersDB())
             {
                 return db.Accesses.OrderBy(o => o.AccessId).ToList();
+            }
+        }
+
+        public IEnumerable<DataModels.GoodsSizes> GetGoodsSizes()
+        {
+            using (var db = new PapersDB())
+            {
+                return db.GoodsSizes.OrderBy(o => o.SizeId).ToList();
             }
         }
     }

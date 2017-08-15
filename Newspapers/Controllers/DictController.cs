@@ -38,11 +38,11 @@ namespace Newspapers.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<DataModels.Otd> GetOtdList()
+        public IEnumerable<DataModels.Otd> GetOtdList(int id)
         {
             using (WDB w = new WDB())
             {
-                return w.Dict.GetOtdList();
+                return w.Dict.GetOtdList(id);
             }
         }
         [HttpGet]
@@ -61,6 +61,17 @@ namespace Newspapers.Controllers
                 return w.Dict.GetAccessList();
             }
         }
-
+        [HttpGet]
+        public object GetGoodsSizes()
+        {
+            using (WDB w = new WDB())
+            {
+                var o = new {
+                    total = 0,
+                    data = w.Dict.GetGoodsSizes()
+                };
+                return o;
+            }
+        }
     }
 }

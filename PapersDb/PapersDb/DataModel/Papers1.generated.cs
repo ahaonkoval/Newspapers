@@ -27,14 +27,17 @@ namespace DataModels
 	/// </summary>
 	public partial class PapersDB : LinqToDB.Data.DataConnection
 	{
-		public ITable<Access> Accesses { get { return this.GetTable<Access>(); } }
-		public ITable<Cell>   Cells    { get { return this.GetTable<Cell>(); } }
-		public ITable<Depart> Departs  { get { return this.GetTable<Depart>(); } }
-		public ITable<Otd>    Otds     { get { return this.GetTable<Otd>(); } }
-		public ITable<Page>   Pages    { get { return this.GetTable<Page>(); } }
-		public ITable<Token>  Tokens   { get { return this.GetTable<Token>(); } }
-		public ITable<User>   Users    { get { return this.GetTable<User>(); } }
-		public ITable<VUsers> VUsers   { get { return this.GetTable<VUsers>(); } }
+		public ITable<Access>         Accesses       { get { return this.GetTable<Access>(); } }
+		public ITable<Cell>           Cells          { get { return this.GetTable<Cell>(); } }
+		public ITable<Depart>         Departs        { get { return this.GetTable<Depart>(); } }
+		public ITable<GoodsSizes>     GoodsSizes     { get { return this.GetTable<GoodsSizes>(); } }
+		public ITable<GoodsTemplate>  GoodsTemplate  { get { return this.GetTable<GoodsTemplate>(); } }
+		public ITable<Otd>            Otds           { get { return this.GetTable<Otd>(); } }
+		public ITable<Page>           Pages          { get { return this.GetTable<Page>(); } }
+		public ITable<Token>          Tokens         { get { return this.GetTable<Token>(); } }
+		public ITable<User>           Users          { get { return this.GetTable<User>(); } }
+		public ITable<VGoodsTemplate> VGoodsTemplate { get { return this.GetTable<VGoodsTemplate>(); } }
+		public ITable<VUsers>         VUsers         { get { return this.GetTable<VUsers>(); } }
 
 		public PapersDB()
 		{
@@ -193,6 +196,42 @@ namespace DataModels
 		#endregion
 	}
 
+	[Table(Schema="dbo", Name="goods_sizes")]
+	public partial class GoodsSizes
+	{
+		[Column("size_id"), PrimaryKey,  NotNull] public long   SizeId { get; set; } // bigint
+		[Column("name"),       Nullable         ] public string Name   { get; set; } // nvarchar(50)
+
+		#region Associations
+
+		/// <summary>
+		/// FK_goods_template_goods_sizes_BackReference
+		/// </summary>
+		[Association(ThisKey="SizeId", OtherKey="SizeId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
+		public IEnumerable<GoodsTemplate> goodstemplategoodssizes { get; set; }
+
+		#endregion
+	}
+
+	[Table(Schema="dbo", Name="goods_template")]
+	public partial class GoodsTemplate
+	{
+		[Column("goodtmp_id"), PrimaryKey, Identity] public long   GoodtmpId { get; set; } // bigint
+		[Column("name"),       Nullable            ] public string Name      { get; set; } // nvarchar(255)
+		[Column("keywords"),   Nullable            ] public string Keywords  { get; set; } // nvarchar(50)
+		[Column("size_id"),    Nullable            ] public long?  SizeId    { get; set; } // bigint
+
+		#region Associations
+
+		/// <summary>
+		/// FK_goods_template_goods_sizes
+		/// </summary>
+		[Association(ThisKey="SizeId", OtherKey="SizeId", CanBeNull=true, Relationship=Relationship.ManyToOne, KeyName="FK_goods_template_goods_sizes", BackReferenceName="goodstemplategoodssizes")]
+		public GoodsSizes goodstemplategoodssize { get; set; }
+
+		#endregion
+	}
+
 	[Table(Schema="dbo", Name="otds")]
 	public partial class Otd
 	{
@@ -254,15 +293,15 @@ namespace DataModels
 	[Table(Schema="dbo", Name="users")]
 	public partial class User
 	{
-		[Column("user_id"),   PrimaryKey,  NotNull] public long   UserId   { get; set; } // bigint
-		[Column("ps"),           Nullable         ] public int?   Ps       { get; set; } // int
-		[Column("name1"),        Nullable         ] public string Name1    { get; set; } // nvarchar(50)
-		[Column("name2"),        Nullable         ] public string Name2    { get; set; } // nvarchar(50)
-		[Column("name3"),        Nullable         ] public string Name3    { get; set; } // nvarchar(50)
-		[Column("login"),                  NotNull] public string Login    { get; set; } // nvarchar(50)
-		[Column("otd_id"),       Nullable         ] public long?  OtdId    { get; set; } // bigint
-		[Column("access_id"),    Nullable         ] public long?  AccessId { get; set; } // bigint
-		[Column("password"),     Nullable         ] public Guid?  Password { get; set; } // uniqueidentifier
+		[Column("user_id"),   PrimaryKey,  Identity] public long   UserId   { get; set; } // bigint
+		[Column("ps"),           Nullable          ] public int?   Ps       { get; set; } // int
+		[Column("name1"),        Nullable          ] public string Name1    { get; set; } // nvarchar(50)
+		[Column("name2"),        Nullable          ] public string Name2    { get; set; } // nvarchar(50)
+		[Column("name3"),        Nullable          ] public string Name3    { get; set; } // nvarchar(50)
+		[Column("login"),     NotNull              ] public string Login    { get; set; } // nvarchar(50)
+		[Column("otd_id"),       Nullable          ] public long?  OtdId    { get; set; } // bigint
+		[Column("access_id"),    Nullable          ] public long?  AccessId { get; set; } // bigint
+		[Column("password"),     Nullable          ] public Guid?  Password { get; set; } // uniqueidentifier
 
 		#region Associations
 
@@ -285,6 +324,16 @@ namespace DataModels
 		public IEnumerable<Token> tokensToTables { get; set; }
 
 		#endregion
+	}
+
+	[Table(Schema="dbo", Name="v_goods_template", IsView=true)]
+	public partial class VGoodsTemplate
+	{
+		[Column("number"),     Nullable] public long?  Number    { get; set; } // bigint
+		[Column("goodtmp_id"), Identity] public long   GoodtmpId { get; set; } // bigint
+		[Column("name"),       Nullable] public string Name      { get; set; } // nvarchar(255)
+		[Column("keywords"),   Nullable] public string Keywords  { get; set; } // nvarchar(50)
+		[Column("size_id"),    Nullable] public long?  SizeId    { get; set; } // bigint
 	}
 
 	[Table(Schema="dbo", Name="v_users", IsView=true)]
@@ -408,6 +457,18 @@ namespace DataModels
 		{
 			return table.FirstOrDefault(t =>
 				t.DepartId == DepartId);
+		}
+
+		public static GoodsSizes Find(this ITable<GoodsSizes> table, long SizeId)
+		{
+			return table.FirstOrDefault(t =>
+				t.SizeId == SizeId);
+		}
+
+		public static GoodsTemplate Find(this ITable<GoodsTemplate> table, long GoodtmpId)
+		{
+			return table.FirstOrDefault(t =>
+				t.GoodtmpId == GoodtmpId);
 		}
 
 		public static Otd Find(this ITable<Otd> table, long OtdId)

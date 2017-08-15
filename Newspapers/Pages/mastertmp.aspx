@@ -14,6 +14,12 @@
     <script type="text/javascript" src="../Scripts/code/data/stores.js"></script>
     <script type="text/javascript" src="../Scripts/code/data/models.js"></script>
 
+    <script type="text/javascript" src="../Scripts/code/administration/goods.js"></script>
+    <script type="text/javascript" src="../Scripts/code/administration/goodgrid.js"></script>    
+
+    <script type="text/javascript" src="../Scripts/code/administration/user.js"></script>
+    <script type="text/javascript" src="../Scripts/code/administration/usergrid.js"></script>
+
     <script type="text/javascript" src="../Scripts/code/mastertmp/fillcell.js"></script>
     <script type="text/javascript" src="../Scripts/code/mastertmp/dw.js"></script>
     <script type="text/javascript" src="../Scripts/code/mastertmp/showgoods.js"></script>
