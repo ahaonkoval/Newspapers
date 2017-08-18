@@ -59,5 +59,17 @@ namespace PapersDbWorker
                 return db.VGoodsTemplate.Where(w => w.GoodtmpId == GoodTmpId).FirstOrDefault();
             }
         }
+
+        public void SetGoodTmp(VGoodsTemplate good)
+        {
+            using (var db = new PapersDB())
+            {
+                db.GoodsTemplate.Where(w => w.GoodtmpId == good.GoodtmpId)
+                    .Set(p => p.Name, good.Name)
+                    .Set(p => p.Keywords, good.Keywords)
+                    .Set(p => p.SizeId, good.SizeId)
+                    .Update();
+            }
+        }
     }
 }

@@ -145,6 +145,7 @@ var getUserGrid = function (stAccess, stOtds) {
                 dataIndex: 'Name1',
                 width: 100,
                 text: 'Прізвище',
+                flex: 1,
                 editor: {
                     allowBlank: false
                 }
@@ -152,6 +153,7 @@ var getUserGrid = function (stAccess, stOtds) {
                 dataIndex: 'Name2',
                 width: 100,
                 text: "Ім'я",
+                flex: 2,
                 editor: {
                     allowBlank: false
                 }
@@ -159,6 +161,7 @@ var getUserGrid = function (stAccess, stOtds) {
                 dataIndex: 'Name3',
                 width: 100,
                 text: "по-батькові",
+                flex: 3,
                 editor: {
                     allowBlank: false
                 }
@@ -166,6 +169,7 @@ var getUserGrid = function (stAccess, stOtds) {
                 dataIndex: 'Login',
                 width: 150,
                 text: 'Логін',
+                flex: 4,
                 editor: new Ext.form.field.Text({
                     allowBlank: false,
                     listeners: {
@@ -217,6 +221,7 @@ var getUserGrid = function (stAccess, stOtds) {
                 dataIndex: 'OtdId',
                 width: 150,
                 text: 'Відділ',
+                flex: 5,
                 editor: new Ext.form.field.ComboBox({
                     id: 'cmbOtd',
                     store: storeOtds,//getStoreCellOtds(),

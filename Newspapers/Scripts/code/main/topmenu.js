@@ -25,7 +25,7 @@ var topmenu = Ext.create('Ext.panel.Panel', {
                     }, {
                         text: 'Адміністрування товарів',
                         handler: function () {
-                            getWinGoodsAdm().show();
+                            getWinGoodsAdm();
                         }
                     }]
                 }]

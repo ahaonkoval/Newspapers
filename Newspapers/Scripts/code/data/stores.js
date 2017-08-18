@@ -233,6 +233,7 @@ var getStoreGoods = function () {
     var store = Ext.create('Ext.data.JsonStore', {
         model: Ext.define('GoodGridModel', {
             extend: 'Ext.data.Model',
+            idProperty: 'GoodtmpId',
             fields: [{
                 name: 'GoodtmpId',
                 type: 'int'
@@ -302,6 +303,7 @@ var getStoreCellSizes = function () {
     var store = Ext.create('Ext.data.JsonStore', {
         model: Ext.define('CellSizes', {
             extend: 'Ext.data.Model',
+            idProperty: 'SizeId',
             fields: [{
                 name: 'SizeId',
                 type: 'int'

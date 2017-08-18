@@ -8,6 +8,7 @@ using PapersDbWorker;
 
 namespace Newspapers.Controllers
 {
+    [Authorize]
     public class DictController : ApiController
     {
         // GET: api/Dict

@@ -8,8 +8,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using Newspapers.Providers;
-using Newspapers.Models;
+//using Newspapers.Providers;
+//using Newspapers.Models;
 
 namespace Newspapers
 {
@@ -23,8 +23,9 @@ namespace Newspapers
         public void ConfigureAuth(IAppBuilder app)
         {
             // Настройка контекста базы данных и диспетчера пользователей для использования одного экземпляра на запрос
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+
+            //app.CreatePerOwinContext(ApplicationDbContext.Create);
+            //app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
 
             // Включение использования файла cookie, в котором приложение может хранить информацию для пользователя, выполнившего вход,
             // и использование файла cookie для временного хранения информации о входах пользователя с помощью стороннего поставщика входа
@@ -36,7 +37,9 @@ namespace Newspapers
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/Token"),
-                Provider = new ApplicationOAuthProvider(PublicClientId),
+
+                //Provider = new ApplicationOAuthProvider(PublicClientId),
+
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
                 // В рабочем режиме задайте AllowInsecureHttp = false

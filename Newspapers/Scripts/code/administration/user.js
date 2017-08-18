@@ -87,8 +87,8 @@ var getWinAdministrationUsers = function (storeAccess, storeOtds) {
 
     var win = Ext.create('Ext.Window', {
         title: 'Адміністрування користувачів',
-        width: 800,
-        height: 600,
+        width: '90%',
+        height: '80%',
         modal: true,
         closable: true,
         layout: 'fit',

@@ -1,7 +1,47 @@
 ﻿
 var getWinGoodsAdm = function () {
+    var win = null;
+    var storeSizes = getStoreCellSizes().load({
+        scope: this,
+        callback: function (records, operation, success) {
+            if (success) {
+                win = getWinGoods(storeSizes).show();
+            }
+        }
+    });
+}
 
+var getWinGoods = function (stSizes) {
     var store = getStoreGoods();
+    var storeSizes = stSizes;
+
+    var btnSave = Ext.create('Ext.Button', {
+        text: 'Зберегти зміни',
+        disabled: true,
+        listeners: {
+            'click': function () {
+                store.sync();
+                this.setDisabled(true);
+            }
+        }
+    });
+    var grid = getGridGoods(store, stSizes);
+    grid.on('validateedit', function (cep, e, eOpts) {
+        var btn = btnSave;
+
+        var rowIdx = e.rowIdx,
+            fieldName = e.field,
+            newVal = e.value,
+            storeRow = e.record;
+
+        storeRow.set(fieldName, newVal);
+        var enableButtons = Boolean(e.store.getModifiedRecords().length);
+        if (enableButtons) {
+            btn.setDisabled(false);
+        } else {
+            btn.setDisabled(true);
+        }
+    });
 
     win = Ext.create('Ext.Window', {
         title: 'Адміністрування товарів',
@@ -10,14 +50,9 @@ var getWinGoodsAdm = function () {
         modal: true,
         closable: true,
         layout: 'fit',
-        //{
-        //    type: 'fix'
-        //    //align: 'stretch',
-        //    //pack: 'start',
-        //},
         items: [{
             xtype: 'panel',
-            items: [getGridGoods(store)]
+            items: [grid]
         }],
         buttons: [{
             xtype: 'button',
@@ -27,21 +62,15 @@ var getWinGoodsAdm = function () {
                     getWinGoodAdd(store).show();
                 }
             }
-        }, {
-            xtype: 'button',
-            text: 'Зберегти зміни',
-            listeners: {
-                'click': function () {
-                    
-                }
-            }
-        }, {
+        },
+        btnSave,
+        {
             xtype: 'button',
             text: 'Закрити',
             scope: this,
             listeners: {
                 'click': function () {
-                    wingoodsadm.close();
+                    win.close();
                 }
             }
         }]

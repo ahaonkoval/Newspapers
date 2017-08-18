@@ -57,7 +57,14 @@ namespace Newspapers.Controllers
         // PUT: api/Goods/5 обновлення
         public void Put(int id, [FromBody]dynamic value)
         {
+            var o = value.ToString();
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            DataModels.VGoodsTemplate good = jss.Deserialize<DataModels.VGoodsTemplate>(o);
 
+            using (WDB w = new WDB())
+            {
+                w.Good.SetGoodTmp(good);
+            }
         }
 
         // DELETE: api/Goods/5
