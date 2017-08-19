@@ -95,5 +95,32 @@ namespace PapersDbWorker
                 return db.Users.Where(w => w.Login == login).FirstOrDefault();
             }
         }
+
+        public bool Autentificate(string login, string password)
+        {
+            using (var db = new PapersDB())
+            {
+                var user = db.Users.Where(w => w.Login == login).FirstOrDefault();
+
+                if (user.Password == new Guid(password))
+                {
+                    return true;
+                }
+                else return false;
+            }
+        }
+
+        public string[] GetRoleNamesByLogin(string login)
+        {
+            using (var db = new PapersDB())
+            {
+                var user = db.Users.Where(w => w.Login == login).FirstOrDefault();
+                var access = db.Accesses.Where(w => w.AccessId == user.AccessId).FirstOrDefault();
+                List<string> lst = new List<string>();
+                lst.Add(access.Name);
+
+                return lst.ToArray();
+            }
+        }
     }
 }

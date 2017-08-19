@@ -10,6 +10,7 @@ namespace Newspapers.Controllers
 {
     public class LoginController : ApiController
     {
+        [Authorize]
         // GET: api/Login
         public IEnumerable<string> Get()
         {

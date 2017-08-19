@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 
 namespace Newspapers.Controllers
 {
+    [Authorize]
     public class CellsController : ApiController
     {
         // GET: api/Cells

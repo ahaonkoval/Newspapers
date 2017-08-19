@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PapersDbWorker;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,12 +13,13 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using System.Web.Http.Results;
+using CryptA;
 
 namespace Newspapers.App_Start
 {
     public class IdentityBasicAuthentication : Attribute, IAuthenticationFilter
     {
-        //private readonly IAuthenticator _authenticator;
+        private readonly IAuthenticator _authenticator;
 
         public bool AllowMultiple
         {
@@ -39,9 +41,9 @@ namespace Newspapers.App_Start
                     return;
                 }
 
-                if (authorization.Scheme != "Basic")
+                if (authorization.Scheme != "tk")
                 {
-                    if (authorization.Scheme != "tk")
+                    if (authorization.Scheme != "Basic")
                     {
                         context.ErrorResult = new AuthenticationFailureResult("Authorization scheme not supported", request);
                         return;
@@ -58,37 +60,47 @@ namespace Newspapers.App_Start
                     return;
                 }
 
-                    //if (string.IsNullOrEmpty(authorization.Parameter))
-                    //{
-                    //    //context.ErrorResult = new AuthenticationFailureResult("Missing credentials", request);
-                    //    return;
-                    //}
-
+                if (authorization.Scheme == "Basic")
+                {
                     Tuple<string, string> userNameAndPasword = ExtractUserNameAndPassword(authorization.Parameter);
-                if (userNameAndPasword == null)
-                {
-                    //context.ErrorResult = new AuthenticationFailureResult("Invalid credentials", request);
-                }
-                else
-                {
-                    string userName = userNameAndPasword.Item1;
-                    string password = userNameAndPasword.Item2;
-                    //you may need to decide here how to verify the user. if you have saved in db, then check in db
-                    if (IsAuthenticated())
+                    if (userNameAndPasword == null)
                     {
-                        //var identity = new GenericIdentity(userName, "Basic");
-                        //if you need authorization as well, then fetch the roles and add it here
-                        //context.Principal = new GenericPrincipal(identity, _authenticator.GetRoles());
+                        context.ErrorResult = new AuthenticationFailureResult("Invalid credentials", request);
                     }
                     else
-                        context.ErrorResult = new UnauthorizedResult(new AuthenticationHeaderValue[0], context.Request);
+                    {
+                        string login = userNameAndPasword.Item1;
+                        string password = userNameAndPasword.Item2;
+                        if (IsAuthenticated(login, password))
+                        {
+                            var identity = new GenericIdentity(login, "Basic");
+                            //if you need authorization as well, then fetch the roles and add it here
+                            context.Principal = new GenericPrincipal(identity, GetRoleNamesByLogin(login));
+                        }
+                        else
+                            context.ErrorResult = new UnauthorizedResult(new AuthenticationHeaderValue[0], context.Request);
+                    }
                 }
             });
         }
 
-        public bool IsAuthenticated()
+        public bool IsAuthenticated(string login, string password)
         {
-            return true;
+            using (WDB w = new WDB())
+            {
+                using (CryptA.Cryptor cryptor = new Cryptor())
+                {
+                    string wp = cryptor.Crypt(password);
+                    return w.User.Autentificate(login, wp);
+                }
+            }
+        }
+
+        public string[] GetRoleNamesByLogin(string login) {
+            using (WDB w = new WDB())
+            {
+                return w.User.GetRoleNamesByLogin(login);
+            }
         }
 
         public Task ChallengeAsync(HttpAuthenticationChallengeContext context, CancellationToken cancellationToken)
@@ -96,10 +108,10 @@ namespace Newspapers.App_Start
             //var host = context.Request.RequestUri.DnsSafeHost;
             //var challenge = new AuthenticationHeaderValue("Basic");
             //context.Result = new AddChallengeOnUnauthorizedResult(challenge, context.Result);
-            return Task.FromResult(execute());
+            return Task.FromResult(execute(context, cancellationToken));
         }
 
-        private HttpResponseMessage execute()
+        private HttpResponseMessage execute(HttpAuthenticationChallengeContext context, CancellationToken cancellationToken)
         {
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
             response.RequestMessage = new HttpRequestMessage();//ContextBoundObjec; 

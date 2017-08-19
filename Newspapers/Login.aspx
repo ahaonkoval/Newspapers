@@ -34,14 +34,14 @@
                         items: [{
                             xtype: 'textfield',
                             name: 'username',
-                            id: 'txtusername',
+                            id: 'txtUserName',
                             fieldLabel: 'Пользователь:',
                             allowBlank: false
                         }, {
                             xtype: 'textfield',
                             name: 'password',
                             inputType: 'password',
-                            id: 'txtpassword',
+                            id: 'txtPassword',
                             fieldLabel: 'Пароль:',
                             allowBlank: false,
                             listeners: {
@@ -75,7 +75,25 @@
         });
 
         var login = function () {
-            window.location.href = "../pages/main.aspx";
+            var lg = Ext.getCmp('txtUserName').getValue() + ':' + Ext.getCmp('txtPassword').getValue();
+            $.ajax({
+                url: '/api/login',
+                type: 'GET',
+                //data: {
+                //    login: v
+                //},
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function (req) {
+                    req.setRequestHeader('Authorization', 'Basic ' + btoa(lg));
+                },
+                success: function (status) {
+                    window.location.href = "../pages/main.aspx";
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
         }
     </script>
 

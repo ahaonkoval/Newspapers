@@ -188,9 +188,9 @@ var getWinUserAdd = function (stAccess, stOtds) {
                     },
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    //beforeSend: function (req) {
-                    //    req.setRequestHeader('Authorization', 'tk ' + btoa(sessionStorage.getItem("token")));
-                    //},
+                    beforeSend: function (req) {
+                        req.setRequestHeader('Authorization', 'tk ' + btoa(sessionStorage.getItem("token")));
+                    },
                     success: function (status) {
                         var c = ctrl;
                         if (status == 'IsExists') {
