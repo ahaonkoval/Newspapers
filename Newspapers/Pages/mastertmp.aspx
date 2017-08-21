@@ -146,7 +146,7 @@
                                         xtype: 'button',
                                         text: 'Повернутись',
                                         handler: function () {
-                                            alert();
+                                            window.location.href = "../pages/storyboard.aspx";
                                         }
                                     }]
                                 }
