@@ -79,9 +79,6 @@
             $.ajax({
                 url: '/api/login',
                 type: 'GET',
-                //data: {
-                //    login: v
-                //},
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function (req) {
@@ -91,7 +88,8 @@
                     window.location.href = "../pages/main.aspx";
                 },
                 error: function (error) {
-                    alert(error);
+                    Ext.Msg.alert('Увага!', error.statusText, Ext.emptyFn);
+                    //alert(error);
                 }
             });
         }

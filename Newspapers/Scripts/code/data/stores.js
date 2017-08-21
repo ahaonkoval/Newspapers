@@ -135,6 +135,7 @@ var getStoreUsers = function () {
     var store = Ext.create('Ext.data.JsonStore', {
         model: Ext.define('User', {
             extend: 'Ext.data.Model',
+            idProperty: 'UserId',
             fields: [{
                 name: 'Ps',
                 type: 'int'
@@ -192,7 +193,7 @@ var getStoreUsers = function () {
                 destroy: 'POST',
                 read: 'GET',
                 create: 'POST',
-                update: 'POST'
+                update: 'PUT'
             },
             writer: {
                 type: 'json',
@@ -211,12 +212,6 @@ var getStoreUsers = function () {
                 idProperty: 'id',
                 totalProperty: 'total'
             }
-            //writer: new Ext.data.JsonWriter(
-            //{
-                
-            //    writeAllFields: true,
-                
-            //})
         },
         remoteSort: false,
         sorters: [{
@@ -318,9 +313,9 @@ var getStoreCellSizes = function () {
         proxy: {
             type: 'rest',
             url: ('/api/dict/GetGoodsSizes/0'),
-            //headers: {
-            //    'Authorization': 'tk ' + btoa(sessionStorage.getItem("token"))
-            //},
+            headers: {
+                'Authorization': 'tk ' + btoa(sessionStorage.getItem("token"))
+            },
             reader: {
                 type: 'json',
                 rootProperty: 'data',

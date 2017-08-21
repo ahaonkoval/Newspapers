@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LinqToDB;
+using CryptA;
 
 namespace PapersDbWorker
 {
@@ -102,6 +103,8 @@ namespace PapersDbWorker
             {
                 var user = db.Users.Where(w => w.Login == login).FirstOrDefault();
 
+                if (user == null) return false;
+
                 if (user.Password == new Guid(password))
                 {
                     return true;
@@ -120,6 +123,28 @@ namespace PapersDbWorker
                 lst.Add(access.Name);
 
                 return lst.ToArray();
+            }
+        }
+
+        public void Delete(int userId) {
+            using (var db = new PapersDB())
+            {
+                db.Users.Delete(o => o.UserId == userId);
+            }
+        }
+
+        public void UpdPwd(int userId, string pwd)
+        {
+            using (Cryptor cryptor = new Cryptor())
+            {
+                Guid gpwd = new Guid(cryptor.Crypt(pwd));
+
+                using (var db = new PapersDB())
+                {
+                    db.Users.Where(o => o.UserId == userId).Set(
+                        p => p.Password, gpwd
+                        ).Update();
+                }
             }
         }
     }

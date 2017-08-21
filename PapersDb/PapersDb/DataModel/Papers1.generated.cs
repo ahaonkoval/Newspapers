@@ -23,7 +23,7 @@ namespace DataModels
 	/// <summary>
 	/// Database       : Papers
 	/// Data Source    : MO-726-001
-	/// Server Version : 13.00.4422
+	/// Server Version : 13.00.4446
 	/// </summary>
 	public partial class PapersDB : LinqToDB.Data.DataConnection
 	{
@@ -220,6 +220,7 @@ namespace DataModels
 		[Column("name"),       Nullable            ] public string Name      { get; set; } // nvarchar(255)
 		[Column("keywords"),   Nullable            ] public string Keywords  { get; set; } // nvarchar(50)
 		[Column("size_id"),    Nullable            ] public long?  SizeId    { get; set; } // bigint
+		[Column("ps"),         Nullable            ] public string Ps        { get; set; } // nchar(10)
 
 		#region Associations
 
@@ -302,6 +303,7 @@ namespace DataModels
 		[Column("otd_id"),       Nullable          ] public long?  OtdId    { get; set; } // bigint
 		[Column("access_id"),    Nullable          ] public long?  AccessId { get; set; } // bigint
 		[Column("password"),     Nullable          ] public Guid?  Password { get; set; } // uniqueidentifier
+		[Column("deleted"),   NotNull              ] public bool   Deleted  { get; set; } // bit
 
 		#region Associations
 
@@ -340,7 +342,8 @@ namespace DataModels
 	public partial class VUsers
 	{
 		[Column("number"),       Nullable] public long?  Number   { get; set; } // bigint
-		[Column("user_id"),   NotNull    ] public long   UserId   { get; set; } // bigint
+		[Column("user_id"),   Identity   ] public long   UserId   { get; set; } // bigint
+		[Column("ps"),           Nullable] public int?   Ps       { get; set; } // int
 		[Column("name1"),        Nullable] public string Name1    { get; set; } // nvarchar(50)
 		[Column("name2"),        Nullable] public string Name2    { get; set; } // nvarchar(50)
 		[Column("name3"),        Nullable] public string Name3    { get; set; } // nvarchar(50)
@@ -348,6 +351,7 @@ namespace DataModels
 		[Column("otd_id"),       Nullable] public long?  OtdId    { get; set; } // bigint
 		[Column("access_id"),    Nullable] public long?  AccessId { get; set; } // bigint
 		[Column("password"),     Nullable] public Guid?  Password { get; set; } // uniqueidentifier
+		[Column("deleted"),   NotNull    ] public bool   Deleted  { get; set; } // bit
 	}
 
 	public static partial class PapersDBStoredProcedures

@@ -56,7 +56,7 @@ namespace Newspapers.Controllers
         }
 
         // PUT: api/User/5
-        public long Put(int id, [FromBody]dynamic value)
+        public void Put(int id, [FromBody]dynamic value)
         {
             using (WDB w = new WDB())
             {
@@ -64,33 +64,51 @@ namespace Newspapers.Controllers
                 JavaScriptSerializer jss = new JavaScriptSerializer();
                 UserTmp UserTmp = jss.Deserialize<UserTmp>(o);
 
-                if (UserTmp.password == UserTmp.password_check)
-                {
                     using (Cryptor cryptor = new Cryptor()) {
                         DataModels.User user = new DataModels.User
                         {
+                            UserId = id,
                             Name1 = UserTmp.name1,
                             Name2 = UserTmp.name2,
                             Name3 = UserTmp.name3,
-                            AccessId = UserTmp.access,
+                            AccessId = UserTmp.AccessId,
                             Login = UserTmp.login,
-                            OtdId = UserTmp.otd,
-                            Password = new Guid(cryptor.Crypt(UserTmp.password))
+                            OtdId = UserTmp.OtdId
+                            //Password = new Guid(cryptor.Crypt(UserTmp.password))
                         };
-                        user.UserId = w.User.CreateUser(user);
-                        return user.UserId;
+                        w.User.SetUser(user);
                     }
-                }
-                else
-                {
-                    return -1;
-                }
             }
         }
 
         // DELETE: api/User/5
         public void Delete(int id)
         {
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        [HttpPost]
+        public void DeleteUser(int id)
+        {
+            using (WDB w = new WDB())
+            {
+                w.User.Delete(id);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        [HttpPost]
+        public void Change(int id, [FromBody]dynamic value)
+        {
+            using (WDB w = new WDB())
+            {
+                w.User.UpdPwd(id, value.ToString());
+            }
         }
     }
     public class UserTmp
@@ -99,14 +117,16 @@ namespace Newspapers.Controllers
         public string name1 { get; set; }
         public string name2 { get; set; }
         public string name3 { get; set; }
-        public int otd { get; set; }
-        public int access { get; set; }
+        public int OtdId { get; set; }
+        public int AccessId { get; set; }
         public string password { get; set; }
         public string password_check { get; set; }
         public string UserId { get; set; }
     }
 
     /*
+     * "OtdId": 10,
+  "AccessId": 2,
         {
           "name1": "11",
           "name2": "11",

@@ -257,7 +257,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="css\cellcss.css" />
     <Content Include="css\gtmpcell.css" />
+    <Content Include="css\img\Delete.ico" />
     <Content Include="css\img\newspaper.png" />
+    <Content Include="css\StyleSheet1.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

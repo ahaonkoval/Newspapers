@@ -140,12 +140,13 @@ var getUserGrid = function (stAccess, stOtds) {
             {
                 dataIndex: 'Ps',
                 text: '№',
-                width: 60,
+                width: 40,
+                tdCls: 'price-fall'
             }, {
                 dataIndex: 'Name1',
                 width: 100,
                 text: 'Прізвище',
-                flex: 1,
+                //flex: 1,
                 editor: {
                     allowBlank: false
                 }
@@ -153,7 +154,7 @@ var getUserGrid = function (stAccess, stOtds) {
                 dataIndex: 'Name2',
                 width: 100,
                 text: "Ім'я",
-                flex: 2,
+                //flex: 2,
                 editor: {
                     allowBlank: false
                 }
@@ -169,7 +170,7 @@ var getUserGrid = function (stAccess, stOtds) {
                 dataIndex: 'Login',
                 width: 150,
                 text: 'Логін',
-                flex: 4,
+                //flex: 4,
                 editor: new Ext.form.field.Text({
                     allowBlank: false,
                     listeners: {
@@ -284,6 +285,52 @@ var getUserGrid = function (stAccess, stOtds) {
                         return storeAccess.getAt(recordIndex).get('Name');
                     }
                 }
+            },{
+                menuDisabled: true,
+                sortable: false,
+                xtype: 'actioncolumn',
+                width: 28,
+                items: [{
+                    icon: '/css/img/Delete.ico',
+                    tooltip: 'Видалити',
+                    handler: function(grid, rowIndex, colIndex) {
+                        var store = grid.getStore();
+                        var rec = store.getAt(rowIndex);
+                        Ext.Msg.show({
+                            title : 'Увага!',
+                            msg : "Видалити користувача '" + rec.get('Name1') + ' ' + rec.get('Name2') + ' ' + rec.get('Name3') + "'",
+                            width : 300,
+                            closable : false,
+                            buttons : Ext.Msg.YESNO,
+                            buttonText : 
+                            {
+                                yes : 'Видалити',
+                                no : 'Ні'
+                                //cancel : 'Discard'
+                            },
+                            multiline : false,
+                            fn : function(buttonValue, inputText, showConfig) {
+                                var rm = rec;
+                                store.remove(rm);
+                                store.sync();
+                            },
+                            icon : Ext.Msg.QUESTION
+                        });
+                    }
+                }]
+            },{
+                menuDisabled: true,
+                sortable: false,
+                xtype: 'actioncolumn',
+                width: 28,
+                items: [{
+                    icon: '/css/img/icons/automated.ico',
+                    tooltip: 'Редагувати',
+                    handler: function(grid, rowIndex, colIndex) {
+                        var rec = grid.getStore().getAt(rowIndex);
+                        getWinSetPassword(rec).show();
+                    }
+                }]
             }
         ],
         loadMask: true,
@@ -295,36 +342,91 @@ var getUserGrid = function (stAccess, stOtds) {
             dock: 'bottom',
             store: store
         })],
-        //listeners: {
-        //    'validateedit': function (cep, e, eOpts) {
-        //        var me = this,
-        //            rowIdx = e.rowIdx, // row index
-        //            fieldName = e.field,
-        //            newVal = e.value,
-        //            storeRow = e.record;
-
-        //        storeRow.set(fieldName, newVal);
-        //        //storeRow.save(rowIdx);
-        //        //storeRow.endEdit();
-        //        // if modified records > 0 then enable buttons
-        //        var enableButtons = Boolean(e.store.getModifiedRecords().length);
-        //        if (enableButtons) {
-        //            //me.down('#btnSaveChangeUsers').setDisabled(false);
-        //            //var btn = Ext.getCmp('btnSaveChangeUsers');
-        //            //btn.setDisabled(false);
-        //            /* enable buttons */
-        //        } else { /* disable buttons */
-        //            //me.down('#btnSaveChangeUsers').setDisabled(true);
-        //            //var btn = Ext.getCmp('btnSaveChangeUsers');
-        //            //btn.setDisabled(true);
-        //        }
-
-        //    }, scope: this
-        //}
-
+        viewConfig: {
+            getRowClass: function(record, rowIndex, rowParams, store) {
+                //var c = record.get('change');
+                //if (c < 0) {
+                //    return 'price-fall';
+                //} else if (c > 0) {
+                //    return 'price-rise';
+                //}
+                return 'column-number';
+            }
+        }
     });
 
     store.load();
 
     return grid;
+}
+
+var getWinSetPassword = function(row) {
+
+    var txtPassword = Ext.create('Ext.form.TextField', {
+        xtype: 'textfield',
+        inputType: 'password',
+        fieldLabel: "Пароль",
+        name: 'password'
+    });
+
+    var win = Ext.create('Ext.Window', {
+        title: 'Змінити пароль',
+        width: 400,
+        height: 200,
+        modal: true,
+        closable: false,
+        layout: 'form',
+        items: [txtPassword],
+        buttons: [
+            { 
+                xtype: 'button',
+                text: 'Змінити',
+                handler: function(){
+
+                    //var o = {
+                    //    pss: txtPassword.getValue()
+                    //}
+
+                    $.ajax({
+                        url: '/api/user/change/' + row.data.UserId,
+                        type: 'POST',
+                        data: txtPassword.getValue(),//JSON.stringify(o),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function (req) {
+                            req.setRequestHeader('Authorization', 'tk ' + btoa(sessionStorage.getItem("token")));
+                        },
+                        success: function (UserId) {
+                            ////var rec = record;
+                            //if (UserId > 0) {
+                            //    record = store.findRecord("Login", row[0].data.Login);
+                            //    var max = store.max('Ps', false);
+                            //    record.set("UserId", UserId);
+                            //    record.set("Ps", max + 1);
+                            //    record.commit();
+                            win.close();
+                            //}
+                        },
+                        error: function (error) {
+                            if (error.status == 401) {
+                                //alert('Unauthorized');
+                                //на сторінку авторизації
+                            }
+                            else {
+                                //alert('Error calling STS: ' + error.responseText);
+                            }
+                        }
+                    });
+                }
+            }, 
+            { 
+                xtype: 'button',
+                text: 'Закрити',
+                handler: function(){
+                    win.hide();
+                }
+            }]
+    });
+
+    return win;
 }

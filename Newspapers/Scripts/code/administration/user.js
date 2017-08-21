@@ -422,10 +422,12 @@ var getWinUserAdd = function (stAccess, stOtds) {
                         OtdId: us.otd,
                         AccessId: us.access
                     });
+
+                    //store.sync();
                     $.ajax({
-                        url: '/api/user/0',
-                        type: 'Put',
-                        data: JSON.stringify(us),
+                        url: '/api/user/',
+                        type: 'POST',
+                        data: JSON.stringify(row[0].data),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         beforeSend: function (req) {
