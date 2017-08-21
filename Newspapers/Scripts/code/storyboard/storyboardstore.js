@@ -1,5 +1,5 @@
 ﻿
-var getStoreCellDeparts = function () {
+var getTmpStoreCellPage = function () {
     var store = Ext.create('Ext.data.Store', {
         fields: ['id', 'name'],
         data: [
@@ -68,7 +68,6 @@ var getStoreDictDeparts = function () {
 
 function getDataStorePapersPage() {
     var store = Ext.create('Ext.data.Store', {
-        fields: ['id', 'name'],
         data: [
             { "id": "1", "departs1": "10", "departs2": "10", "p1": 22, "p2": 1 },
             { "id": "2", "departs1": "20", "departs2": "10", "p1": 2, "p2": 3 },

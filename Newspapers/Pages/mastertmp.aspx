@@ -119,8 +119,23 @@
                                     ]
                                 }, {
                                     xtype: 'panel',
+                                    height: 40,
                                     border: false,
-                                    flex: 1
+                                    layout: 'fit',
+                                    margin: 2,
+                                    //flex: 1,
+                                    items: [
+                                        {
+                                            xtype: 'button',
+                                            text: 'Переглянути список',
+                                            handler: function () {
+                                                getWinPageGoodReport().show();
+                                            }
+                                        }
+                                    ]
+                                }, {
+                                    xtype: 'panel',
+                                    flex: 1,
                                 }, {
                                     xtype: 'panel',
                                     border: false,

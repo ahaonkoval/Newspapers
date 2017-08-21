@@ -269,7 +269,7 @@
     <Content Include="Pages\storyboard.aspx" />
     <Content Include="reports\pages\goodlist.aspx" />
     <Content Include="Scripts\code\mastertmp\mastertmpstore.js" />
-    <Content Include="Scripts\code\storyboard\selectpage.js" />
+    <Content Include="Scripts\code\storyboard\newsprint.js" />
     <Content Include="Scripts\code\storyboard\storyboardstore.js" />
     <Content Include="Scripts\jquery\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\jquery\ai.0.22.9-build00167.min.js" />

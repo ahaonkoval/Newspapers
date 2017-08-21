@@ -41,9 +41,17 @@ var getUserAdm = function () {
                     callback: function (records, operation, success) {
                         if (success) {
                             win = getWinAdministrationUsers(storeAccess, storeOtds).show();
+                        } else {
+                            if (operation.error.status == 401) {
+                                window.location.href = "../login.aspx";
+                            }
                         }
                     }
                 });
+            } else {
+                if (operation.error.status == 401) {
+                    window.location.href = "../login.aspx";
+                }
             }
         }
     });

@@ -6,6 +6,10 @@ var getWinGoodsAdm = function () {
         callback: function (records, operation, success) {
             if (success) {
                 win = getWinGoods(storeSizes).show();
+            } else {
+                if (operation.error.status == 401) {
+                    window.location.href = "../login.aspx";
+                }
             }
         }
     });

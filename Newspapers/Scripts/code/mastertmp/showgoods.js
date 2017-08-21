@@ -1,7 +1,7 @@
 ﻿
-var showgoods = function () {
+var getWinPageGoodReport = function () {
 
-    winshowgoods = Ext.create('Ext.Window', {
+    win = Ext.create('Ext.Window', {
         title: 'Перелік товарів сторінки',
         width: '90%',
         height: '90%',
@@ -29,11 +29,11 @@ var showgoods = function () {
             scope: this,
             listeners: {
                 'click': function () {
-                    winshowgoods.close();
+                    win.close();
                 }
             }
         }]
     })
 
-    winshowgoods.show();
+    return win;
 }

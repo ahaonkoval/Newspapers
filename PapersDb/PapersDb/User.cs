@@ -11,6 +11,12 @@ namespace PapersDbWorker
 {
     public class User
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
         public IEnumerable<DataModels.User> GetUserList(int start, int limit)
         {
             using (var db = new PapersDB())
@@ -36,7 +42,10 @@ namespace PapersDbWorker
                 return users;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
         public void SetUser(DataModels.User user)
         {
             using (var db = new PapersDB())
@@ -53,6 +62,11 @@ namespace PapersDbWorker
                     .Set(p => p.AccessId, user.AccessId).Update();
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public long CreateUser(DataModels.User user)
         {
             using (var db = new PapersDB())
@@ -88,7 +102,11 @@ namespace PapersDbWorker
                 //}
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         public DataModels.User LoginVerificated(string login)
         {
             using (var db = new PapersDB())
@@ -96,7 +114,12 @@ namespace PapersDbWorker
                 return db.Users.Where(w => w.Login == login).FirstOrDefault();
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public bool Autentificate(string login, string password)
         {
             using (var db = new PapersDB())
@@ -112,7 +135,11 @@ namespace PapersDbWorker
                 else return false;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         public string[] GetRoleNamesByLogin(string login)
         {
             using (var db = new PapersDB())
@@ -125,14 +152,21 @@ namespace PapersDbWorker
                 return lst.ToArray();
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
         public void Delete(int userId) {
             using (var db = new PapersDB())
             {
                 db.Users.Delete(o => o.UserId == userId);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="pwd"></param>
         public void UpdPwd(int userId, string pwd)
         {
             using (Cryptor cryptor = new Cryptor())
@@ -147,5 +181,62 @@ namespace PapersDbWorker
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sessionId"></param>
+        /// <returns></returns>
+        public string GetNewToken(long userId, string source)
+        {
+            using (Cryptor cryptor = new Cryptor())
+            {
+                string token = cryptor.Crypt(source);
+                using (var db = new PapersDB())
+                {
+                    db.Tokens.Insert(() => new DataModels.Token {
+                        UserId = userId,
+                        Created = DateTime.Now,
+                        Value = token
+                    });
+                    return token;
+                }
+            }
+        }
+
+        public long GetUserByLogin(string login)
+        {
+            using (var db = new PapersDB())
+            {
+                return db.VUsers.Where(w => w.Login == login).FirstOrDefault().UserId;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public VUsers GetUserByToken(string token)
+        {
+            using (var db = new PapersDB())
+            {
+                Token t = db.Tokens.Where(w => w.Value == token).FirstOrDefault();
+                if (t != null)
+                {
+                    if (t.Created.AddHours(2) >= DateTime.Now)
+                    {
+                        var user = db.VUsers.Where(w => w.UserId == t.UserId).FirstOrDefault();
+                        db.Tokens.Where(w => w.UserId == user.UserId).Set(p => p.Created, DateTime.Now).Update();
+                        return user;
+
+                    } else
+                    {
+                        return null;
+                    }
+                } else
+                {
+                    return null;
+                }
+            }                
+        }
+
     }
 }

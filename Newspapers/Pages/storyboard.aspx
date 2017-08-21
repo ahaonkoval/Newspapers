@@ -14,9 +14,12 @@
     <script type="text/javascript" src="../Scripts/code/storyboard/windepartpage.js"></script>
     <script type="text/javascript" src="../Scripts/code/main/topmenu.js"></script>
     <script type="text/javascript" src="../Scripts/code/storyboard/storyboardstore.js"></script>
+    <script type="text/javascript" src="../Scripts/code/storyboard/newsprint.js"></script>
 
     <script type="text/javascript" src="../Scripts/code/administration/goods.js"></script>
     <script type="text/javascript" src="../Scripts/code/administration/goodgrid.js"></script>    
+
+    <script type="text/javascript" src="../Scripts/code/data/stores.js"></script>
 
     <script type="text/javascript" src="../Scripts/code/administration/user.js"></script>
     <script type="text/javascript" src="../Scripts/code/administration/usergrid.js"></script>
@@ -138,6 +141,52 @@
                 border: false
             });
 
+            var storePaperPages = getDataStorePapersPage();
+
+            var view = Ext.create({
+                xtype: 'dataview',
+                id: 'lst_pages',
+                store: storePaperPages,//getDataStorePapersPage(),
+                tpl: [
+                    '<tpl for=".">',
+
+                        '<div class="conteiner-paper-item">',
+
+                            '<div class="page-paper">',
+                                "<div class='page-paper-conteiner' id=page{p2} ondblclick='fth_dbclick(this, 2);' onclick='fth_click(this, 2);'>",
+                                    '<div class="page-paper-inner-head">',
+                                        'Перелік департаментів на сторінці: {departs2}',
+                                     '</div>',
+                                    '<div class="page-paper-inner-bottom">{p2}</div>',
+                                '</div>',
+                            '</div>',
+
+                            '<div class="page-paper">',
+                                '<div class="page-paper-conteiner" id=page{p1} ondblclick="fth_dbclick(this, 1);" onclick="fth_click(this, 1);">',
+                                    '<div class="page-paper-inner-head">',
+                                        'Перелік департаментів на сторінці: {departs1}',
+                                    '</div>',
+                                    '<div class="page-paper-inner-bottom">{p1}</div>',
+                                '</div>',
+                            '</div>',
+
+                        '</div>',
+
+                    '</tpl>'],
+                //multiSelect: false,
+                singleSelect: true,
+                trackOver: true,
+                overItemCls: 'x-item-over',
+                itemSelector: 'div.conteiner-paper-item',
+                emptyText: 'No images to display',
+                listeners: {
+                    selectionchange: function (record, item, index, e) {
+
+                    }
+                }
+            });
+
+
             Ext.create('Ext.window.Window', {
                 title: 'Перегляд стрінок газети...',
                 height: 600,
@@ -153,79 +202,7 @@
                     xtype: 'panel',
                     autoScroll: true,
                     flex: 1,
-                    items: [{
-                        xtype: 'dataview',
-                        id: 'lst_pages',
-                        store: getDataStorePapersPage(), 
-                        tpl: [
-                            '<tpl for=".">',
-
-                                '<div class="conteiner-paper-item">',
-
-                                    '<div class="page-paper">',
-                                        "<div class='page-paper-conteiner' id=page{p2} ondblclick='fth_dbclick(this, 2);' onclick='fth_click(this, 2);'>",
-                                            '<div class="page-paper-inner-head">',
-                                                'Перелік департаментів на сторінці: {departs2}',
-                                             '</div>',
-                                            '<div class="page-paper-inner-bottom">{p2}</div>',
-                                        '</div>',
-                                    '</div>',
-
-                                    '<div class="page-paper">',
-                                        '<div class="page-paper-conteiner" id=page{p1} ondblclick="fth_dbclick(this, 1);" onclick="fth_click(this, 1);">',
-                                            '<div class="page-paper-inner-head">',
-                                                'Перелік департаментів на сторінці: {departs1}',
-                                            '</div>',
-                                            '<div class="page-paper-inner-bottom">{p1}</div>',
-                                        '</div>',
-                                    '</div>',
-
-                                '</div>',
-
-                            '</tpl>'],
-                        //multiSelect: false,
-                        singleSelect: true,
-                        trackOver: true,
-                        overItemCls: 'x-item-over',
-                        itemSelector: 'div.conteiner-paper-item',
-                        emptyText: 'No images to display',
-                        listeners: {
-                            //click: {
-                            //    element: 'el', //bind to the underlying el property on the panel
-                            //    fn: function () {
-                            //        //console.log('click el');
-                            //    }
-                            //},
-                            //dblclick:
-                            //{
-                            //    element: 'el', 
-                            //    fn: function (event, b, c) {
-                            //        //console.log('dblclick body');
-                            //        //departset();
-                            //        Ext.create('Ext.menu.Menu', {
-                            //            width: 100,
-                            //            height: 100,
-                            //            margin: '0 0 10 0',
-                            //            items: [{
-                            //                text: 'regular item 1'
-                            //            },
-                            //              {
-                            //                  text: 'regular item 2'
-                            //              },
-                            //               {
-                            //                   text: 'regular item 3'
-                            //               }]
-                            //        }).showAt(event.getXY());
-                            //    }
-                            //},
-                            selectionchange: function (record, item, index, e) {
-                                //Ext.getCmp('btnMenuPage_1').setText('Сторінка № ' + item[0].data.p1);
-                                //Ext.getCmp('btnMenuPage_2').setText('Сторінка № ' + item[0].data.p2);
-                            }
-
-                        }
-                    }]
-
+                    items: [view]
                 }, {
                     xtype: 'panel',
                     width: 180,
@@ -252,7 +229,67 @@
                                             margin: 2,
                                             listeners: {
                                                 click: function () {
-                                                    
+                                                    //storePaperPages.add({});
+                                                    getWinNewSprint(view).show();
+                                                }
+                                            }
+                                        }]
+                                    }, {
+                                        xtype: 'panel',
+                                        border: false,
+                                        height: 30,
+                                        items: [{
+                                            xtype: 'button',
+                                            width: 170,
+                                            height: 28,
+                                            text: 'Видалити розворот',
+                                            margin: 2,
+                                            listeners: {
+                                                click: function () {
+                                                    var sell = view.getSelection();
+                                                    if (sell.length == 0) {
+                                                        Ext.Msg.alert('Увага!', 'Не вибраний розворот'); return;
+                                                    }
+
+                                                    Ext.Msg.show({
+                                                        title: 'Увага!',
+                                                        msg: "Видалити сторінки '" + sell[0].data.p1 + ' та ' + sell[0].data.p2 + "'",
+                                                        width: 300,
+                                                        closable: false,
+                                                        buttons: Ext.Msg.YESNO,
+                                                        buttonText:
+                                                        {
+                                                            yes: 'Видалити',
+                                                            no: 'Ні'
+                                                            //cancel : 'Discard'
+                                                        },
+                                                        multiline: false,
+                                                        fn: function (buttonValue, inputText, showConfig) {
+
+                                                            storePaperPages.remove(sell[0]);
+                                                            
+                                                            var i = 1;
+
+                                                            storePaperPages.each(function (record, id) {
+                                                                if (i == 1) {
+                                                                    var qty = storePaperPages.count() * 2;
+                                                                    record.set('p1', qty);
+                                                                    record.set('p2', i);
+                                                                    i++;
+                                                                } else {
+                                                                    record.set('p1', i);
+                                                                    i++;
+                                                                    record.set('p2', i);
+                                                                    i++;
+                                                                }
+
+                                                            });
+
+                                                        },
+                                                        icon: Ext.Msg.QUESTION
+                                                    });
+
+                                                    //storeV.removeAt(storeV.find('idCapa', idCapa))
                                                 }
                                             }
                                         }]
@@ -271,13 +308,6 @@
                                                     getWinDepartCell().show();
                                                 }
                                             }
-                                            //menu: [{
-                                            //    id: 'btnMenuPage_1',
-                                            //    text: 'Сторінка № '
-                                            //}, {
-                                            //    id: 'btnMenuPage_2',
-                                            //    text: 'Сторінка № '
-                                            //}]
                                         }]
                                     }, {
                                         xtype: 'panel',

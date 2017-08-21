@@ -84,12 +84,20 @@
                 beforeSend: function (req) {
                     req.setRequestHeader('Authorization', 'Basic ' + btoa(lg));
                 },
-                success: function (status) {
-                    window.location.href = "../pages/main.aspx";
+                success: function (token) {
+                    if (token != '') {
+                        sessionStorage.setItem('token', token);
+                        window.location.href = "../pages/main.aspx";
+                    } else {
+                        window.location.href = "../login.aspx";
+                    }
                 },
                 error: function (error) {
-                    Ext.Msg.alert('Увага!', error.statusText, Ext.emptyFn);
-                    //alert(error);
+                    if (error.status == 401) {
+                        Ext.Msg.alert('Увага!', 'Не вірний логін або пароль.', Ext.emptyFn);
+                    } else {
+                        Ext.Msg.alert('Увага!', error.statusText, Ext.emptyFn);
+                    }
                 }
             });
         }

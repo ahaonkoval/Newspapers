@@ -53,11 +53,24 @@ namespace Newspapers.App_Start
                 if (authorization.Scheme == "tk")
                 {
                     // По токену шукаємо користувача, перевіряємо його валідність, і формуємо GenericPrincipal
-
-                    String[] array = { "element1", "element2", "element3" };
-                    var identity = new GenericIdentity("123", "Basic");
-                    context.Principal = new GenericPrincipal(identity, array);
-                    return;
+                    string token = GetTokenFromBase64String(authorization.Parameter);
+                    if (token != string.Empty)
+                    {
+                        using (WDB w = new WDB())
+                        {
+                            DataModels.VUsers user = w.User.GetUserByToken(token);
+                            if (user != null)
+                            {
+                                var identity = new GenericIdentity(user.Login, "Basic");
+                                context.Principal = new GenericPrincipal(identity, GetRoleNamesByLogin(user.Login));
+                                return;
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                    }
                 }
 
                 if (authorization.Scheme == "Basic")
@@ -103,6 +116,34 @@ namespace Newspapers.App_Start
             }
         }
 
+        private string GetTokenFromBase64String(string base54string)
+        {
+            byte[] credentialBytes;
+            try
+            {
+                credentialBytes = Convert.FromBase64String(base54string);
+                Encoding encoding = Encoding.ASCII;
+                // Make a writable copy of the encoding to enable setting a decoder fallback.
+                encoding = (Encoding)encoding.Clone();
+                // Fail on invalid bytes rather than silently replacing and continuing.
+                encoding.DecoderFallback = DecoderFallback.ExceptionFallback;
+                string token = encoding.GetString(credentialBytes);
+
+                if (String.IsNullOrEmpty(token))
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return token;
+                }
+            }
+            catch {
+                return string.Empty;
+            }
+
+        }
+
         public Task ChallengeAsync(HttpAuthenticationChallengeContext context, CancellationToken cancellationToken)
         {
             //var host = context.Request.RequestUri.DnsSafeHost;
@@ -115,7 +156,7 @@ namespace Newspapers.App_Start
         {
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
             response.RequestMessage = new HttpRequestMessage();//ContextBoundObjec; 
-            response.ReasonPhrase = "phhhhhhhhhhhhhhhhhhhhhh";
+            response.ReasonPhrase = "error";
             return response;
         }
 

@@ -33,6 +33,9 @@ var getStorePageCells = function () {
                     writeAllFields: true,       // --<----------------------
                     root: 'cell',
                     allowSingle: true // set false to send a single record in array
+                },
+                headers: {
+                    'Authorization': 'tk ' + btoa(sessionStorage.getItem("token"))
                 }
             },
         listeners: {

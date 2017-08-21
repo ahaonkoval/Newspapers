@@ -85,8 +85,8 @@
     margin: 0px;
     text-align: center;
     font-size: 13px;
-    font-family: 'Segoe UI'
-    /*border: 1px solid #808080;*/    
+    font-family: 'Segoe UI';
+    border: 1px solid #808080;
 }
 .conteiner-depart-cell-fill{
     border: 1px solid #808080;

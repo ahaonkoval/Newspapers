@@ -2,11 +2,13 @@
 /*
     вікно для призначення відділів в кожну клітинку...
 */
+
+
 var getWinDepartCell = function () {
     /* кожна клітинка відповідає клітнці на сторінці газети */
     var dataview = new Ext.create({
         xtype: 'dataview',
-        store: getStoreCellDeparts(),
+        store: getTmpStoreCellPage(),//getStoreCellDeparts(),
         autoScroll: true,
         tpl: [
             '<tpl for=".">',
@@ -40,9 +42,9 @@ var getWinDepartCell = function () {
     var comboSelectDepart = new Ext.create({
         xtype: 'combobox',
         width: '100%',
-        store: getStoreDictDeparts(),
-        displayField: 'name',
-        valueField: 'id',
+        store: getStoreCellOtds(0),
+        displayField: 'Name',
+        valueField: 'OtdId',
         fieldLabel: 'Відділи',
         labelWidth: 45,
     });
@@ -104,8 +106,8 @@ var getWinDepartCell = function () {
                                 var dict_record = comboSelectDepart.getSelectedRecord();
                                 if (dict_record != null) {
                                     store.each(function (record, id) {
-                                        record.set('name', dict_record.data.name);
-                                        record.set('otd_id', dict_record.data.id);
+                                        record.set('name', dict_record.data.Name);
+                                        record.set('otd_id', dict_record.data.OtdId);
                                         record.commit();
                                     });
                                 }
