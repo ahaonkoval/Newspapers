@@ -57,6 +57,7 @@
     </Compile>
     <Compile Include="Dict.cs" />
     <Compile Include="Good.cs" />
+    <Compile Include="Logs.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

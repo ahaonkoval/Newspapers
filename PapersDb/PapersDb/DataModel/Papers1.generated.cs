@@ -34,6 +34,8 @@ namespace DataModels
 		public ITable<GoodsTemplate>  GoodsTemplate  { get { return this.GetTable<GoodsTemplate>(); } }
 		public ITable<Otd>            Otds           { get { return this.GetTable<Otd>(); } }
 		public ITable<Page>           Pages          { get { return this.GetTable<Page>(); } }
+		public ITable<Paper>          Papers         { get { return this.GetTable<Paper>(); } }
+		public ITable<Request>        Requests       { get { return this.GetTable<Request>(); } }
 		public ITable<Token>          Tokens         { get { return this.GetTable<Token>(); } }
 		public ITable<User>           Users          { get { return this.GetTable<User>(); } }
 		public ITable<VGoodsTemplate> VGoodsTemplate { get { return this.GetTable<VGoodsTemplate>(); } }
@@ -259,7 +261,8 @@ namespace DataModels
 	[Table(Schema="dbo", Name="pages")]
 	public partial class Page
 	{
-		[Column("page_id"), PrimaryKey, NotNull] public long PageId { get; set; } // bigint
+		[Column("page_id"),  PrimaryKey, Identity] public long  PageId  { get; set; } // bigint
+		[Column("paper_id"), Nullable            ] public long? PaperId { get; set; } // bigint
 
 		#region Associations
 
@@ -269,7 +272,79 @@ namespace DataModels
 		[Association(ThisKey="PageId", OtherKey="PageId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
 		public IEnumerable<Cell> cells { get; set; }
 
+		/// <summary>
+		/// FK_pages_papers
+		/// </summary>
+		[Association(ThisKey="PaperId", OtherKey="PaperId", CanBeNull=true, Relationship=Relationship.ManyToOne, KeyName="FK_pages_papers", BackReferenceName="pages")]
+		public Paper paper { get; set; }
+
 		#endregion
+	}
+
+	[Table(Schema="dbo", Name="papers")]
+	public partial class Paper
+	{
+		[Column("paper_id"),   PrimaryKey,  NotNull] public long      PaperId             { get; set; } // bigint
+		[Column("paper_name"),    Nullable         ] public string    PaperName           { get; set; } // nvarchar(50)
+		[Column(),                Nullable         ] public int?      StartQtyPages       { get; set; } // int
+		/// <summary>
+		/// ???? ?????? ??????
+		/// </summary>
+		[Column(),                Nullable         ] public DateTime? PublicationDate     { get; set; } // date
+		/// <summary>
+		/// ?????????? ????????? ?????????
+		/// </summary>
+		[Column(),                Nullable         ] public DateTime? ReconcilementArtQty { get; set; } // date
+		/// <summary>
+		/// ??????? ?????????? ???????
+		/// </summary>
+		[Column(),                Nullable         ] public DateTime? StartGoodPrepare    { get; set; } // date
+		/// <summary>
+		/// ??????, ??????, ?????????? ???????
+		/// </summary>
+		[Column(),                Nullable         ] public DateTime? SellAproveGoods     { get; set; } // date
+		/// <summary>
+		/// ??????? ??????
+		/// </summary>
+		[Column(),                Nullable         ] public DateTime? LayoutNewsPaper     { get; set; } // date
+		/// <summary>
+		/// ???????????? ???????
+		/// </summary>
+		[Column(),                Nullable         ] public DateTime? CorrectionGoods     { get; set; } // date
+		/// <summary>
+		/// ???. ??????????, ?????????? ? ????????
+		/// </summary>
+		[Column(),                Nullable         ] public DateTime? StopAgreement       { get; set; } // date
+		/// <summary>
+		/// ?????????? ?? ?????, ?????? ???????????
+		/// </summary>
+		[Column(),                Nullable         ] public DateTime? PrintPrepareAndSign { get; set; } // date
+		/// <summary>
+		/// ???? ??????
+		/// </summary>
+		[Column(),                Nullable         ] public DateTime? PrintingNewsPaper   { get; set; } // date
+		/// <summary>
+		/// ???????? ??????
+		/// </summary>
+		[Column(),                Nullable         ] public DateTime? DeliveryNewsPaper   { get; set; } // date
+		[Column(),                Nullable         ] public int?      QtyPages            { get; set; } // int
+
+		#region Associations
+
+		/// <summary>
+		/// FK_pages_papers_BackReference
+		/// </summary>
+		[Association(ThisKey="PaperId", OtherKey="PaperId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
+		public IEnumerable<Page> pages { get; set; }
+
+		#endregion
+	}
+
+	[Table(Schema="dbo", Name="requests")]
+	public partial class Request
+	{
+		[Column("id"),      Identity] public long   Id             { get; set; } // bigint
+		[Column("request"), Nullable] public string Request_Column { get; set; } // nvarchar(4000)
 	}
 
 	[Table(Schema="dbo", Name="tokens")]
@@ -485,6 +560,12 @@ namespace DataModels
 		{
 			return table.FirstOrDefault(t =>
 				t.PageId == PageId);
+		}
+
+		public static Paper Find(this ITable<Paper> table, long PaperId)
+		{
+			return table.FirstOrDefault(t =>
+				t.PaperId == PaperId);
 		}
 
 		public static Token Find(this ITable<Token> table, long TokenId)

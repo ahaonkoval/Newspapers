@@ -79,6 +79,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Entity" />
@@ -203,7 +204,7 @@
   <ItemGroup>
     <Compile Include="App_Start\Auth.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CellsController.cs" />
     <Compile Include="Controllers\DictController.cs" />
@@ -255,8 +256,6 @@
     <Compile Include="reports\pages\goodlist.aspx.designer.cs">
       <DependentUpon>goodlist.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Results\ChallengeResult.cs" />
-    <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -400,8 +399,8 @@
     <Content Include="Scripts\ext\classic\theme-triton\resources\Readme.md" />
     <Content Include="Scripts\ext\classic\theme-triton\theme-triton-all-debug.scss" />
     <Content Include="Scripts\ext\classic\theme-triton\theme-triton-all-rtl-debug.scss" />
-    <None Include="Documents\Приклад графіка.xlsx" />
-    <None Include="Documents\Проект порталу шаблонів газет v2.docx" />
+    <None Include="documents\Приклад графіка.xlsx" />
+    <None Include="documents\Проект порталу шаблонів газет v2.docx" />
     <Content Include="PapersReports.xsc">
       <DependentUpon>PapersReports.xsd</DependentUpon>
     </Content>
@@ -413,6 +412,7 @@
     <Content Include="PapersReports.xss">
       <DependentUpon>PapersReports.xsd</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\newspaper.pubxml" />
     <None Include="Scripts\jquery\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\code\administration\goodgrid.js" />
     <Content Include="Scripts\code\administration\goods.js" />

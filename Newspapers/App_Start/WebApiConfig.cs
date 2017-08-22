@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
-using Microsoft.Owin.Security.OAuth;
+//using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 
 namespace Newspapers
@@ -14,7 +14,7 @@ namespace Newspapers
         {
             // Конфигурация и службы Web API
             // Настройка Web API для использования только проверки подлинности посредством маркера-носителя.
-            config.SuppressDefaultHostAuthentication();
+            //config.SuppressDefaultHostAuthentication();
             //config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
             config.Filters.Add(new App_Start.IdentityBasicAuthentication());

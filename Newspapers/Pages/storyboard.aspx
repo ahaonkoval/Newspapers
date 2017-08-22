@@ -374,7 +374,7 @@
                                         width: '100%',
                                         text: 'Повернутись',
                                         handler: function () {
-                                            alert();
+                                            window.location.href = "../pages/main.aspx";
                                         }
                                     }]
                                 }]

@@ -13,7 +13,7 @@ namespace Newspapers.Controllers
 {
     public class UserController : ApiController
     {
-        [Authorize]
+        //[Authorize]
         // GET: api/User
         public IEnumerable<DataModels.User> Get()
         {

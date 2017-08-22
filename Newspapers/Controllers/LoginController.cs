@@ -11,7 +11,7 @@ namespace Newspapers.Controllers
 {
     public class LoginController : ApiController
     {
-        [Authorize]
+        //[Authorize]
         // GET: api/Login
         public string Get()
         {

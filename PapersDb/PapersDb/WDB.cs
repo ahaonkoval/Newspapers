@@ -21,12 +21,15 @@ namespace PapersDbWorker
 
         public Good Good { get; set; }
 
+        public Logs DbLoger { get; set; }
+
         public WDB()
         {
             this.User = new PapersDbWorker.User();
             this.Dict = new PapersDbWorker.Dict();
             this.Cells = new PapersDbWorker.Cells();
             this.Good = new PapersDbWorker.Good();
+            this.DbLoger = new Logs();
         }
 
         public void Dispose()

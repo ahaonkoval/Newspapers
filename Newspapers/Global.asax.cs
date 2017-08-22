@@ -11,13 +11,16 @@ using System.Web.SessionState;
 
 namespace Newspapers
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    //public class WebApiApplication : System.Web.HttpApplication
+    public class Global : System.Web.HttpApplication
     {
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
+            //AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            //WebApiConfig.Register(RouteTable.Routes);
+
+            //WebApiConfig.Register(WebApiConfig.Register);
+
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             //RouteConfig.RegisterRoutes(RouteTable.Routes);
             //BundleConfig.RegisterBundles(BundleTable.Bundles);
