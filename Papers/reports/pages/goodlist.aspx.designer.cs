@@ -7,10 +7,10 @@
 // </автоматически создаваемое>
 //------------------------------------------------------------------------------
 
-namespace Newspapers.reports.pages {
+namespace Papers.reports.pages {
     
     
-    public partial class goodlist {
+    public partial class goodlist1 {
         
         /// <summary>
         /// form1 элемент управления.

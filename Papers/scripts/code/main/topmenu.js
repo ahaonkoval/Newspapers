@@ -1,4 +1,19 @@
 ﻿
+var Router = {
+    home: window.location.origin,
+
+    getHome: function () {
+        if (window.location.host == window.location.hostname) {
+            var m = window.location.pathname.split('/')
+            return window.location.origin + '/' + m[1];
+        } else {
+            return window.location.origin;
+        }
+    }
+};
+
+var htmlGetOut = '<a title="Click to do something" href="' + Router.getHome() + '/Login.aspx" onclick="getout();">Вихід</a>';
+
 var topmenu = Ext.create('Ext.panel.Panel', {
     xtype: 'panel',
     border: false,
@@ -44,7 +59,7 @@ var topmenu = Ext.create('Ext.panel.Panel', {
                 border: false,
                 padding: 10,
                 items: [{
-                    html: '<a title="Click to do something" href="Login.aspx" onclick="getout();">Вихід</a>',
+                    html: htmlGetOut,
                     border: false
                 }]
             }

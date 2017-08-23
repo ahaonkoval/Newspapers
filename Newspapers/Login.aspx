@@ -77,7 +77,7 @@
         var login = function () {
             var lg = Ext.getCmp('txtUserName').getValue() + ':' + Ext.getCmp('txtPassword').getValue();
             $.ajax({
-                url: '/api/login',
+                url: 'api/login',
                 type: 'GET',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",

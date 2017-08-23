@@ -99,7 +99,7 @@
                     },{
                         text: 'Призначення товарів на сторінці №' + id,
                         handler: function () {
-                            window.location.href = "pages/mastertmp.aspx";
+                            window.location.href = Router.getHome() + "/pages/mastertmp.aspx";
                         }
                     }]
             }).showAt(

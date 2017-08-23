@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <script type="text/javascript" src="Scripts/ext/ext-all.js"></script>
     <script type="text/javascript" src="Scripts/jquery/jquery-1.10.2.js"></script>
@@ -12,9 +12,23 @@
 </head>
 <body>
 
-        <script>
+    <script>
+
+        var Router = {
+            home: window.location.origin,
+
+            getHome: function(){
+                if (window.location.host == window.location.hostname)
+                {
+                    return window.location.href;
+                } else {
+                    return window.location.origin;
+                }
+            }
+        };
 
         Ext.onReady(function () {
+
             var viewport = Ext.create('Ext.container.Viewport', {
                 layout: {
                     type: 'vbox',
@@ -26,7 +40,7 @@
                     reference: 'form',
                     title: 'Авторизация...',
                     width: 290,
-                    height:150,
+                    height: 150,
                     border: true,
                     items: [{
                         border: false,
@@ -50,7 +64,7 @@
                                     fn: function (ctrl, e, eOpts) {
                                         if (ctrl.keyCode == 13) {
                                             login();
-                                        }                                        
+                                        }
                                     }
                                 }
                             }
@@ -77,7 +91,7 @@
         var login = function () {
             var lg = Ext.getCmp('txtUserName').getValue() + ':' + Ext.getCmp('txtPassword').getValue();
             $.ajax({
-                url: 'api/login',
+                url: Router.getHome() + '/api/login',
                 type: 'GET',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -103,10 +117,9 @@
         }
     </script>
 
-    <form id="form1" runat="server">
-    <div>
-    
-    </div>
-    </form>
+<%--    <form id="form1" runat="server">
+        <div>
+        </div>
+    </form>--%>
 </body>
 </html>

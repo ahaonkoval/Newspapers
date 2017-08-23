@@ -16,10 +16,10 @@ var getStorePageCells = function () {
                 },
                 api:
                 {
-                    read: 'api/cells',
-                    create: 'api/cells',
-                    update: 'api/cells',
-                    destroy: 'api/cells'
+                    read: Router.getHome() + '/api/cells',
+                    create: Router.getHome() + '/api/cells',
+                    update: Router.getHome() + '/api/cells',
+                    destroy: Router.getHome() + '/api/cells'
                 },
                 actionMethods:
                 {

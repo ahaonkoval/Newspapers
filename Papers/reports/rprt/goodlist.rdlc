@@ -1507,7 +1507,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -2870,7 +2869,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>PapersReports</rd:DataSetName>
-        <rd:SchemaPath>D:\develops\GitHub\Newspapers\Newspapers\PapersReports.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\develops\GitHub\Newspapers\Papers\PapersReports.xsd</rd:SchemaPath>
         <rd:TableName>Cells</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>

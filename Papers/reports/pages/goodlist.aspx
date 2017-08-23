@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="goodlist.aspx.cs" Inherits="Papers.reports.pages.goodlist" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="goodlist.aspx.cs" Inherits="Papers.reports.pages.goodlist1" %>
 
 <%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
 
@@ -11,9 +11,9 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div style="width:100%; height:100%" >
+        <div>
             <rsweb:ReportViewer ID="ReportViewer1" runat="server" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="100%" Height="1000px">
-                <LocalReport ReportPath="reports\rprt\goodlist.rdlc">
+                <LocalReport ReportPath="\\reports\rprt\goodlist.rdlc">
                     <DataSources>
                         <rsweb:ReportDataSource DataSourceId="sdsPaperGood" Name="GoodsList" />
                     </DataSources>
@@ -22,9 +22,8 @@
             <asp:ScriptManager ID="ScriptManager1" runat="server">
             </asp:ScriptManager>
         </div>
-        <asp:SqlDataSource ID="sdsPaperGood" runat="server" ConnectionString="<%$ ConnectionStrings:Papers %>" 
-            SelectCommand="SELECT * FROM [cells] where isfill = 1">
-        </asp:SqlDataSource>
+        <asp:SqlDataSource ID="sdsPaperGood" runat="server" ConnectionString="<%$ ConnectionStrings:Papers %>"
+            SelectCommand="SELECT * FROM [cells] where isfill = 1"></asp:SqlDataSource>
     </form>
 </body>
 </html>

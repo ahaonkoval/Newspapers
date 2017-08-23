@@ -1,4 +1,17 @@
 ﻿
+var Router = {
+    home: window.location.origin,
+
+    getHome: function () {
+        if (window.location.host == window.location.hostname) {
+            var m = window.location.pathname.split('/')
+            return window.location.origin + '/' + m[1];
+        } else {
+            return window.location.origin;
+        }
+    }
+};
+
 var getStoreAccess = function () {
     var store = Ext.create('Ext.data.JsonStore', {
         model: Ext.define('Access', {
@@ -16,7 +29,7 @@ var getStoreAccess = function () {
         idProperty: 'AccessId',
         proxy: {
             type: 'rest',
-            url: ('api/dict/GetAccessList/0'),
+            url: (Router.getHome() + '/api/dict/GetAccessList/0'),
             headers: {
                 'Authorization': 'tk ' + btoa(sessionStorage.getItem("token"))
             },
@@ -55,7 +68,7 @@ var getStoreCellOtds = function (type) {
         idProperty: 'OtdId',
         proxy: {
             type: 'rest',
-            url: ('api/dict/GetOtdList/' + type),
+            url: (Router.getHome() + '/api/dict/GetOtdList/' + type),
             headers: {
                 'Authorization': 'tk ' + btoa(sessionStorage.getItem("token"))
             },
@@ -109,7 +122,7 @@ var getStoreCellDeparts = function (otdId) {
         idProperty: 'DepartId',
         proxy: {
             type: 'rest',
-            url: ('api/dict/GetDepartList/' + otdId), //
+            url: (Router.getHome() + '/api/dict/GetDepartList/' + otdId), //
             headers: {
                 'Authorization': 'tk ' + btoa(sessionStorage.getItem("token"))
             },
@@ -183,10 +196,10 @@ var getStoreUsers = function () {
         proxy: {
             type: 'rest',
             api: {
-                read: 'api/user/',
-                create: 'api/user/',
-                update: 'api/user/',
-                destroy: 'api/user/'
+                read: Router.getHome() + '/api/user/',
+                create: Router.getHome() + '/api/user/',
+                update: Router.getHome() + '/api/user/',
+                destroy: Router.getHome() + '/api/user/'
             },
             actionMethods:
             {
@@ -251,10 +264,10 @@ var getStoreGoods = function () {
         proxy: {
             type: 'rest',
             api: {
-                read: 'api/goods/',
-                create: 'api/goods/',
-                update: 'api/goods/',
-                destroy: 'api/goods/'
+                read: Router.getHome() + '/api/goods/',
+                create: Router.getHome() + '/api/goods/',
+                update: Router.getHome() + '/api/goods/',
+                destroy: Router.getHome() + '/api/goods/'
             },
             actionMethods:
             {
@@ -312,7 +325,7 @@ var getStoreCellSizes = function () {
         idProperty: 'SizeId',
         proxy: {
             type: 'rest',
-            url: ('api/dict/GetGoodsSizes/0'),
+            url: (Router.getHome() + '/api/dict/GetGoodsSizes/0'),
             headers: {
                 'Authorization': 'tk ' + btoa(sessionStorage.getItem("token"))
             },

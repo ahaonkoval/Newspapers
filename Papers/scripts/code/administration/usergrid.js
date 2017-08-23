@@ -182,7 +182,7 @@ var getUserGrid = function (stAccess, stOtds) {
                             var currentValue = ctrl.getValue();
                             if (currentValue != currentLogin){
                                 $.ajax({
-                                    url: 'api/login/LoginVerificated/0',
+                                    url: Router.getHome() + '/api/login/LoginVerificated/0',
                                     type: 'GET',
                                     data: {
                                         login: currentValue
@@ -291,7 +291,7 @@ var getUserGrid = function (stAccess, stOtds) {
                 xtype: 'actioncolumn',
                 width: 28,
                 items: [{
-                    icon: '/css/img/Delete.ico',
+                    icon: Router.getHome() + '/css/img/Delete.ico',
                     tooltip: 'Видалити',
                     handler: function(grid, rowIndex, colIndex) {
                         var store = grid.getStore();
@@ -324,7 +324,7 @@ var getUserGrid = function (stAccess, stOtds) {
                 xtype: 'actioncolumn',
                 width: 28,
                 items: [{
-                    icon: '/css/img/icons/automated.ico',
+                    icon: Router.getHome() + '/css/img/icons/automated.ico',
                     tooltip: 'Редагувати',
                     handler: function(grid, rowIndex, colIndex) {
                         var rec = grid.getStore().getAt(rowIndex);
@@ -388,7 +388,7 @@ var getWinSetPassword = function(row) {
                     //}
 
                     $.ajax({
-                        url: 'api/user/change/' + row.data.UserId,
+                        url: Router.getHome() + 'api/user/change/' + row.data.UserId,
                         type: 'POST',
                         data: txtPassword.getValue(),//JSON.stringify(o),
                         contentType: "application/json; charset=utf-8",

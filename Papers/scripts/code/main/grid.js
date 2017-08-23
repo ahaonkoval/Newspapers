@@ -37,7 +37,7 @@ var getPapersGrid = function () {
         listeners: {
             'rowdblclick': function (grid, record, e) {
                 /* открываєм окно редактирования */
-                window.location.href = "pages/storyboard.aspx";
+                window.location.href = Router.getHome() + "/pages/storyboard.aspx";
             }
         }
     });

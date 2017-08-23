@@ -18,7 +18,7 @@ var getWinPageGoodReport = function () {
                 showMask: true,
                 autoEl: {
                     tag: 'iframe',
-                    src: 'reports/pages/goodlist.aspx'
+                    src: Router.getHome() + '/reports/pages/goodlist.aspx'
                 }
             }]
         }],
