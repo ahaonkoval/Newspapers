@@ -23,6 +23,7 @@ namespace PapersDbWorker
 
         public Logs DbLoger { get; set; }
 
+        public Paper Paper { get; set; }
         public WDB()
         {
             this.User = new PapersDbWorker.User();
@@ -30,6 +31,7 @@ namespace PapersDbWorker
             this.Cells = new PapersDbWorker.Cells();
             this.Good = new PapersDbWorker.Good();
             this.DbLoger = new Logs();
+            this.Paper = new PapersDbWorker.Paper();
         }
 
         public void Dispose()

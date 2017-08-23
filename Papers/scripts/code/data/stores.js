@@ -346,3 +346,103 @@ var getStoreCellSizes = function () {
 
     return store;
 }
+
+var getStorePapers = function(){
+    var store = Ext.create('Ext.data.JsonStore', {
+        model: Ext.define('GoodGridModel', {
+            extend: 'Ext.data.Model',
+            idProperty: 'PaperId',
+            fields: [{
+                name: 'PaperId',
+                type: 'int'
+            }, {
+                name: 'PaperName',
+                type: 'int'
+            }, {
+                name: 'StartQtyPages',
+                type: 'int'
+            }, {
+                name: 'PublicationDate',
+                type: 'date'
+            }, {
+                name: 'ReconcilementArtQty',
+                type: 'date'
+            }, {
+                name: 'StartGoodPrepare',
+                type: 'date'
+            }, {
+                name: 'SellAproveGoods',
+                type: 'date'
+            }, {
+                name: 'LayoutNewsPaper',
+                type: 'date'
+            }, {
+                name: 'CorrectionGoods',
+                type: 'date'
+            }, {
+                name: 'StopAgreement',
+                type: 'date'
+            }, {
+                name: 'PrintPrepareAndSign',
+                type: 'date'
+            }, {
+                name: 'PrintingNewsPaper',
+                type: 'date'
+            }, {
+                name: 'DeliveryNewsPaper',
+                type: 'date'
+            }, {
+                name: 'QtyPages',
+                type: 'int'
+            }, {
+                name: 'Ps',
+                type: 'int'
+            }]
+        }),
+        //autoLoad: true,
+        idProperty: 'PaperId',
+        proxy: {
+            type: 'rest',
+            api: {
+                read: Router.getHome() + '/api/papers/',
+                create: Router.getHome() + '/api/papers/',
+                update: Router.getHome() + '/api/papers/',
+                destroy: Router.getHome() + '/api/papers/'
+            },
+            actionMethods:
+            {
+                destroy: 'POST',
+                read: 'GET',
+                create: 'POST',
+                update: 'PUT'
+            },
+            writer: {
+                type: 'json',
+                writeAllFields: true,       // --<----------------------
+                root: 'cell',
+                allowSingle: true, // set false to send a single record in array
+                listful: true,
+                encode: false,
+            },
+            headers: {
+                'Authorization': 'tk ' + btoa(sessionStorage.getItem("token"))
+            },
+            reader: {
+                type: 'json',
+                rootProperty: 'data',
+                idProperty: 'PaperId',
+                totalProperty: 'total'
+            }
+        },
+        remoteSort: false,
+        sorters: [{
+            property: 'Ps',
+            direction: 'ASC'
+        }],
+        pageSize: 50
+
+
+    });
+
+    return store;
+}

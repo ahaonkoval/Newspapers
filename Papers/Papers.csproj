@@ -6493,6 +6493,7 @@
     <Compile Include="Controllers\DictController.cs" />
     <Compile Include="Controllers\GoodsController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\PapersController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">

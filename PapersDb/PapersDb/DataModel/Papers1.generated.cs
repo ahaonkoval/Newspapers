@@ -21,7 +21,7 @@ using LinqToDB.Mapping;
 namespace DataModels
 {
 	/// <summary>
-	/// Database       : Papers
+	/// Database       : PapersDevelop
 	/// Data Source    : MO-726-001
 	/// Server Version : 13.00.4446
 	/// </summary>
@@ -284,50 +284,48 @@ namespace DataModels
 	[Table(Schema="dbo", Name="papers")]
 	public partial class Paper
 	{
-		[Column("paper_id"),   PrimaryKey,  NotNull] public long      PaperId             { get; set; } // bigint
-		[Column("paper_name"),    Nullable         ] public string    PaperName           { get; set; } // nvarchar(50)
-		[Column(),                Nullable         ] public int?      StartQtyPages       { get; set; } // int
-		/// <summary>
-		/// ???? ?????? ??????
-		/// </summary>
-		[Column(),                Nullable         ] public DateTime? PublicationDate     { get; set; } // date
+		[Column("paper_id"),               PrimaryKey, Identity] public long      PaperId             { get; set; } // bigint
+		[Column("paper_name"),             Nullable            ] public string    PaperName           { get; set; } // nvarchar(50)
+		[Column("start_qty_pages"),        Nullable            ] public int?      StartQtyPages       { get; set; } // int
+		[Column("publication_date"),       Nullable            ] public DateTime? PublicationDate     { get; set; } // date
 		/// <summary>
 		/// ?????????? ????????? ?????????
 		/// </summary>
-		[Column(),                Nullable         ] public DateTime? ReconcilementArtQty { get; set; } // date
+		[Column("reconcilement_art_qty"),  Nullable            ] public DateTime? ReconcilementArtQty { get; set; } // date
 		/// <summary>
 		/// ??????? ?????????? ???????
 		/// </summary>
-		[Column(),                Nullable         ] public DateTime? StartGoodPrepare    { get; set; } // date
+		[Column("start_good_prepare"),     Nullable            ] public DateTime? StartGoodPrepare    { get; set; } // date
 		/// <summary>
 		/// ??????, ??????, ?????????? ???????
 		/// </summary>
-		[Column(),                Nullable         ] public DateTime? SellAproveGoods     { get; set; } // date
+		[Column("sell_aprove_goods"),      Nullable            ] public DateTime? SellAproveGoods     { get; set; } // date
 		/// <summary>
 		/// ??????? ??????
 		/// </summary>
-		[Column(),                Nullable         ] public DateTime? LayoutNewsPaper     { get; set; } // date
+		[Column("layout_news_paper"),      Nullable            ] public DateTime? LayoutNewsPaper     { get; set; } // date
 		/// <summary>
 		/// ???????????? ???????
 		/// </summary>
-		[Column(),                Nullable         ] public DateTime? CorrectionGoods     { get; set; } // date
+		[Column("correction_goods"),       Nullable            ] public DateTime? CorrectionGoods     { get; set; } // date
 		/// <summary>
 		/// ???. ??????????, ?????????? ? ????????
 		/// </summary>
-		[Column(),                Nullable         ] public DateTime? StopAgreement       { get; set; } // date
+		[Column("stop_agreement"),         Nullable            ] public DateTime? StopAgreement       { get; set; } // date
 		/// <summary>
 		/// ?????????? ?? ?????, ?????? ???????????
 		/// </summary>
-		[Column(),                Nullable         ] public DateTime? PrintPrepareAndSign { get; set; } // date
+		[Column("print_prepare_and_sign"), Nullable            ] public DateTime? PrintPrepareAndSign { get; set; } // date
 		/// <summary>
 		/// ???? ??????
 		/// </summary>
-		[Column(),                Nullable         ] public DateTime? PrintingNewsPaper   { get; set; } // date
+		[Column("printing_news_paper"),    Nullable            ] public DateTime? PrintingNewsPaper   { get; set; } // date
 		/// <summary>
 		/// ???????? ??????
 		/// </summary>
-		[Column(),                Nullable         ] public DateTime? DeliveryNewsPaper   { get; set; } // date
-		[Column(),                Nullable         ] public int?      QtyPages            { get; set; } // int
+		[Column("delivery_news_paper"),    Nullable            ] public DateTime? DeliveryNewsPaper   { get; set; } // date
+		[Column("qty_pages"),              Nullable            ] public int?      QtyPages            { get; set; } // int
+		[Column("ps"),                     Nullable            ] public int?      Ps                  { get; set; } // int
 
 		#region Associations
 
@@ -429,7 +427,7 @@ namespace DataModels
 		[Column("deleted"),   NotNull    ] public bool   Deleted  { get; set; } // bit
 	}
 
-	public static partial class PapersDBStoredProcedures
+	public static partial class PapersDevelopDBStoredProcedures
 	{
 		#region SpCreatediagram
 

@@ -41,6 +41,19 @@
             cursorY = e.pageY;
         }
 
+        var Router = {
+            home: window.location.origin,
+
+            getHome: function () {
+                if (window.location.host == window.location.hostname) {
+                    var m = window.location.pathname.split('/')
+                    return window.location.origin + '/' + m[1];
+                } else {
+                    return window.location.origin;
+                }
+            }
+        };
+
         var fth_click = function (ctrl, side) {
             var page_id = parseInt(ctrl.id.replace('page', ''));
             var lst = Ext.getCmp('lst_pages')
@@ -321,7 +334,7 @@
                                             margin: 2,
                                             listeners: {
                                                 click: function () {
-                                                    window.location.href = "pages/mastertmp.aspx";
+                                                    window.location.href = Router.getHome()+"/pages/mastertmp.aspx";
                                                 }
                                             }
                                         }]
@@ -374,7 +387,7 @@
                                         width: '100%',
                                         text: 'Повернутись',
                                         handler: function () {
-                                            window.location.href = "pages/main.aspx";
+                                            window.location.href = Router.getHome() + "/pages/main.aspx";
                                         }
                                     }]
                                 }]

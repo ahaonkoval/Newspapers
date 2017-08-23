@@ -46,7 +46,7 @@
 
 	NamespaceName = "DataModels";
 
-	LoadSqlServerMetadata("MO-726-001", "Papers", "sa", "1771980");
+	LoadSqlServerMetadata("MO-726-001", "PapersDevelop", "sa", "1771980");
 //	LoadSqlServerMetadata(".", "MyDatabase"); // Integrated Security
 //	LoadSqlServerMetadata(string connectionString);
 

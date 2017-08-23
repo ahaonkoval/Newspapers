@@ -31,6 +31,20 @@
 </head>
 <body>
     <script>
+
+        var Router = {
+            home: window.location.origin,
+
+            getHome: function () {
+                if (window.location.host == window.location.hostname) {
+                    var m = window.location.pathname.split('/')
+                    return window.location.origin + '/' + m[1];
+                } else {
+                    return window.location.origin;
+                }
+            }
+        };
+
         Ext.onReady(function () {
 
             var pQtyFillCell = Ext.create('Ext.form.Panel', {
@@ -146,7 +160,7 @@
                                         xtype: 'button',
                                         text: 'Повернутись',
                                         handler: function () {
-                                            window.location.href = "pages/storyboard.aspx";
+                                            window.location.href = Router.getHome()+"/pages/storyboard.aspx";
                                         }
                                     }]
                                 }
