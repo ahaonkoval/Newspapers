@@ -32,9 +32,9 @@ namespace DataModels
 		public ITable<Depart>         Departs        { get { return this.GetTable<Depart>(); } }
 		public ITable<GoodsSizes>     GoodsSizes     { get { return this.GetTable<GoodsSizes>(); } }
 		public ITable<GoodsTemplate>  GoodsTemplate  { get { return this.GetTable<GoodsTemplate>(); } }
+		public ITable<Npaper>         Npapers        { get { return this.GetTable<Npaper>(); } }
 		public ITable<Otd>            Otds           { get { return this.GetTable<Otd>(); } }
 		public ITable<Page>           Pages          { get { return this.GetTable<Page>(); } }
-		public ITable<Paper>          Papers         { get { return this.GetTable<Paper>(); } }
 		public ITable<Request>        Requests       { get { return this.GetTable<Request>(); } }
 		public ITable<Token>          Tokens         { get { return this.GetTable<Token>(); } }
 		public ITable<User>           Users          { get { return this.GetTable<User>(); } }
@@ -235,54 +235,8 @@ namespace DataModels
 		#endregion
 	}
 
-	[Table(Schema="dbo", Name="otds")]
-	public partial class Otd
-	{
-		[Column("Otd_id"), PrimaryKey,  NotNull] public long   OtdId { get; set; } // bigint
-		[Column(),            Nullable         ] public string Name  { get; set; } // nvarchar(50)
-
-		#region Associations
-
-		/// <summary>
-		/// FK_departs_otds_BackReference
-		/// </summary>
-		[Association(ThisKey="OtdId", OtherKey="OtdId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
-		public IEnumerable<Depart> departs { get; set; }
-
-		/// <summary>
-		/// FK__users__otd_id__17F790F9_BackReference
-		/// </summary>
-		[Association(ThisKey="OtdId", OtherKey="OtdId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
-		public IEnumerable<User> usersotdid17F790F { get; set; }
-
-		#endregion
-	}
-
-	[Table(Schema="dbo", Name="pages")]
-	public partial class Page
-	{
-		[Column("page_id"),  PrimaryKey, Identity] public long  PageId  { get; set; } // bigint
-		[Column("paper_id"), Nullable            ] public long? PaperId { get; set; } // bigint
-
-		#region Associations
-
-		/// <summary>
-		/// FK_cells_pages_BackReference
-		/// </summary>
-		[Association(ThisKey="PageId", OtherKey="PageId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
-		public IEnumerable<Cell> cells { get; set; }
-
-		/// <summary>
-		/// FK_pages_papers
-		/// </summary>
-		[Association(ThisKey="PaperId", OtherKey="PaperId", CanBeNull=true, Relationship=Relationship.ManyToOne, KeyName="FK_pages_papers", BackReferenceName="pages")]
-		public Paper paper { get; set; }
-
-		#endregion
-	}
-
-	[Table(Schema="dbo", Name="papers")]
-	public partial class Paper
+	[Table(Schema="dbo", Name="npapers")]
+	public partial class Npaper
 	{
 		[Column("paper_id"),               PrimaryKey, Identity] public long      PaperId             { get; set; } // bigint
 		[Column("paper_name"),             Nullable            ] public string    PaperName           { get; set; } // nvarchar(50)
@@ -333,7 +287,53 @@ namespace DataModels
 		/// FK_pages_papers_BackReference
 		/// </summary>
 		[Association(ThisKey="PaperId", OtherKey="PaperId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
-		public IEnumerable<Page> pages { get; set; }
+		public IEnumerable<Page> pagespapers { get; set; }
+
+		#endregion
+	}
+
+	[Table(Schema="dbo", Name="otds")]
+	public partial class Otd
+	{
+		[Column("Otd_id"), PrimaryKey,  NotNull] public long   OtdId { get; set; } // bigint
+		[Column(),            Nullable         ] public string Name  { get; set; } // nvarchar(50)
+
+		#region Associations
+
+		/// <summary>
+		/// FK_departs_otds_BackReference
+		/// </summary>
+		[Association(ThisKey="OtdId", OtherKey="OtdId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
+		public IEnumerable<Depart> departs { get; set; }
+
+		/// <summary>
+		/// FK__users__otd_id__17F790F9_BackReference
+		/// </summary>
+		[Association(ThisKey="OtdId", OtherKey="OtdId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
+		public IEnumerable<User> usersotdid17F790F { get; set; }
+
+		#endregion
+	}
+
+	[Table(Schema="dbo", Name="pages")]
+	public partial class Page
+	{
+		[Column("page_id"),  PrimaryKey, Identity] public long  PageId  { get; set; } // bigint
+		[Column("paper_id"), Nullable            ] public long? PaperId { get; set; } // bigint
+
+		#region Associations
+
+		/// <summary>
+		/// FK_cells_pages_BackReference
+		/// </summary>
+		[Association(ThisKey="PageId", OtherKey="PageId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
+		public IEnumerable<Cell> cells { get; set; }
+
+		/// <summary>
+		/// FK_pages_papers
+		/// </summary>
+		[Association(ThisKey="PaperId", OtherKey="PaperId", CanBeNull=true, Relationship=Relationship.ManyToOne, KeyName="FK_pages_papers", BackReferenceName="pagespapers")]
+		public Npaper paper { get; set; }
 
 		#endregion
 	}
@@ -548,6 +548,12 @@ namespace DataModels
 				t.GoodtmpId == GoodtmpId);
 		}
 
+		public static Npaper Find(this ITable<Npaper> table, long PaperId)
+		{
+			return table.FirstOrDefault(t =>
+				t.PaperId == PaperId);
+		}
+
 		public static Otd Find(this ITable<Otd> table, long OtdId)
 		{
 			return table.FirstOrDefault(t =>
@@ -558,12 +564,6 @@ namespace DataModels
 		{
 			return table.FirstOrDefault(t =>
 				t.PageId == PageId);
-		}
-
-		public static Paper Find(this ITable<Paper> table, long PaperId)
-		{
-			return table.FirstOrDefault(t =>
-				t.PaperId == PaperId);
 		}
 
 		public static Token Find(this ITable<Token> table, long TokenId)

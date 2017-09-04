@@ -14,15 +14,15 @@ namespace PapersDbWorker
         {
 
         }
-        public IEnumerable<DataModels.Paper> GetPapersList(int year, int month, long start, long limit, out int qty)
+        public IEnumerable<DataModels.Npaper> GetPapersList(int year, int month, long start, long limit, out int qty)
         {
             limit = (start + limit);
             using (var db = new PapersDB())
             {
                 int index = 1;
-                var ps = db.Papers.Where(w => w.PublicationDate.Value.Year == year && w.PublicationDate.Value.Month == month).ToList()
+                var ps = db.Npapers.Where(w => w.PublicationDate.Value.Year == year && w.PublicationDate.Value.Month == month).ToList()
                     .Select(
-                        x => new DataModels.Paper
+                        x => new DataModels.Npaper
                         {
                             Ps = index++,
                             CorrectionGoods = x.CorrectionGoods,
@@ -48,12 +48,12 @@ namespace PapersDbWorker
             }
         }
 
-        public long CreatePaper(DataModels.Paper paper)
+        public long CreatePaper(DataModels.Npaper paper)
         {
             using (var db = new PapersDB())
             {
-                var o = db.Papers.InsertWithIdentity(
-                    () => new DataModels.Paper
+                var o = db.Npapers.InsertWithIdentity(
+                    () => new DataModels.Npaper
                     {
                         CorrectionGoods = paper.CorrectionGoods,
                         DeliveryNewsPaper = paper.DeliveryNewsPaper,
@@ -72,11 +72,11 @@ namespace PapersDbWorker
             }
         }
 
-        public void UpdatePaper(DataModels.Paper paper)
+        public void UpdatePaper(DataModels.Npaper paper)
         {
             using (var db = new PapersDB())
             {
-                db.Papers.Where(w => w.PaperId == paper.PaperId)
+                db.Npapers.Where(w => w.PaperId == paper.PaperId)
                     .Set(p => p.CorrectionGoods, paper.CorrectionGoods)
                     .Set(p => p.DeliveryNewsPaper, paper.DeliveryNewsPaper)
                     .Set(p => p.LayoutNewsPaper, paper.LayoutNewsPaper)
@@ -92,11 +92,11 @@ namespace PapersDbWorker
             }
         }
 
-        public DataModels.Paper GetPaperById(long paperId)
+        public DataModels.Npaper GetPaperById(long paperId)
         {
             using (var db = new PapersDB())
             {
-                return db.Papers.Where(w => w.PaperId == paperId).FirstOrDefault();
+                return db.Npapers.Where(w => w.PaperId == paperId).FirstOrDefault();
             }
         }
     }
